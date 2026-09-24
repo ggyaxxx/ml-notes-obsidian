@@ -11,10 +11,14 @@
             "id": "6814c1da04f84147",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "markdown",
+              "state": {
+                "file": "01 INTRO ML.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "01 INTRO ML"
             }
           }
         ]
@@ -184,17 +188,17 @@
       "bases:Create new base": false
     }
   },
-  "active": "8aafbd8bf361fc06",
+  "active": "6814c1da04f84147",
   "lastOpenFiles": [
-    "2026-09-24.md",
-    "01 INTRO ML.md",
     "Conditional Probability.md",
-    "Partition.md",
-    "Law of Total Probability.md",
     "Independence.md",
-    "Welcome.md",
+    "Law of Total Probability.md",
+    "Partition.md",
     "Probability Toolkit.md",
     "Probability Toolkit 1.md",
+    "2026-09-24.md",
+    "01 INTRO ML.md",
+    "Welcome.md",
     "create a link.md",
     "Machine Learning - Lesson 1.md",
     "sync.ffs_lock"
