@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "3146fa5916ce8869",
+        "id": "5c5fa354db02f005",
         "type": "tabs",
         "children": [
           {
-            "id": "6814c1da04f84147",
+            "id": "497535fc6d6ebabb",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Joint Probability.md",
+                "file": "01 INTRO ML.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Joint Probability"
+              "title": "01 INTRO ML"
             }
           }
         ]
@@ -188,17 +188,19 @@
       "bases:Create new base": false
     }
   },
-  "active": "6814c1da04f84147",
+  "active": "497535fc6d6ebabb",
   "lastOpenFiles": [
+    "Expectation.md",
+    "Joint Distributions.md",
+    "Joint Probability.md",
+    "Law of Total Probability.md",
+    "Partition.md",
+    "Covariance.md",
     "Random Variables.md",
     "Conditional Probability.md",
     "01 INTRO ML.md",
     "Bayes' Theorem.md",
-    "Expectation.md",
     "Independence.md",
-    "Joint Probability.md",
-    "Law of Total Probability.md",
-    "Partition.md",
     "Probability Toolkit.md",
     "Probability Toolkit 1.md",
     "2026-09-24.md",
