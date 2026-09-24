@@ -187,7 +187,6 @@ Without looking at the formula:
 
 ## Connections
 
-- [[Probability Toolkit #1 — Foundations]]
 - [[Independence]]
 - [[Law of Total Probability]]
 - [[Bayes' Theorem]]

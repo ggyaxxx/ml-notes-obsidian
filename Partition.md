@@ -97,7 +97,7 @@ $$
 
 ## Connections
 
-- [[Probability Toolkit #1 — Foundations]]
+
 - [[Law of Total Probability]]
 - [[Conditional Probability]]
 - [[Bayes' Theorem]]
