@@ -200,6 +200,60 @@ $$
 - $\arg\min$: the set of values of $z$ attaining the minimum;
 - $f^\star(x)$: one optimal prediction at $x$.
 
+### Parameter during expectation, variable during optimization
+
+A subtle but important point is that the candidate prediction $z$ does **not** have one absolute role. Its role depends on the operation being performed.
+
+For a fixed input $x$, define the conditional risk
+
+$
+r_x(z)
+=
+\mathbb E[\ell(z,Y)\mid X=x].
+$
+
+While computing the expectation with respect to the still-random label $Y$, the candidate prediction $z$ is held fixed. In that sense, $z$ is a **parameter** of the expectation. For example,
+
+$
+\mathbb E[zY\mid X=x]
+=
+z\,\mathbb E[Y\mid X=x].
+$
+
+However, after the expectation has been evaluated or algebraically simplified, $r_x(z)$ is a function of $z$. At that stage, $z$ becomes the **optimization variable**:
+
+$
+f^\star(x)
+\in
+\arg\min_z r_x(z).
+$
+
+So the correct mental model is:
+
+$
+\boxed{
+\text{fix }z
+\;\longrightarrow\;
+\text{compute the expected loss for that choice}
+\;\longrightarrow\;
+\text{vary }z\text{ to find the best choice}
+}
+$
+
+An analogous calculus example is
+
+$
+g(a)=\int_0^{10}(t-a)^2\,dt.
+$
+
+During the integration, $t$ is the **variable of integration** and $a$ is treated as a fixed parameter. Once the integral is evaluated, $t$ disappears and the result is a function $g(a)$. Then $a$ is the variable with respect to which we can differentiate and optimize.
+
+> **Key question:** whenever something is called a “constant” or a “variable”, ask: **with respect to which operation?**
+
+This distinction is especially useful for squared-loss exercises, where a candidate prediction is constant with respect to the expectation over $Y$ but variable with respect to the outer minimization.
+
+---
+
 ### Why $\in\arg\min$, not $=\min$?
 
 `min` returns the **minimum value of the objective**.
