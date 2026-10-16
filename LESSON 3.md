@@ -157,12 +157,58 @@ $$
 \le e^{-2n\varepsilon^2}.
 $$
 
-A deviation larger than $\varepsilon$ in absolute value means **either** an excessive overestimate **or** an excessive underestimate. The two events form a union; applying the union bound gives the two-sided result (Week 1, Corollary 3.4):
+#### Why does the two-sided bound have a factor of 2? (tutor-added)
+
+Write $\bar Z=(1/n)\sum_{i=1}^n Z_i$ for the **sample mean**. It can deviate from the true mean $\mu$ in two directions: **too high** or **too low**. Each one-sided inequality above controls only one direction.
+
+For intuition, suppose $\mu=0.5$ and $\varepsilon=0.1$. A sample mean within $[0.4,0.6]$ is within the required tolerance. A sample mean of $0.7$ is too high, while $0.3$ is too low; both are $0.2$ away from $\mu$.
+
+The **absolute value measures distance and ignores direction**, so
 
 $$
-\Pr\!\left(\left|\frac1n\sum_i Z_i-\mu\right|>\varepsilon\right)
-\le 2e^{-2n\varepsilon^2}.
+|\bar Z-0.5|>0.1
+\quad\Longleftrightarrow\quad
+\bar Z>0.6\ \text{ OR }\ \bar Z<0.4.
 $$
+
+In the lecturer's drawing, these are the **orange right tail** and the **green left tail**, respectively. The two-sided event includes both colored regions.
+
+More generally, define
+
+$$
+A_+=\{\bar Z>\mu+\varepsilon\},
+\qquad
+A_-=\{\bar Z<\mu-\varepsilon\}.
+$$
+
+Then
+
+$$
+\{|\bar Z-\mu|>\varepsilon\}=A_+\cup A_-.
+$$
+
+Because $\varepsilon>0$, a sample mean cannot be simultaneously too high and too low: $A_+\cap A_-=\varnothing$. Therefore **the probability of the union equals the sum**. Applying the one-sided bounds gives the two-sided result (Week 1, Corollary 3.4):
+
+$$
+\begin{aligned}
+\Pr(|\bar Z-\mu|>\varepsilon)
+&=\Pr(A_+\cup A_-)\\
+&=\Pr(A_+)+\Pr(A_-)
+&&\text{(the two events are disjoint)}\\
+&\le e^{-2n\varepsilon^2}+e^{-2n\varepsilon^2}
+&&\text{(one Hoeffding bound per tail)}\\
+&=2e^{-2n\varepsilon^2}.
+\end{aligned}
+$$
+
+> [!important] What the factor of 2 means
+> We **add two upper bounds**, one for each possible direction of deviation. The two actual tail probabilities need not be equal, and the distribution need not be symmetric. We do not assume that the tail events are independent. Independence of the random variables $Z_i$ is a separate assumption used by Hoeffding.
+>
+> The union bound always gives $\Pr(A_+\cup A_-)\le\Pr(A_+)+\Pr(A_-)$. Here it is an **equality at the event-combination step** because these particular events are disjoint; the subsequent Hoeffding step is still an inequality.
+
+Thus an **upper-tail-only** or **lower-tail-only** question has bound $e^{-2n\varepsilon^2}$, while a deviation in **either direction** has bound $2e^{-2n\varepsilon^2}$.
+
+#### Applying the two-sided bound to risk estimation
 
 For our fixed classifier, substitute $\mu=R_{\mathcal D}(h)$ and $(1/n)\sum_i Z_i=\widehat R_S(h)$:
 
@@ -609,6 +655,7 @@ A curved decision boundary, for example, might be poorly approximated by linear 
 - [ ] Explain what probability is measured by $\Pr_S$ and why it is not prediction accuracy.
 - [ ] Distinguish a realized example, a realized dataset, and alternative random draws of a dataset.
 - [ ] Define $\varepsilon$, $q$, and $\delta$ without confusing tolerance with failure probability.
+- [ ] Derive the factor of $2$ in two-sided Hoeffding from the two one-sided bounds. Explain why the tail events are disjoint and why neither symmetry nor independence between those events is required.
 - [ ] Explain why the **union of failures** is the complement of the **intersection of successes**.
 - [ ] Explain why individual high-probability estimates do not automatically imply an equally high simultaneous guarantee.
 - [ ] Explain why Hoeffding for fixed $h$ cannot simply be applied to $\hat h$ selected on the same $S$.
@@ -638,6 +685,7 @@ This list is **derived from our tutoring sessions**, not an attribution to the l
 | Confusing prediction errors with risk-estimation failure | A classifier misclassifies an example when its **loss** is 1; an **estimation failure** occurs when $|\widehat R_S(h)-R_{\mathcal D}(h)|>\varepsilon$. |
 | Assuming the same dataset forces the same outcome for different hypotheses | Same **inputs and labels**; potentially different predictions and loss vectors. |
 | Union/intersection reversal | **Union of bad events = at least one fails. Complement = none fail = intersection of good events.** |
+| Losing the factor of $2$ in Hoeffding | An absolute deviation includes **two tails**. Add their probability bounds; the actual tail probabilities need not be equal. |
 | Assuming a bound equals the true probability | Say **at most** $\delta$, **at least** $1-\delta$. Do not assert equality. |
 | Losing the direction of a comparison | Ask: *Which risk is minimized, and over which set?* ERM minimizes empirical risk; $h^\star$ minimizes true risk **within $\mathcal H$**. |
 | Sign errors in inequalities | If multiplying/dividing by negative numbers, **reverse** $\le/\ge$. |
