@@ -416,11 +416,11 @@ The basic training rule is to choose the classifier with the lowest empirical ri
 
 $$
 \boxed{
-\hat h\in\arg\min_{h\in\mathcal H}\widehat R_S(h).
+\hat h^\star\in\arg\min_{h\in\mathcal H}\widehat R_S(h).
 }
 $$
 
-The official Week 1 handout denotes this ERM output by **$\hat h^\star$**; during our walkthrough we used the shorter **$\hat h$**. Both names refer to the *data-selected empirical minimizer* in this note.
+**Notation in the current course:** Both the lecturer's handwritten **Lecture 3 (2026/27)** and the official **Week 1** handout denote the empirical-risk minimizer by **$\hat h^\star$**. During tutoring we sometimes used the shorter $\hat h$ for the same object, but throughout this note we adopt **$\hat h^\star$**, the lecturer's notation. The **hat** marks a sample-based choice, while the **star** marks a minimizer of its stated objective: $\hat h^\star$ minimizes **empirical** risk; $h^\star$ minimizes **true risk within $\mathcal H$**. The two need not coincide.
 
 The **best classifier in the family under the true distribution**, instead, is
 
@@ -430,7 +430,7 @@ $$
 }
 $$
 
-Do not confuse $h^\star$ (best *within* $\mathcal H$) with the unrestricted **Bayes predictor**, denoted $f^\star$ or identified by its Bayes risk $R_{\mathcal D}^\star$.
+Do not confuse $\hat h^\star$ (empirical minimizer), $h^\star$ (true-risk minimizer *within* $\mathcal H$), or the unrestricted **Bayes predictor**, denoted $f^\star$ or identified by its Bayes risk $R_{\mathcal D}^\star$.
 
 **`min` versus `argmin`:**
 
@@ -439,34 +439,34 @@ Do not confuse $h^\star$ (best *within* $\mathcal H$) with the unrestricted **Ba
 
 ### The deterministic inequality supplied by ERM
 
-Because $\hat h$ minimizes empirical risk, for **every** $h\in\mathcal H$ we have $\widehat R_S(\hat h)\le\widehat R_S(h)$. In particular, since $h^\star\in\mathcal H$,
+Because $\hat h^\star$ minimizes empirical risk, for **every** $h\in\mathcal H$ we have $\widehat R_S(\hat h^\star)\le\widehat R_S(h)$. In particular, since $h^\star\in\mathcal H$,
 
 $$
-\boxed{\widehat R_S(\hat h)\le\widehat R_S(h^\star).}
+\boxed{\widehat R_S(\hat h^\star)\le\widehat R_S(h^\star).}
 $$
 
 This is **deterministic** for any sample where ERM exists; it does **not** use Hoeffding. Likewise, from the definition of $h^\star$,
 
 $$
-R_{\mathcal D}(h^\star)\le R_{\mathcal D}(\hat h).
+R_{\mathcal D}(h^\star)\le R_{\mathcal D}(\hat h^\star).
 $$
 
-These compare *different pairs of quantities*. In general, $\hat h\ne h^\star$ because the training sample can be unusually favorable to some classifiers.
+These compare *different pairs of quantities*. In general, $\hat h^\star\ne h^\star$ because the training sample can be unusually favorable to some classifiers.
 
 ### Why simultaneous guarantees solve the selection issue
 
-Suppose a randomly drawn dataset happens to belong to the good set $\mathcal G$. By definition, **every** $h\in\mathcal H$ has risk deviation at most $\varepsilon$. This includes the value $\hat h$ selected *after inspecting that dataset*, simply because $\hat h\in\mathcal H$.
+Suppose a randomly drawn dataset happens to belong to the good set $\mathcal G$. By definition, **every** $h\in\mathcal H$ has risk deviation at most $\varepsilon$. This includes the value $\hat h^\star$ selected *after inspecting that dataset*, simply because $\hat h^\star\in\mathcal H$.
 
-- **Conditional on $S\in\mathcal G$:** the deviation inequality for $\hat h$ holds with certainty.
+- **Conditional on $S\in\mathcal G$:** the deviation inequality for $\hat h^\star$ holds with certainty.
 - **Before seeing $S$:** $\Pr_S(S\in\mathcal G)\ge1-\delta$ under the sample-size condition.
 
 The guarantee is therefore **high-probability over datasets**, not a deterministic statement about every possible sample.
 
 ## 6. Deriving the ERM $2\varepsilon$ guarantee
 
-**Goal:** bound the true risk of the data-selected $\hat h$ using the true risk of the best-in-class $h^\star$.
+**Goal:** bound the true risk of the data-selected $\hat h^\star$ using the true risk of the best-in-class $h^\star$.
 
-**Available ingredients:** (i) simultaneous uniform convergence, and (ii) $\hat h$ minimizes empirical risk.
+**Available ingredients:** (i) simultaneous uniform convergence, and (ii) $\hat h^\star$ minimizes empirical risk.
 
 On a good dataset $S\in\mathcal G$, we have for all $h\in\mathcal H$:
 
@@ -477,25 +477,25 @@ $$
 **Step 1 — True risk of ERM to empirical risk of ERM.** The absolute-value inequality implies
 
 $$
--\varepsilon\le\widehat R_S(\hat h)-R_{\mathcal D}(\hat h)\le\varepsilon.
+-\varepsilon\le\widehat R_S(\hat h^\star)-R_{\mathcal D}(\hat h^\star)\le\varepsilon.
 $$
 
-Using its **left-hand** part, $-\varepsilon\le\widehat R_S(\hat h)-R_{\mathcal D}(\hat h)$, we obtain
+Using its **left-hand** part, $-\varepsilon\le\widehat R_S(\hat h^\star)-R_{\mathcal D}(\hat h^\star)$, we obtain
 
 $$
-R_{\mathcal D}(\hat h)\le\widehat R_S(\hat h)+\varepsilon.
+R_{\mathcal D}(\hat h^\star)\le\widehat R_S(\hat h^\star)+\varepsilon.
 $$
 
 **Step 2 — Empirical risk of ERM to empirical risk of $h^\star$.** By the **definition of ERM**,
 
 $$
-\widehat R_S(\hat h)\le\widehat R_S(h^\star).
+\widehat R_S(\hat h^\star)\le\widehat R_S(h^\star).
 $$
 
 Adding $\varepsilon$ on both sides preserves the inequality:
 
 $$
-\widehat R_S(\hat h)+\varepsilon
+\widehat R_S(\hat h^\star)+\varepsilon
 \le\widehat R_S(h^\star)+\varepsilon.
 $$
 
@@ -518,8 +518,8 @@ $$
 $$
 \boxed{
 \begin{aligned}
-R_{\mathcal D}(\hat h)
-&\le\widehat R_S(\hat h)+\varepsilon
+R_{\mathcal D}(\hat h^\star)
+&\le\widehat R_S(\hat h^\star)+\varepsilon
 &&\text{(uniform convergence)}\\
 &\le\widehat R_S(h^\star)+\varepsilon
 &&\text{(ERM definition)}\\
@@ -532,21 +532,21 @@ Therefore
 
 $$
 \boxed{
-0\le R_{\mathcal D}(\hat h)-R_{\mathcal D}(h^\star)
+0\le R_{\mathcal D}(\hat h^\star)-R_{\mathcal D}(h^\star)
 \le2\varepsilon.
 }
 $$
 
 The left inequality follows because $h^\star$ is the best classifier in $\mathcal H$; the right inequality follows from the three steps above. By the union-bound estimate, the right inequality holds with probability **at least $1-\delta$** if $n\ge\ln(2|\mathcal H|/\delta)/(2\varepsilon^2)$.
 
-**Why exactly $2\varepsilon$?** There are **two** switches between empirical and true risk—one for $\hat h$, one for $h^\star$. Each contributes up to $\varepsilon$. The middle comparison is deterministic and introduces **no new** $\varepsilon$.
+**Why exactly $2\varepsilon$?** There are **two** switches between empirical and true risk—one for $\hat h^\star$, one for $h^\star$. Each contributes up to $\varepsilon$. The middle comparison is deterministic and introduces **no new** $\varepsilon$.
 
 > [!example] The algebra error to watch for
 > From $A\le B+c$ and $B\le C+d$, we may infer $A\le C+c+d$, **not** $A\le C+d$. The first $+c$ cannot disappear.
 >
 > Concrete example: $A\le B+4$ and $B\le C+7$ imply $A\le C+11$.
 
-**Alternative form in Week 1 §4:** The lecturer writes the *difference* $R_{\mathcal D}(\hat h)-R_{\mathcal D}(h^\star)$ as three added differences, inserting and subtracting empirical risks. This is algebraically equivalent to the inequality chain above. The chain is used here because it made each mathematical justification easier to track during study.
+**Alternative form in Week 1 §4:** The lecturer writes the *difference* $R_{\mathcal D}(\hat h^\star)-R_{\mathcal D}(h^\star)$ as three added differences, inserting and subtracting empirical risks. This is algebraically equivalent to the inequality chain above. The chain is used here because it made each mathematical justification easier to track during study.
 
 ## 7. Risk decomposition: why can an ERM still be imperfect?
 
@@ -558,13 +558,13 @@ Insert and subtract two expressions that cancel:
 
 $$
 \begin{aligned}
-R_{\mathcal D}(\hat h)
-&=R_{\mathcal D}(\hat h)
+R_{\mathcal D}(\hat h^\star)
+&=R_{\mathcal D}(\hat h^\star)
  +R_{\mathcal D}(h^\star)-R_{\mathcal D}(h^\star)
  +R_{\mathcal D}^\star-R_{\mathcal D}^\star\\[3pt]
 &=\underbrace{R_{\mathcal D}^\star}_{\text{Bayes error}}
  +\underbrace{\left(R_{\mathcal D}(h^\star)-R_{\mathcal D}^\star\right)}_{\text{Inductive bias}}
- +\underbrace{\left(R_{\mathcal D}(\hat h)-R_{\mathcal D}(h^\star)\right)}_{\text{Error within }\mathcal H}.
+ +\underbrace{\left(R_{\mathcal D}(\hat h^\star)-R_{\mathcal D}(h^\star)\right)}_{\text{Error within }\mathcal H}.
 \end{aligned}
 $$
 
@@ -576,7 +576,7 @@ $$
 |---|---|---|---|
 | **Bayes error** | $R_{\mathcal D}^\star$ | Intrinsic uncertainty/overlap under the given features, loss, and distribution | Not changed by collecting more examples |
 | **Inductive bias** | $R_{\mathcal D}(h^\star)-R_{\mathcal D}^\star$ | Restricting ourselves to a possibly insufficiently expressive $\mathcal H$ | Not changed merely by collecting more examples |
-| **Error within $\mathcal H$** | $R_{\mathcal D}(\hat h)-R_{\mathcal D}(h^\star)$ | ERM selects from finite data, not direct knowledge of true risk | Its **high-probability upper bound** can be improved with more examples |
+| **Error within $\mathcal H$** | $R_{\mathcal D}(\hat h^\star)-R_{\mathcal D}(h^\star)$ | ERM selects from finite data, not direct knowledge of true risk | Its **high-probability upper bound** can be improved with more examples |
 
 All three terms are nonnegative under these definitions. The handwritten lecture also uses the phrase **“variance error”** for the last term; the Week 1 handout says **“error within $\mathcal H$.”** Here it is a difference between two true risks; **do not automatically interpret it as the variance of a random variable** or as the full classical bias–variance decomposition in regression.
 
@@ -585,7 +585,7 @@ All three terms are nonnegative under these definitions. The handwritten lecture
 $$
 R_{\mathcal D}^\star=0.05,\quad
 R_{\mathcal D}(h^\star)=0.20,\quad
-R_{\mathcal D}(\hat h)=0.24.
+R_{\mathcal D}(\hat h^\star)=0.24.
 $$
 
 Therefore
@@ -604,14 +604,14 @@ $$
 The identity above always holds. Under uniform convergence we may **additionally** upper-bound the last term, with high probability:
 
 $$
-R_{\mathcal D}(\hat h)-R_{\mathcal D}(h^\star)\le2\varepsilon.
+R_{\mathcal D}(\hat h^\star)-R_{\mathcal D}(h^\star)\le2\varepsilon.
 $$
 
 Thus, with probability at least $1-\delta$ under the finite-family sample-size assumption,
 
 $$
 \boxed{
-R_{\mathcal D}(\hat h)
+R_{\mathcal D}(\hat h^\star)
 \le R_{\mathcal D}^\star
 +\big(R_{\mathcal D}(h^\star)-R_{\mathcal D}^\star\big)
 +2\varepsilon.
@@ -641,8 +641,8 @@ A curved decision boundary, for example, might be poorly approximated by linear 
 3. **Finite family:** define one failure event $E_h$ per $h\in\mathcal H$; use $\Pr_S(\bigcup_hE_h)\le\sum_h\Pr_S(E_h)$.
 4. **De Morgan/complement:** $\Pr_S(\text{all succeed})\ge1-2|\mathcal H|e^{-2n\varepsilon^2}$.
 5. **Sample complexity:** force $2|\mathcal H|e^{-2n\varepsilon^2}\le\delta$ to get $n\ge\ln(2|\mathcal H|/\delta)/(2\varepsilon^2)$.
-6. **ERM:** $\widehat R_S(\hat h)\le\widehat R_S(h^\star)$ by definition.
-7. **Two uses of uniform convergence:** $R_{\mathcal D}(\hat h)\le\widehat R_S(\hat h)+\varepsilon\le\widehat R_S(h^\star)+\varepsilon\le R_{\mathcal D}(h^\star)+2\varepsilon$.
+6. **ERM:** $\widehat R_S(\hat h^\star)\le\widehat R_S(h^\star)$ by definition.
+7. **Two uses of uniform convergence:** $R_{\mathcal D}(\hat h^\star)\le\widehat R_S(\hat h^\star)+\varepsilon\le\widehat R_S(h^\star)+\varepsilon\le R_{\mathcal D}(h^\star)+2\varepsilon$.
 8. **Risk decomposition:** add and subtract $R_{\mathcal D}^\star$ and $R_{\mathcal D}(h^\star)$ to separate Bayes error, inductive bias, and within-family selection error.
 
 ## 9. Active recall and pending exercises
@@ -658,8 +658,8 @@ A curved decision boundary, for example, might be poorly approximated by linear 
 - [ ] Derive the factor of $2$ in two-sided Hoeffding from the two one-sided bounds. Explain why the tail events are disjoint and why neither symmetry nor independence between those events is required.
 - [ ] Explain why the **union of failures** is the complement of the **intersection of successes**.
 - [ ] Explain why individual high-probability estimates do not automatically imply an equally high simultaneous guarantee.
-- [ ] Explain why Hoeffding for fixed $h$ cannot simply be applied to $\hat h$ selected on the same $S$.
-- [ ] Explain why $h^\star$ can have lower true risk than $\hat h$ but higher empirical risk.
+- [ ] Explain why Hoeffding for fixed $h$ cannot simply be applied to $\hat h^\star$ selected on the same $S$.
+- [ ] Explain why $h^\star$ can have lower true risk than $\hat h^\star$ but higher empirical risk.
 - [ ] Explain why the middle ERM step adds **no** $\varepsilon$ in the $2\varepsilon$ proof.
 - [ ] Explain why a larger $n$ need not monotonically improve the actual ERM selected on every sample.
 - [ ] Distinguish the **exact** risk-decomposition identity from the **probabilistic** generalization inequality.
@@ -687,7 +687,7 @@ This list is **derived from our tutoring sessions**, not an attribution to the l
 | Union/intersection reversal | **Union of bad events = at least one fails. Complement = none fail = intersection of good events.** |
 | Losing the factor of $2$ in Hoeffding | An absolute deviation includes **two tails**. Add their probability bounds; the actual tail probabilities need not be equal. |
 | Assuming a bound equals the true probability | Say **at most** $\delta$, **at least** $1-\delta$. Do not assert equality. |
-| Losing the direction of a comparison | Ask: *Which risk is minimized, and over which set?* ERM minimizes empirical risk; $h^\star$ minimizes true risk **within $\mathcal H$**. |
+| Losing the direction of a comparison | Ask: *Which risk is minimized, and over which set?* $\hat h^\star$ minimizes **empirical** risk; $h^\star$ minimizes **true** risk within $\mathcal H$. These may be different hypotheses. |
 | Sign errors in inequalities | If multiplying/dividing by negative numbers, **reverse** $\le/\ge$. |
 | Dropping a term during transitivity | If $A\le B+\varepsilon$ and $B\le C+\varepsilon$, add the second $\varepsilon$: $A\le C+2\varepsilon$. |
 | Using an imprecise name for a theorem | $\Pr(A^c)=1-\Pr(A)$ is the **complement rule**, not the law of total probability. |
