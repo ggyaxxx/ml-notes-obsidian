@@ -1,13 +1,14 @@
 ---
-title: "Lecture 4 — Realizability and ERM: Finite-Class Generalization (Theorem 5.1)"
+title: "Lecture 4 — Realizability and ERM: Theorems 5.1 and 5.2"
 aliases:
   - "Lecture 4 - Realizable ERM"
   - "Theorem 5.1 - Finite Hypothesis Class"
+  - "Theorem 5.2 - Threshold Classifiers"
 date: 2026-10-23
 course: "Machine Learning — Sapienza"
 academic_year: "2026/2027"
 type: lecture-note
-status: "In progress — Theorem 5.1 studied; rest of lecture pending"
+status: "In progress — Theorems 5.1 and 5.2 studied with guidance; VC dimension pending"
 tags:
   - machine-learning
   - statistical-learning
@@ -16,15 +17,16 @@ tags:
   - generalization
   - union-bound
   - sample-complexity
+  - threshold-classifiers
 ---
 
 # Lecture 4 — Realizability and ERM
 
 > [!NOTE]
 > **Central question**
-> **If the best classifier in a finite hypothesis family has zero true risk, why can ERM still select an imperfect classifier — and how many training examples ensure that ERM's true risk is at most $\varepsilon$ with probability at least $1-\delta$?**
+> **Under realizability, how can ERM generalize despite zero training error — first for a finite family (Theorem 5.1), then for the infinite family of threshold classifiers (Theorem 5.2)?**
 
-**Scope / study status:** This note records **Theorem 5.1 and its complete proof**, including the conceptual obstacles encountered while studying it. It is **not** a claim that the rest of Lecture 4 (e.g. shattering or VC dimension) has already been studied. Continue this file as the lecture progresses.
+**Scope / study status:** This note records **Theorems 5.1 and 5.2 with their complete guided proofs**, including the conceptual obstacles encountered while studying it. It is **not** a claim that the rest of Lecture 4 (e.g. shattering or VC dimension) has already been studied. Continue this file as the lecture progresses.
 
 **Connections:** [Lesson 2](LESSON%202.md) (true/empirical risk and overfitting) · [Lesson 3](LESSON%203.md) (concentration, union bound, ERM, finite families).
 
@@ -351,8 +353,159 @@ If $\min_{h\in\mathcal H}R_{\mathcal D}(h)>0$, the inference “there is a zero-
 
 ---
 
+## 11. Theorem 5.2 — Threshold classifiers (2026/27 confirmed)
+
+**Sources and status:** Current-year *Week 1 — Statistical Learning*, §5, Theorem 5.2; professor's handwritten *Lecture 4 (6 October 2026)* treats threshold classifiers. The examples, cautions, and explanations here reconstruct our guided study, **not quotations from the professor**. Theorem 5.2 has been explained and solved step-by-step; **full independent proof reconstruction remains to be verified**. See the current-year *Exercise 1*, exercise 1.3 for practice.
+
+### 11.1 Why the finite-family proof does not directly apply
+
+Theorem 5.1 uses $|\mathcal H|e^{-\varepsilon n}$. The family of all real-valued thresholds is **infinite**, so replacing $|\mathcal H|$ by an infinite cardinality gives no useful finite bound. We need a different argument: replace infinitely many possible *bad classifiers* with **two fixed intervals** that any badly chosen ERM threshold would force the sample to miss.
+
+We use binary classification with the threshold rule
+
+$ h_\theta(x)=\mathbf1\{x\geq\theta\},\qquad\theta\in[0,1]. $
+
+The assumptions are:
+
+- $X\sim\mathrm{Unif}([0,1])$;
+- **realizability:** for some unknown $\theta^\star\in[0,1]$, $Y=h_{\theta^\star}(X)$ almost surely;
+- $S=((X_1,Y_1),\ldots,(X_n,Y_n))$ consists of $n$ i.i.d. draws;
+- $\hat\theta=\hat\theta(S)$ denotes a threshold chosen by an **exact ERM** from this family;
+- $0<\varepsilon,\delta<1$.
+
+Since $h_{\theta^\star}$ is available within the class and perfectly labels sampled examples, realizability and ERM give
+
+$ \boxed{\widehat R_S(h_{\hat\theta})=0\quad\text{almost surely}.} $
+
+This prerequisite remains in force throughout the argument. **Without it, we cannot infer that the ERM threshold's disagreement region contains no training points.**
+
+### 11.2 What is the true risk of a threshold?
+
+For any fixed candidate threshold $\theta$, realizability and 0–1 loss give
+
+$ R_{\mathcal D}(h_\theta)=\Pr(h_\theta(X)\neq h_{\theta^\star}(X)). $
+
+The two predictions differ **exactly between the two thresholds**, meaning on the interval from $\min(\theta,\theta^\star)$ to $\max(\theta,\theta^\star)$ (with an endpoint convention that does not affect probabilities under the continuous uniform distribution).
+
+Uniformity now lets us identify **probability mass with interval length**:
+
+$ \boxed{R_{\mathcal D}(h_\theta)=\max(\theta,\theta^\star)-\min(\theta,\theta^\star)=|\theta-\theta^\star|.} $
+
+The absolute value appears because it measures the **length of the disagreement interval**, not merely because risk must be nonnegative. If $X$ were not uniform, true risk would instead be the *probability mass* of the interval, generally not its length.
+
+**Meaning of $\varepsilon$:** It is an **allowed true-risk tolerance**. In this particular uniform-threshold model, the risk requirement $R_{\mathcal D}(h_{\hat\theta})\leq\varepsilon$ is equivalent to the geometrical condition
+
+$ \theta^\star-\varepsilon\leq\hat\theta\leq\theta^\star+\varepsilon. $
+
+**Do not replace $>$ by $=$.** The bad case $\hat\theta>\theta^\star+\varepsilon$ ranges over *all* thresholds more than $\varepsilon$ too high; it does **not** assume $\hat\theta=\theta^\star+\varepsilon$.
+
+### 11.3 Too-high threshold: a necessary empty interval
+
+Let $\theta^\star=0.4$, $\varepsilon=0.1$, and suppose $\hat\theta=0.7$. The ERM classifier disagrees with the perfect one throughout **$[0.4,0.7)$**, so its true risk is **$0.3$**, not $0.1$.
+
+For instance, $x_i=0.55$ lies *outside* $[0.4,0.5)$ but still yields $h_{0.4}(0.55)=1$ and $h_{0.7}(0.55)=0$. If such a point appeared in the **training sample**, empirical risk would be at least $1/n$, contradicting zero ERM empirical risk.
+
+To study **every possible** threshold above $0.5$, instead of a different error interval for each threshold, choose the **fixed** subinterval $I_+=[0.4,0.5)$ of length $\varepsilon$. It is contained in $[0.4,\hat\theta)$ whenever $\hat\theta>0.5$. Therefore,
+
+$ \boxed{\hat\theta>\theta^\star+\varepsilon\ \Longrightarrow\ S\cap[\theta^\star,\theta^\star+\varepsilon)=\varnothing.} $
+
+Here $S\cap I=\varnothing$ is shorthand for **no feature value $X_i$ in $S$ belongs to $I$**; formally $\forall i,\ X_i\notin I$.
+
+This is an implication, **not** an equivalence. The training sample might avoid the fixed small interval and still lead ERM to choose a perfectly acceptable threshold. Example: for $\theta^\star=0.4$, the sample $(0.2,0),(0.8,1)$ avoids $[0.4,0.5)$, but $\hat\theta=0.45$ fits the sample perfectly and is **not** too high.
+
+Define $A_+=\{\hat\theta>\theta^\star+\varepsilon\}$ and $B_+=\{\forall i,\ X_i\notin I_+\}$. From $A_+\subseteq B_+$, **monotonicity of probability** gives
+
+$ \Pr_S(A_+)\leq\Pr_S(B_+). $
+
+For one draw, $\Pr(X_i\notin I_+)=1-\varepsilon$. **For all $n$ independent draws**, the avoidance probability is $(1-\varepsilon)^n$, rather than $1-\varepsilon$:
+
+$ \boxed{\Pr_S(\hat\theta>\theta^\star+\varepsilon)\leq(1-\varepsilon)^n\leq e^{-\varepsilon n}.} $
+
+The second inequality uses $1-t\leq e^{-t}$ for $t\geq0$. We have an **upper bound**, not necessarily the exact probability that ERM chooses a high threshold: avoiding $I_+$ is *necessary but not sufficient* for that outcome.
+
+### 11.4 Too-low threshold: the symmetric fixed interval
+
+If $\hat\theta<\theta^\star-\varepsilon$, then the complete disagreement interval is $[\hat\theta,\theta^\star)$, but every such disagreement interval contains the **fixed** interval $I_-=[\theta^\star-\varepsilon,\theta^\star)$.
+
+For $\theta^\star=0.4$ and $\varepsilon=0.1$, the key interval is $[0.3,0.4)$, regardless of whether the chosen threshold equals $0.29$, $0.2$, or $0.15$.
+
+As before, empirical risk zero implies no sample observation can fall there. Set $A_-=\{\hat\theta<\theta^\star-\varepsilon\}$ and $B_-=\{\forall i,\ X_i\notin I_-\}$:
+
+$ A_-\subseteq B_-\quad\Longrightarrow\quad\Pr_S(A_-)\leq\Pr_S(B_-)=(1-\varepsilon)^n\leq e^{-\varepsilon n}. $
+
+**Boundary caveat:** If the interval $I_+$ or $I_-$ would extend outside $[0,1]$, the corresponding bad-threshold event is impossible, so its probability is zero. In the nontrivial cases the fixed interval lies inside $[0,1]$ and has length $\varepsilon$. This avoids silently treating an out-of-range interval as having probability $\varepsilon$.
+
+### 11.5 Why the bad event is a UNION, not an intersection
+
+The goal is to bound the failure event:
+
+$ F=\{R_{\mathcal D}(h_{\hat\theta})>\varepsilon\}=\{|\hat\theta-\theta^\star|>\varepsilon\}. $
+
+For a *strict* absolute-value inequality,
+
+$ |a|>\varepsilon\quad\Longleftrightarrow\quad(a<-\varepsilon)\ \textbf{OR}\ (a>\varepsilon). $
+
+Therefore the failure event is **too low OR too high**:
+
+$ \boxed{F=A_-\cup A_+.} $
+
+A threshold cannot be simultaneously too high and too low. The two events are disjoint, but using the **union bound** remains valid:
+
+$ \begin{aligned}\Pr_S(F)&=\Pr_S(A_-\cup A_+)\\&\leq\Pr_S(A_-)+\Pr_S(A_+)\\&\leq2e^{-\varepsilon n}.\end{aligned} $
+
+**Contrast:** $|a|\leq\varepsilon$ means $a\geq-\varepsilon$ **AND** $a\leq\varepsilon$; remaining **inside** an interval requires both conditions, whereas being **outside** requires only one.
+
+Crucially, the coefficient $2$ counts the **two types of failure events**, *not* the number of hypotheses (which is infinite).
+
+### 11.6 Sample complexity and the final PAC guarantee
+
+To make $\Pr_S(F)\leq\delta$, it is **sufficient** to require
+
+$ 2e^{-\varepsilon n}\leq\delta. $
+
+Taking natural logarithms preserves the inequality because $\ln$ is increasing. Then dividing by the negative value $-\varepsilon$ **reverses its direction**:
+
+$ \begin{aligned}e^{-\varepsilon n}&\leq\delta/2\\-\varepsilon n&\leq\ln(\delta/2)\\n&\geq-\frac1\varepsilon\ln(\delta/2)=\frac1\varepsilon\ln(2/\delta).\end{aligned} $
+
+Thus Theorem 5.2 guarantees:
+
+$ \boxed{n\geq\frac{1}{\varepsilon}\ln\left(\frac2\delta\right)\quad\Longrightarrow\quad \Pr_{S\sim\mathcal D^n}\big(R_{\mathcal D}(h_{\hat\theta})\leq\varepsilon\big)\geq1-\delta.} $
+
+For an actual dataset, round the required $n$ **up to the nearest integer**. The guarantee is a probability **over random training samples**: it does not say every particular sample leads to risk at most $\varepsilon$.
+
+### 11.7 Critical distinctions discovered during study
+
+| Tempting but incorrect thought | Correct interpretation |
+|---|---|
+| “$\hat\theta$ is *equal* to $\theta^\star+\varepsilon$.” | The proof studies **all** $\hat\theta>\theta^\star+\varepsilon$. |
+| “Errors happen only in the interval of length $\varepsilon$.” | Errors happen on the **entire** interval between $\hat\theta$ and $\theta^\star$. The shorter $\varepsilon$ interval is a *fixed subset* useful for bounding probabilities. |
+| “Why must the sample avoid that interval?” | **Realizability + exact ERM** force empirical risk zero; even one observed point in the disagreement region would contradict this. |
+| “If no point falls in the fixed interval, ERM must choose a bad threshold.” | No: the avoidance event is only a **necessary**, not a sufficient, condition. $A\subseteq B$ yields $\Pr(A)\leq\Pr(B)$ by monotonicity. |
+| “The probability all $n$ samples avoid it is $1-\varepsilon$.” | That is the **one-draw** probability. For $n$ i.i.d. draws it is $(1-\varepsilon)^n$. |
+| “Because the risk involves a modulus, the bad event uses AND.” | $|a|>\varepsilon$ uses **OR**; the **union** covers too-high and too-low thresholds. |
+| “The bound is the actual probability that ERM fails.” | It is a **worst-case upper bound**, potentially loose. |
+
+### 11.8 Active recall and exercises (do not read the proof while attempting)
+
+- [ ] Explain why realizability makes the empirical risk of an exact ERM equal to zero.
+- [ ] Starting from $h_\theta(x)=\mathbf1\{x\geq\theta\}$, derive $R_{\mathcal D}(h_\theta)=|\theta-\theta^\star|$, naming the uniformity assumption.
+- [ ] For $\theta^\star=0.4$, $\varepsilon=0.1$, $\hat\theta=0.7$, specify the **whole** error interval, the **fixed subinterval** used in the proof, and the actual true risk.
+- [ ] Reconstruct the implication $A_+\subseteq B_+$ and explain why its converse can fail.
+- [ ] Explain why $P(B_+)=(1-\varepsilon)^n$ and **which** independence is used.
+- [ ] Reconstruct the symmetric bound for too-low thresholds without consulting the section above.
+- [ ] Translate $|\hat\theta-\theta^\star|>\varepsilon$ into two inequalities; identify the union.
+- [ ] Reproduce the union-bound inequality and derive the sample-size requirement from $2e^{-\varepsilon n}\leq\delta$.
+- [ ] Explain why the finite-$|\mathcal H|$ theorem cannot simply be used with this infinite threshold family.
+- [ ] **Autonomous proof on paper:** hypotheses → zero empirical risk → fixed intervals → event inclusions → $(1-\varepsilon)^n$ → union bound → PAC conclusion.
+- [ ] **Current course exercise:** Attempt *Exercise 1*, problem **1.3** (Theorem 5.2) independently; record where assistance was needed.
+
+---
+
 ## Where we stopped
 
-**Covered now:** realizability; distinction between true risk, empirical risk, and expected empirical risk; best in class versus exact ERM; fixed-hypothesis probability of zero training errors; bad hypotheses and events $E_h$; union versus intersection; union bound; exponential upper bound; sample-size algebra; final $1-\delta$ conclusion.
+**Covered with guidance:** Theorem 5.1 (finite hypothesis families) and Theorem 5.2 (threshold classifiers): realizability, zero empirical risk under exact ERM, the error-region geometry, fixed $\varepsilon$ intervals, necessary versus sufficient event conditions, monotonicity of probability, i.i.d. avoidance probabilities, union bound, and sample-size algebra.
 
-**Next time:** Return to the lecture materials and continue from here. In particular, **do not mark later Lecture 4 topics as mastered until they have been studied and practiced independently.**
+**Current status:** Both theorems are **understood via guided reasoning**, not yet independently reconstructed in full from a blank page. In the Theorem 5.2 dialogue the student independently recovered the two one-sided bounds, union-bound factor $2$, and final $n\geq\varepsilon^{-1}\ln(2/\delta)$ once earlier confusions were resolved.
+
+**Next step:** Write the Theorem 5.2 proof from memory, then solve the current-year exercise 1.3. Re-test Theorem 5.1 and proceed to shattering / VC dimension from the current Lecture 4 material. Do **not** mark future topics as mastered before independent testing.
+
