@@ -53,21 +53,13 @@ Consider binary supervised classification with 0–1 loss. We assume:
 
 **True/expected risk:**
 
-$$
-R_{\mathcal D}(h)
-=\mathbb E_{(X,Y)\sim\mathcal D}[\ell(h(X),Y)]
-=\Pr_{(X,Y)\sim\mathcal D}(h(X)\ne Y).
-$$
+$$ R_{\mathcal D}(h) =\mathbb E_{(X,Y)\sim\mathcal D}[\ell(h(X),Y)] =\Pr_{(X,Y)\sim\mathcal D}(h(X)\ne Y). $$
 
 This is the probability that $h$ misclassifies a **new random example**. It depends on the unknown distribution and is generally inaccessible directly.
 
 **Empirical risk:**
 
-$$
-\widehat R_S(h)
-=\frac1n\sum_{i=1}^n\ell(h(x_i),y_i)
-=\frac1n\sum_{i=1}^n\mathbf1\{h(x_i)\ne y_i\}.
-$$
+$$ \widehat R_S(h) =\frac1n\sum_{i=1}^n\ell(h(x_i),y_i) =\frac1n\sum_{i=1}^n\mathbf1\{h(x_i)\ne y_i\}. $$
 
 This is the **fraction of observed examples** misclassified by $h$.
 
@@ -100,17 +92,11 @@ The fact that all classifiers are tested on one common $S$ in each run does **no
 
 Fix a classifier $h$ **before looking at the sample** and define random error indicators
 
-$$
-Z_i=\ell(h(X_i),Y_i)=\mathbf1\{h(X_i)\ne Y_i\},\qquad i=1,\ldots,n.
-$$
+$$ Z_i=\ell(h(X_i),Y_i)=\mathbf1\{h(X_i)\ne Y_i\},\qquad i=1,\ldots,n. $$
 
 Because the training examples are i.i.d. and the same fixed $h$ is applied to each one, the $Z_i$ are i.i.d. Bernoulli variables. In particular:
 
-$$
-Z_i\in\{0,1\},\qquad
-\mathbb E[Z_i]=R_{\mathcal D}(h),\qquad
-\frac1n\sum_{i=1}^n Z_i=\widehat R_S(h).
-$$
+$$ Z_i\in\{0,1\},\qquad \mathbb E[Z_i]=R_{\mathcal D}(h),\qquad \frac1n\sum_{i=1}^n Z_i=\widehat R_S(h). $$
 
 Thus **estimating a classifier's true risk is estimating the mean of bounded i.i.d. random variables**. This is precisely where concentration inequalities apply.
 
@@ -118,9 +104,7 @@ Thus **estimating a classifier's true risk is estimating the mean of bounded i.i
 
 The current-year handout gives an **overfitting example** on the continuous square $[-1,1]^2$: the true label is positive inside the smaller central square $Q_\Delta=[-\Delta,\Delta]^2$ and negative outside it. Consider a predictor that **memorizes the positive training points** and returns the negative label for any other input. Its empirical error can be zero, yet a fresh draw from a continuous distribution almost surely does not exactly reproduce a memorized point. The predictor consequently misclassifies nearly every new positive point. The positive region has probability
 
-$$
-\Pr(X\in Q_\Delta)=\frac{(2\Delta)^2}{(2)^2}=\Delta^2,
-$$
+$$ \Pr(X\in Q_\Delta)=\frac{(2\Delta)^2}{(2)^2}=\Delta^2, $$
 
 so its true risk is $\Delta^2$ even though its training error is $0$. This is the **2026/27 Week 1 §2 handout's illustrative construction**, included here as supplementary motivation; it should not be mistaken for an additional handwritten Lecture 3 derivation.
 
@@ -132,11 +116,7 @@ so its true risk is $\Delta^2$ even though its training error is $0$. This is th
 
 For a **fixed** $h$, the lecturer asks: given a precision $\varepsilon\in(0,1)$ and an acceptable failure probability $\delta\in(0,1)$, how many i.i.d. samples suffice to guarantee
 
-$$
-\Pr_S\left(
-\left|\widehat R_S(h)-R_{\mathcal D}(h)\right|\le\varepsilon
-\right)\ge 1-\delta\ ?
-$$
+$$ \Pr_S\left( \left|\widehat R_S(h)-R_{\mathcal D}(h)\right|\le\varepsilon \right)\ge 1-\delta\ ? $$
 
 Read this carefully:
 
@@ -151,15 +131,9 @@ For example, $\varepsilon=0.05$, $\delta=0.01$ means: with probability **at leas
 
 For i.i.d. random variables $Z_1,\ldots,Z_n\in[0,1]$ with common expectation $\mu$, the handout states the one-sided bounds
 
-$$
-\Pr\left(\frac1n\sum_i Z_i>\mu+\varepsilon\right)
-\le e^{-2n\varepsilon^2},
-$$
+$$ \Pr\left(\frac1n\sum_i Z_i>\mu+\varepsilon\right) \le e^{-2n\varepsilon^2}, $$
 
-$$
-\Pr\left(\frac1n\sum_i Z_i<\mu-\varepsilon\right)
-\le e^{-2n\varepsilon^2}.
-$$
+$$ \Pr\left(\frac1n\sum_i Z_i<\mu-\varepsilon\right) \le e^{-2n\varepsilon^2}. $$
 
 #### Why does the two-sided bound have a factor of 2? (tutor-added)
 
@@ -169,41 +143,21 @@ For intuition, suppose $\mu=0.5$ and $\varepsilon=0.1$. A sample mean within $[0
 
 The **absolute value measures distance and ignores direction**, so
 
-$$
-|\bar Z-0.5|>0.1
-\quad\Longleftrightarrow\quad
-\bar Z>0.6\ \text{ OR }\ \bar Z<0.4.
-$$
+$$ |\bar Z-0.5|>0.1 \quad\Longleftrightarrow\quad \bar Z>0.6\ \text{ OR }\ \bar Z<0.4. $$
 
 In the lecturer's drawing, these are the **orange right tail** and the **green left tail**, respectively. The two-sided event includes both colored regions.
 
 More generally, define
 
-$$
-A_+=\{\bar Z>\mu+\varepsilon\},
-\qquad
-A_-=\{\bar Z<\mu-\varepsilon\}.
-$$
+$$ A_+=\{\bar Z>\mu+\varepsilon\}, \qquad A_-=\{\bar Z<\mu-\varepsilon\}. $$
 
 Then
 
-$$
-\{|\bar Z-\mu|>\varepsilon\}=A_+\cup A_-.
-$$
+$$ \{|\bar Z-\mu|>\varepsilon\}=A_+\cup A_-. $$
 
 Because $\varepsilon>0$, a sample mean cannot be simultaneously too high and too low: $A_+\cap A_-=\varnothing$. Therefore **the probability of the union equals the sum**. Applying the one-sided bounds gives the two-sided result (Week 1, Corollary 3.4):
 
-$$
-\begin{aligned}
-\Pr(|\bar Z-\mu|>\varepsilon)
-&=\Pr(A_+\cup A_-)\\
-&=\Pr(A_+)+\Pr(A_-)
-&&\text{(the two events are disjoint)}\\
-&\le e^{-2n\varepsilon^2}+e^{-2n\varepsilon^2}
-&&\text{(one Hoeffding bound per tail)}\\
-&=2e^{-2n\varepsilon^2}.
-\end{aligned}
-$$
+$$ \begin{aligned} \Pr(|\bar Z-\mu|>\varepsilon) &=\Pr(A_+\cup A_-)\\ &=\Pr(A_+)+\Pr(A_-) &&\text{(the two events are disjoint)}\\ &\le e^{-2n\varepsilon^2}+e^{-2n\varepsilon^2} &&\text{(one Hoeffding bound per tail)}\\ &=2e^{-2n\varepsilon^2}. \end{aligned} $$
 
 > [!IMPORTANT]
 > **What the factor of 2 means**
@@ -217,13 +171,7 @@ Thus an **upper-tail-only** or **lower-tail-only** question has bound $e^{-2n\va
 
 For our fixed classifier, substitute $\mu=R_{\mathcal D}(h)$ and $(1/n)\sum_i Z_i=\widehat R_S(h)$:
 
-$$
-\boxed{
-\Pr_S\left(
-\left|\widehat R_S(h)-R_{\mathcal D}(h)\right|>\varepsilon
-\right)\le 2e^{-2n\varepsilon^2}
-}
-$$
+$$ \boxed{ \Pr_S\left( \left|\widehat R_S(h)-R_{\mathcal D}(h)\right|>\varepsilon \right)\le 2e^{-2n\varepsilon^2} } $$
 
 **Interpretation:** the chance of an estimation deviation exceeding $\varepsilon$ is **at most** the expression on the right. It is generally **not equal** to that expression. As $n$ increases, the bound decreases exponentially for fixed $\varepsilon$.
 
@@ -231,27 +179,11 @@ $$
 
 To guarantee an acceptable failure probability $\delta$, it is **sufficient** to impose
 
-$$
-2e^{-2n\varepsilon^2}\le\delta.
-$$
+$$ 2e^{-2n\varepsilon^2}\le\delta. $$
 
 Here are **all** the algebraic steps:
 
-$$
-\begin{aligned}
-2e^{-2n\varepsilon^2}&\le\delta\\
-e^{-2n\varepsilon^2}&\le\frac\delta2
-&&\text{(divide by 2)}\\
--2n\varepsilon^2&\le\ln\left(\frac\delta2\right)
-&&\text{(natural log is increasing)}\\
-2n\varepsilon^2&\ge-\ln\left(\frac\delta2\right)
-&&\text{(multiply by -1: reverse inequality)}\\
-2n\varepsilon^2&\ge\ln\left(\frac2\delta\right)
-&&\text{(logarithm identity)}\\
-n&\ge\frac{\ln(2/\delta)}{2\varepsilon^2}
-&&\text{(divide by }2\varepsilon^2>0\text{).}
-\end{aligned}
-$$
+$$ \begin{aligned} 2e^{-2n\varepsilon^2}&\le\delta\\ e^{-2n\varepsilon^2}&\le\frac\delta2 &&\text{(divide by 2)}\\ -2n\varepsilon^2&\le\ln\left(\frac\delta2\right) &&\text{(natural log is increasing)}\\ 2n\varepsilon^2&\ge-\ln\left(\frac\delta2\right) &&\text{(multiply by -1: reverse inequality)}\\ 2n\varepsilon^2&\ge\ln\left(\frac2\delta\right) &&\text{(logarithm identity)}\\ n&\ge\frac{\ln(2/\delta)}{2\varepsilon^2} &&\text{(divide by }2\varepsilon^2>0\text{).} \end{aligned} $$
 
 Since $n$ is an integer, round the sufficient threshold **up**.
 
@@ -280,30 +212,17 @@ Given events $A$ and $B$:
 
 The **laws of De Morgan** are
 
-$$
-\boxed{(A\cup B)^c=A^c\cap B^c},
-\qquad
-\boxed{(A\cap B)^c=A^c\cup B^c}.
-$$
+$$ \boxed{(A\cup B)^c=A^c\cap B^c}, \qquad \boxed{(A\cap B)^c=A^c\cup B^c}. $$
 
 This is a logical identity, not a trick for interchanging $\cup$ and $\cap$ arbitrarily: **taking the complement** is what changes the operation.
 
 Suppose $E_i$ is the event “classifier $h_i$ has a risk-estimation deviation larger than $\varepsilon$” and $G_i=E_i^c$ is the corresponding success event. Then
 
-$$
-\underbrace{G_1\cap G_2\cap G_3}_{\text{ALL estimates succeed}}
-=
-\underbrace{(E_1\cup E_2\cup E_3)^c}_{\text{NOT even one estimate fails}}.
-$$
+$$ \underbrace{G_1\cap G_2\cap G_3}_{\text{ALL estimates succeed}} = \underbrace{(E_1\cup E_2\cup E_3)^c}_{\text{NOT even one estimate fails}}. $$
 
 Taking probabilities and using $\Pr(A^c)=1-\Pr(A)$,
 
-$$
-\boxed{
-\Pr_S(\text{all succeed})
-=1-\Pr_S(\text{at least one fails}).
-}
-$$
+$$ \boxed{ \Pr_S(\text{all succeed}) =1-\Pr_S(\text{at least one fails}). } $$
 
 **Why do we study failure events?** Because the union bound directly limits the probability that **at least one** unwanted event occurs. We never *want* a failure: we bound its probability in order to infer that all classifiers succeed simultaneously.
 
@@ -311,17 +230,11 @@ $$
 
 The **union bound** (Week 1, Proposition 3.2) says that for any events $A_1,\ldots,A_k$,
 
-$$
-\boxed{\Pr\left(\bigcup_{i=1}^k A_i\right)
-\le\sum_{i=1}^k\Pr(A_i).}
-$$
+$$ \boxed{\Pr\left(\bigcup_{i=1}^k A_i\right) \le\sum_{i=1}^k\Pr(A_i).} $$
 
 For two events, this follows from
 
-$$
-\Pr(A\cup B)=\Pr(A)+\Pr(B)-\Pr(A\cap B)
-\le\Pr(A)+\Pr(B).
-$$
+$$ \Pr(A\cup B)=\Pr(A)+\Pr(B)-\Pr(A\cap B) \le\Pr(A)+\Pr(B). $$
 
 **No independence assumption is needed**; the events may overlap and be dependent. The sum is an **upper bound**, sometimes conservative. In particular, it is not generally the exact probability of the union.
 
@@ -329,61 +242,33 @@ $$
 
 ERM will eventually choose one classifier based on the observed $S$. To avoid unjustified use of fixed-classifier Hoeffding after this selection, we **commit in advance** to a finite class
 
-$$
-\mathcal H=\{h_1,\ldots,h_M\},\qquad M=|\mathcal H|.
-$$
+$$ \mathcal H=\{h_1,\ldots,h_M\},\qquad M=|\mathcal H|. $$
 
 The relevant good event is
 
-$$
-\mathcal G
-=\left\{S:\ \forall h\in\mathcal H,\
-\left|\widehat R_S(h)-R_{\mathcal D}(h)\right|\le\varepsilon\right\}.
-$$
+$$ \mathcal G =\left\{S:\ \forall h\in\mathcal H,\ \left|\widehat R_S(h)-R_{\mathcal D}(h)\right|\le\varepsilon\right\}. $$
 
 This is a condition on a **single common realized dataset $S$**: every $h\in\mathcal H$ must give a sufficiently accurate estimate on that same $S$.
 
 For each *fixed* $h$, define the bad event
 
-$$
-E_h=\{S:|\widehat R_S(h)-R_{\mathcal D}(h)|>\varepsilon\}.
-$$
+$$ E_h=\{S:|\widehat R_S(h)-R_{\mathcal D}(h)|>\varepsilon\}. $$
 
 Then, by De Morgan, $\mathcal G^c=\bigcup_{h\in\mathcal H}E_h$. Apply the union bound, then the individual Hoeffding bound:
 
-$$
-\begin{aligned}
-\Pr_S(\mathcal G^c)
-&=\Pr_S\left(\bigcup_{h\in\mathcal H}E_h\right)\\
-&\le\sum_{h\in\mathcal H}\Pr_S(E_h)\\
-&\le\sum_{h\in\mathcal H}2e^{-2n\varepsilon^2}\\
-&=2|\mathcal H|e^{-2n\varepsilon^2}.
-\end{aligned}
-$$
+$$ \begin{aligned} \Pr_S(\mathcal G^c) &=\Pr_S\left(\bigcup_{h\in\mathcal H}E_h\right)\\ &\le\sum_{h\in\mathcal H}\Pr_S(E_h)\\ &\le\sum_{h\in\mathcal H}2e^{-2n\varepsilon^2}\\ &=2|\mathcal H|e^{-2n\varepsilon^2}. \end{aligned} $$
 
 Therefore the **simultaneous success probability** obeys
 
-$$
-\boxed{
-\Pr_S\left(\forall h\in\mathcal H:\
-|\widehat R_S(h)-R_{\mathcal D}(h)|\le\varepsilon\right)
-\ge 1-2|\mathcal H|e^{-2n\varepsilon^2}.
-}
-$$
+$$ \boxed{ \Pr_S\left(\forall h\in\mathcal H:\ |\widehat R_S(h)-R_{\mathcal D}(h)|\le\varepsilon\right) \ge 1-2|\mathcal H|e^{-2n\varepsilon^2}. } $$
 
 To achieve a desired probability of simultaneous failure at most $\delta$, require
 
-$$
-2|\mathcal H|e^{-2n\varepsilon^2}\le\delta,
-$$
+$$ 2|\mathcal H|e^{-2n\varepsilon^2}\le\delta, $$
 
 which yields the **sufficient** sample size (Week 1, Theorem 4.1):
 
-$$
-\boxed{
- n\ge\frac{\ln(2|\mathcal H|/\delta)}{2\varepsilon^2}.
-}
-$$
+$$ \boxed{ n\ge\frac{\ln(2|\mathcal H|/\delta)}{2\varepsilon^2}. } $$
 
 If this condition holds, then $\Pr_S(\mathcal G)\ge1-\delta$.
 
@@ -391,9 +276,7 @@ If this condition holds, then $\Pr_S(\mathcal G)\ge1-\delta$.
 
 An **auxiliary study notation**, not introduced as the lecturer's separate parameter, is
 
-$$
-q=2e^{-2n\varepsilon^2}.
-$$
+$$ q=2e^{-2n\varepsilon^2}. $$
 
 | Symbol | What it controls | What it **does not** mean |
 |---|---|---|
@@ -405,9 +288,7 @@ Under the common Hoeffding bound, $\Pr_S(\bigcup_h E_h)\le|\mathcal H|q$. One su
 
 **Worked illustration:** with $10$ hypotheses and a desired simultaneous failure bound $\delta=0.05$, the union-bound method is sufficient if
 
-$$
-10q\le0.05\quad\Longrightarrow\quad q\le0.005.
-$$
+$$ 10q\le0.05\quad\Longrightarrow\quad q\le0.005. $$
 
 This means each fixed-hypothesis failure probability must have a bound of **at most 0.5%** *under this sufficient method*, to guarantee that the chance of **any** failure is at most 5%. The actual failure probabilities and their union can be smaller. It does **not** mean that the risk-deviation tolerance $\varepsilon$ equals $0.05$.
 
@@ -421,21 +302,13 @@ This means each fixed-hypothesis failure probability must have a bound of **at m
 
 The basic training rule is to choose the classifier with the lowest empirical risk:
 
-$$
-\boxed{
-\hat h^\star\in\arg\min_{h\in\mathcal H}\widehat R_S(h).
-}
-$$
+$$ \boxed{ \hat h^\star\in\arg\min_{h\in\mathcal H}\widehat R_S(h). } $$
 
 **Notation in the current course:** Both the lecturer's handwritten **Lecture 3 (2026/27)** and the official **Week 1** handout denote the empirical-risk minimizer by **$\hat h^\star$**. During tutoring we sometimes used the shorter $\hat h$ for the same object, but throughout this note we adopt **$\hat h^\star$**, the lecturer's notation. The **hat** marks a sample-based choice, while the **star** marks a minimizer of its stated objective: $\hat h^\star$ minimizes **empirical** risk; $h^\star$ minimizes **true risk within $\mathcal H$**. The two need not coincide.
 
 The **best classifier in the family under the true distribution**, instead, is
 
-$$
-\boxed{
- h^\star\in\arg\min_{h\in\mathcal H}R_{\mathcal D}(h).
-}
-$$
+$$ \boxed{ h^\star\in\arg\min_{h\in\mathcal H}R_{\mathcal D}(h). } $$
 
 Do not confuse $\hat h^\star$ (empirical minimizer), $h^\star$ (true-risk minimizer *within* $\mathcal H$), or the unrestricted **Bayes predictor**, denoted $f^\star$ or identified by its Bayes risk $R_{\mathcal D}^\star$.
 
@@ -448,15 +321,11 @@ Do not confuse $\hat h^\star$ (empirical minimizer), $h^\star$ (true-risk minimi
 
 Because $\hat h^\star$ minimizes empirical risk, for **every** $h\in\mathcal H$ we have $\widehat R_S(\hat h^\star)\le\widehat R_S(h)$. In particular, since $h^\star\in\mathcal H$,
 
-$$
-\boxed{\widehat R_S(\hat h^\star)\le\widehat R_S(h^\star).}
-$$
+$$ \boxed{\widehat R_S(\hat h^\star)\le\widehat R_S(h^\star).} $$
 
 This is **deterministic** for any sample where ERM exists; it does **not** use Hoeffding. Likewise, from the definition of $h^\star$,
 
-$$
-R_{\mathcal D}(h^\star)\le R_{\mathcal D}(\hat h^\star).
-$$
+$$ R_{\mathcal D}(h^\star)\le R_{\mathcal D}(\hat h^\star). $$
 
 These compare *different pairs of quantities*. In general, $\hat h^\star\ne h^\star$ because the training sample can be unusually favorable to some classifiers.
 
@@ -477,72 +346,39 @@ The guarantee is therefore **high-probability over datasets**, not a determinist
 
 On a good dataset $S\in\mathcal G$, we have for all $h\in\mathcal H$:
 
-$$
-\left|\widehat R_S(h)-R_{\mathcal D}(h)\right|\le\varepsilon.
-$$
+$$ \left|\widehat R_S(h)-R_{\mathcal D}(h)\right|\le\varepsilon. $$
 
 **Step 1 — True risk of ERM to empirical risk of ERM.** The absolute-value inequality implies
 
-$$
--\varepsilon\le\widehat R_S(\hat h^\star)-R_{\mathcal D}(\hat h^\star)\le\varepsilon.
-$$
+$$ -\varepsilon\le\widehat R_S(\hat h^\star)-R_{\mathcal D}(\hat h^\star)\le\varepsilon. $$
 
 Using its **left-hand** part, $-\varepsilon\le\widehat R_S(\hat h^\star)-R_{\mathcal D}(\hat h^\star)$, we obtain
 
-$$
-R_{\mathcal D}(\hat h^\star)\le\widehat R_S(\hat h^\star)+\varepsilon.
-$$
+$$ R_{\mathcal D}(\hat h^\star)\le\widehat R_S(\hat h^\star)+\varepsilon. $$
 
 **Step 2 — Empirical risk of ERM to empirical risk of $h^\star$.** By the **definition of ERM**,
 
-$$
-\widehat R_S(\hat h^\star)\le\widehat R_S(h^\star).
-$$
+$$ \widehat R_S(\hat h^\star)\le\widehat R_S(h^\star). $$
 
 Adding $\varepsilon$ on both sides preserves the inequality:
 
-$$
-\widehat R_S(\hat h^\star)+\varepsilon
-\le\widehat R_S(h^\star)+\varepsilon.
-$$
+$$ \widehat R_S(\hat h^\star)+\varepsilon \le\widehat R_S(h^\star)+\varepsilon. $$
 
 **Step 3 — Empirical risk of $h^\star$ to its true risk.** Uniform convergence also applies to $h^\star$, hence
 
-$$
-\widehat R_S(h^\star)\le R_{\mathcal D}(h^\star)+\varepsilon.
-$$
+$$ \widehat R_S(h^\star)\le R_{\mathcal D}(h^\star)+\varepsilon. $$
 
 But the previous line contains **$\widehat R_S(h^\star)+\varepsilon$**, so we **must add $\varepsilon$ to both sides**, not replace it without carrying the extra term:
 
-$$
-\widehat R_S(h^\star)+\varepsilon
-\le R_{\mathcal D}(h^\star)+\varepsilon+\varepsilon
-=R_{\mathcal D}(h^\star)+2\varepsilon.
-$$
+$$ \widehat R_S(h^\star)+\varepsilon \le R_{\mathcal D}(h^\star)+\varepsilon+\varepsilon =R_{\mathcal D}(h^\star)+2\varepsilon. $$
 
 **Step 4 — Combine by transitivity.** We now have exactly matching intermediate terms:
 
-$$
-\boxed{
-\begin{aligned}
-R_{\mathcal D}(\hat h^\star)
-&\le\widehat R_S(\hat h^\star)+\varepsilon
-&&\text{(uniform convergence)}\\
-&\le\widehat R_S(h^\star)+\varepsilon
-&&\text{(ERM definition)}\\
-&\le R_{\mathcal D}(h^\star)+2\varepsilon
-&&\text{(uniform convergence again).}
-\end{aligned}}
-$$
+$$ \boxed{ \begin{aligned} R_{\mathcal D}(\hat h^\star) &\le\widehat R_S(\hat h^\star)+\varepsilon &&\text{(uniform convergence)}\\ &\le\widehat R_S(h^\star)+\varepsilon &&\text{(ERM definition)}\\ &\le R_{\mathcal D}(h^\star)+2\varepsilon &&\text{(uniform convergence again).} \end{aligned}} $$
 
 Therefore
 
-$$
-\boxed{
-0\le R_{\mathcal D}(\hat h^\star)-R_{\mathcal D}(h^\star)
-\le2\varepsilon.
-}
-$$
+$$ \boxed{ 0\le R_{\mathcal D}(\hat h^\star)-R_{\mathcal D}(h^\star) \le2\varepsilon. } $$
 
 The left inequality follows because $h^\star$ is the best classifier in $\mathcal H$; the right inequality follows from the three steps above. By the union-bound estimate, the right inequality holds with probability **at least $1-\delta$** if $n\ge\ln(2|\mathcal H|/\delta)/(2\varepsilon^2)$.
 
@@ -564,17 +400,7 @@ Let $R_{\mathcal D}^\star$ denote the **Bayes risk**: the minimum achievable exp
 
 Insert and subtract two expressions that cancel:
 
-$$
-\begin{aligned}
-R_{\mathcal D}(\hat h^\star)
-&=R_{\mathcal D}(\hat h^\star)
- +R_{\mathcal D}(h^\star)-R_{\mathcal D}(h^\star)
- +R_{\mathcal D}^\star-R_{\mathcal D}^\star\\[3pt]
-&=\underbrace{R_{\mathcal D}^\star}_{\text{Bayes error}}
- +\underbrace{\left(R_{\mathcal D}(h^\star)-R_{\mathcal D}^\star\right)}_{\text{Inductive bias}}
- +\underbrace{\left(R_{\mathcal D}(\hat h^\star)-R_{\mathcal D}(h^\star)\right)}_{\text{Error within }\mathcal H}.
-\end{aligned}
-$$
+$$ \begin{aligned} R_{\mathcal D}(\hat h^\star) &=R_{\mathcal D}(\hat h^\star) +R_{\mathcal D}(h^\star)-R_{\mathcal D}(h^\star) +R_{\mathcal D}^\star-R_{\mathcal D}^\star\\[3pt] &=\underbrace{R_{\mathcal D}^\star}_{\text{Bayes error}} +\underbrace{\left(R_{\mathcal D}(h^\star)-R_{\mathcal D}^\star\right)}_{\text{Inductive bias}} +\underbrace{\left(R_{\mathcal D}(\hat h^\star)-R_{\mathcal D}(h^\star)\right)}_{\text{Error within }\mathcal H}. \end{aligned} $$
 
 **This equation is an exact algebraic identity.** No concentration theorem, probability estimate, or random-sample assumption is required simply to add and subtract equal terms.
 
@@ -590,20 +416,11 @@ All three terms are nonnegative under these definitions. The handwritten lecture
 
 **Numerical illustration** (tutor-added):
 
-$$
-R_{\mathcal D}^\star=0.05,\quad
-R_{\mathcal D}(h^\star)=0.20,\quad
-R_{\mathcal D}(\hat h^\star)=0.24.
-$$
+$$ R_{\mathcal D}^\star=0.05,\quad R_{\mathcal D}(h^\star)=0.20,\quad R_{\mathcal D}(\hat h^\star)=0.24. $$
 
 Therefore
 
-$$
-\underbrace{0.24}_{\text{ERM true risk}}
-=\underbrace{0.05}_{\text{Bayes}}
-+\underbrace{(0.20-0.05)}_{\text{bias }0.15}
-+\underbrace{(0.24-0.20)}_{\text{within-class }0.04}.
-$$
+$$ \underbrace{0.24}_{\text{ERM true risk}} =\underbrace{0.05}_{\text{Bayes}} +\underbrace{(0.20-0.05)}_{\text{bias }0.15} +\underbrace{(0.24-0.20)}_{\text{within-class }0.04}. $$
 
 **Do not call $0.05$ the “bias risk”: it is the *Bayes risk*.** The inductive bias is $0.15$.
 
@@ -611,20 +428,11 @@ $$
 
 The identity above always holds. Under uniform convergence we may **additionally** upper-bound the last term, with high probability:
 
-$$
-R_{\mathcal D}(\hat h^\star)-R_{\mathcal D}(h^\star)\le2\varepsilon.
-$$
+$$ R_{\mathcal D}(\hat h^\star)-R_{\mathcal D}(h^\star)\le2\varepsilon. $$
 
 Thus, with probability at least $1-\delta$ under the finite-family sample-size assumption,
 
-$$
-\boxed{
-R_{\mathcal D}(\hat h^\star)
-\le R_{\mathcal D}^\star
-+\big(R_{\mathcal D}(h^\star)-R_{\mathcal D}^\star\big)
-+2\varepsilon.
-}
-$$
+$$ \boxed{ R_{\mathcal D}(\hat h^\star) \le R_{\mathcal D}^\star +\big(R_{\mathcal D}(h^\star)-R_{\mathcal D}^\star\big) +2\varepsilon. } $$
 
 - **Exact decomposition:** explains *where* the risk comes from.
 - **High-probability generalization bound:** controls the **third** component, not automatically Bayes error or inductive bias.
