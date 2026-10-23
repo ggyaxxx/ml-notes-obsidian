@@ -417,7 +417,7 @@ Define $A_+=\{\hat\theta>\theta^\star+\varepsilon\}$ and $B_+=\{\forall i,\ X_i\
 
 $$ \Pr_S(A_+)\leq\Pr_S(B_+). $$
 
-For one draw, $\Pr(X_i\notin I_+)=1-\varepsilon$. **For all $n$ independent draws**, the avoidance probability is $(1-\varepsilon)^n$, rather than $1-\varepsilon$:
+**Why $1-\varepsilon$ rather than $\varepsilon$?** Since $X$ is uniform and $I_+$ has length $\varepsilon$, the probability of **falling inside** is $\Pr(X_i\in I_+)=\varepsilon$. But event $B_+$ requires every training observation to **stay outside**. By the **complement rule**, $\Pr(X_i\notin I_+)=1-\Pr(X_i\in I_+)=1-\varepsilon$. For **all $n$ independent observations** to avoid it, multiply the one-draw probability $n$ times: $(1-\varepsilon)^n$.
 
 $$ \boxed{\Pr_S(\hat\theta>\theta^\star+\varepsilon)\leq(1-\varepsilon)^n\leq e^{-\varepsilon n}.} $$
 
