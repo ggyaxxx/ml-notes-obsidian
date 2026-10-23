@@ -89,6 +89,25 @@ Interpretation:
 
 > $R_{\mathcal D}(f)$ is the average loss we would obtain when using $f$ on future examples generated according to $\mathcal D$.
 
+### Single-draw risk versus the observed sample average
+
+> [!IMPORTANT]
+> **True risk is an expectation over the entire distribution, not the error rate observed on a particular dataset.** For **0–1 loss**, $R_{\mathcal D}(f)$ is the probability that the fixed predictor $f$ misclassifies **one new random draw** $(X,Y)\sim\mathcal D$. The probability is computed using the **whole distribution** $\mathcal D$; it is **not** the loss on one already-observed example.
+
+For a fixed classifier $f$, with $m$ i.i.d. observations and 0–1 loss:
+
+$ R_{\mathcal D}(f)=P_{(X,Y)\sim\mathcal D}(f(X)\neq Y), \qquad R_S(f)=\frac{1}{m}\sum_{i=1}^{m}\mathbf 1\{f(x_i)\neq y_i\}. $
+
+If $R_{\mathcal D}(f)=0.2$, each new observation has a $20\%$ chance of being misclassified. **It does not follow** that every sample of $20$ observations must contain exactly $4$ errors: a particular sample could contain $0$, $4$, or another number.
+
+For a classifier **fixed independently of the sample**, the precise connection is:
+
+$ \boxed{\mathbb E_{S\sim\mathcal D^m}[R_S(f)]=R_{\mathcal D}(f).} $
+
+Thus **the expected empirical error rate equals the true error probability**, while the *realized* empirical error rate need not. The connection to concentration inequalities is developed in [Lesson 3](LESSON%203.md); [Lesson 4](LESSON%204.md) uses the same single-draw interpretation in Theorem 5.1.
+
+---
+
 ### Important source convention
 
 `Exercises 0.pdf` declares the opposite loss-argument convention:
