@@ -48,7 +48,7 @@ $$
 then an empirical risk minimizer $\hat h_S$ satisfies
 
 $$
-\boxed{\Pr_{S\sim\mathcal D^n}\!\left(R_{\mathcal D}(\hat h_S)\leq\varepsilon\right)\geq1-\delta.}
+\boxed{\Pr_{S\sim\mathcal D^n}\left(R_{\mathcal D}(\hat h_S)\leq\varepsilon\right)\geq1-\delta.}
 $$
 
 Here $\log$ is the natural logarithm. The probability is **over the random draw of the entire training set**. The chosen $\hat h_S$ can change as $S$ changes.
@@ -195,7 +195,7 @@ $$
 For $n=20$ independently sampled examples, the probability that **all twenty** are classified correctly is
 
 $$
-\Pr_{S\sim\mathcal D^{20}}\!\left(\widehat R_S(h)=0\right)
+\Pr_{S\sim\mathcal D^{20}}\left(\widehat R_S(h)=0\right)
 =0.8^{20}
 \approx 0.01153
 =1.15\%.
