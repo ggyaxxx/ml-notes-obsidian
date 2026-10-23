@@ -63,6 +63,15 @@ $$ \widehat R_S(h) =\frac1n\sum_{i=1}^n\ell(h(x_i),y_i) =\frac1n\sum_{i=1}^n\mat
 
 This is the **fraction of observed examples** misclassified by $h$.
 
+> [!IMPORTANT]
+> **The single-draw probability is not a sample-wide observed proportion.** For a fixed $h$, $R_{\mathcal D}(h)=0.2$ means $P(h(X)\neq Y)=0.2$ **for one random draw from $\mathcal D$**; this number is determined by the entire distribution. By contrast, $\widehat R_S(h)$ averages the $n$ actual error indicators in $S$ and may differ from $0.2$. They are related through $\mathbb E_S[\widehat R_S(h)]=R_{\mathcal D}(h)$, **not** through equality on every sample. See [Lesson 2](LESSON%202.md) for the foundational distinction.
+
+This is exactly why Hoeffding–Chernoff bounds concern **random deviations of an empirical average**:
+
+$ \Pr_{S\sim\mathcal D^n}\left(\left|\widehat R_S(h)-R_{\mathcal D}(h)\right|>\varepsilon\right)\leq 2e^{-2n\varepsilon^2}. $
+
+Here the probability is over **possible samples of $n$ observations**, whereas $R_{\mathcal D}(h)$ is the error probability for **one new draw**. This statement initially assumes a **fixed** $h$, selected independently of $S$.
+
 > [!NOTE]
 > **Notation used while studying**
 > The official 2026/27 Week 1 handout writes $\widehat R_S(h)$ for empirical risk. During tutoring we often wrote the shorter $R_S(h)$. These denote the same quantity here; **prefer $\widehat R_S$ when matching the official handout**. The hat on the risk estimate is unrelated to the hat marking an ERM-selected classifier.
