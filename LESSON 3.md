@@ -20,7 +20,8 @@ tags:
 
 # Lecture 3 — Statistical Learning
 
-> [!abstract] Central question
+> [!NOTE]
+> **Central question**
 > We observe a **finite random dataset** $S$, but ultimately care about a classifier's **true risk** on the unknown distribution $\mathcal D$. How can we trust empirical performance when selecting a classifier, and what prevents our selected classifier from being optimal?
 
 **Conceptual path in the lecturer's handwritten Lecture 3:** true risk versus empirical risk → 0–1 loss and concentration → Hoeffding and sample complexity → union bound → finite hypothesis families and simultaneous guarantees → empirical risk minimization (ERM) → risk decomposition.
@@ -70,7 +71,8 @@ $$
 
 This is the **fraction of observed examples** misclassified by $h$.
 
-> [!note] Notation used while studying
+> [!NOTE]
+> **Notation used while studying**
 > The official 2026/27 Week 1 handout writes $\widehat R_S(h)$ for empirical risk. During tutoring we often wrote the shorter $R_S(h)$. These denote the same quantity here; **prefer $\widehat R_S$ when matching the official handout**. The hat on the risk estimate is unrelated to the hat marking an ERM-selected classifier.
 
 **Three levels that must never be conflated:**
@@ -81,7 +83,8 @@ This is the **fraction of observed examples** misclassified by $h$.
 
 The fact that all classifiers are tested on one common $S$ in each run does **not** mean their loss vectors, empirical risks, or failure events are identical.
 
-> [!example] One shared dataset, different estimation outcomes (tutor-added)
+> [!NOTE]
+> **One shared dataset, different estimation outcomes (tutor-added)**
 > Suppose $\mathcal D$ is uniform over **four possible labeled examples** $a,b,c,d$, and each training dataset contains exactly **one** example ($n=1$). Three fixed classifiers $h_1,h_2,h_3$ each misclassify exactly one different example: respectively $a$, $b$, and $c$. All three have true risk $0.25$. Let $\varepsilon=0.50$.
 >
 > | One common realized dataset $S$ | $h_1$ estimate | $h_2$ estimate | $h_3$ estimate |
@@ -121,7 +124,8 @@ $$
 
 so its true risk is $\Delta^2$ even though its training error is $0$. This is the **2026/27 Week 1 §2 handout's illustrative construction**, included here as supplementary motivation; it should not be mistaken for an additional handwritten Lecture 3 derivation.
 
-> [!important] A fixed classifier is not the same as a data-selected classifier
+> [!IMPORTANT]
+> **A fixed classifier is not the same as a data-selected classifier**
 > A hypothesis chosen *after inspecting $S$* may depend on the same observations used to evaluate it. We cannot simply take the fixed-$h$ Hoeffding guarantee and substitute this data-dependent choice. Later, a simultaneous guarantee over a **preselected family $\mathcal H$** solves this problem.
 
 ## 2. Precision, failure probability, and Hoeffding
@@ -129,7 +133,7 @@ so its true risk is $\Delta^2$ even though its training error is $0$. This is th
 For a **fixed** $h$, the lecturer asks: given a precision $\varepsilon\in(0,1)$ and an acceptable failure probability $\delta\in(0,1)$, how many i.i.d. samples suffice to guarantee
 
 $$
-\Pr_S\!\left(
+\Pr_S\left(
 \left|\widehat R_S(h)-R_{\mathcal D}(h)\right|\le\varepsilon
 \right)\ge 1-\delta\ ?
 $$
@@ -148,12 +152,12 @@ For example, $\varepsilon=0.05$, $\delta=0.01$ means: with probability **at leas
 For i.i.d. random variables $Z_1,\ldots,Z_n\in[0,1]$ with common expectation $\mu$, the handout states the one-sided bounds
 
 $$
-\Pr\!\left(\frac1n\sum_i Z_i>\mu+\varepsilon\right)
+\Pr\left(\frac1n\sum_i Z_i>\mu+\varepsilon\right)
 \le e^{-2n\varepsilon^2},
 $$
 
 $$
-\Pr\!\left(\frac1n\sum_i Z_i<\mu-\varepsilon\right)
+\Pr\left(\frac1n\sum_i Z_i<\mu-\varepsilon\right)
 \le e^{-2n\varepsilon^2}.
 $$
 
@@ -201,7 +205,8 @@ $$
 \end{aligned}
 $$
 
-> [!important] What the factor of 2 means
+> [!IMPORTANT]
+> **What the factor of 2 means**
 > We **add two upper bounds**, one for each possible direction of deviation. The two actual tail probabilities need not be equal, and the distribution need not be symmetric. We do not assume that the tail events are independent. Independence of the random variables $Z_i$ is a separate assumption used by Hoeffding.
 >
 > The union bound always gives $\Pr(A_+\cup A_-)\le\Pr(A_+)+\Pr(A_-)$. Here it is an **equality at the event-combination step** because these particular events are disjoint; the subsequent Hoeffding step is still an inequality.
@@ -214,7 +219,7 @@ For our fixed classifier, substitute $\mu=R_{\mathcal D}(h)$ and $(1/n)\sum_i Z_
 
 $$
 \boxed{
-\Pr_S\!\left(
+\Pr_S\left(
 \left|\widehat R_S(h)-R_{\mathcal D}(h)\right|>\varepsilon
 \right)\le 2e^{-2n\varepsilon^2}
 }
@@ -237,11 +242,11 @@ $$
 2e^{-2n\varepsilon^2}&\le\delta\\
 e^{-2n\varepsilon^2}&\le\frac\delta2
 &&\text{(divide by 2)}\\
--2n\varepsilon^2&\le\ln\!\left(\frac\delta2\right)
+-2n\varepsilon^2&\le\ln\left(\frac\delta2\right)
 &&\text{(natural log is increasing)}\\
-2n\varepsilon^2&\ge-\ln\!\left(\frac\delta2\right)
+2n\varepsilon^2&\ge-\ln\left(\frac\delta2\right)
 &&\text{(multiply by -1: reverse inequality)}\\
-2n\varepsilon^2&\ge\ln\!\left(\frac2\delta\right)
+2n\varepsilon^2&\ge\ln\left(\frac2\delta\right)
 &&\text{(logarithm identity)}\\
 n&\ge\frac{\ln(2/\delta)}{2\varepsilon^2}
 &&\text{(divide by }2\varepsilon^2>0\text{).}
@@ -252,7 +257,8 @@ Since $n$ is an integer, round the sufficient threshold **up**.
 
 Consequences: halving $\varepsilon$ requires **four times** as many samples under this sufficient bound, with $\delta$ unchanged; demanding higher confidence (decreasing $\delta$) also increases the required sample count, only logarithmically in $1/\delta$.
 
-> [!warning] Logical and algebraic checks
+> [!WARNING]
+> **Logical and algebraic checks**
 > - A sufficient bound on $n$ is **not** a claim that fewer samples can never work.
 > - $a\le b$ is different from $a=b$; a probabilistic bound rarely gives an exact probability.
 > - Multiplication or division by a **negative** number reverses an inequality.
@@ -306,7 +312,7 @@ $$
 The **union bound** (Week 1, Proposition 3.2) says that for any events $A_1,\ldots,A_k$,
 
 $$
-\boxed{\Pr\!\left(\bigcup_{i=1}^k A_i\right)
+\boxed{\Pr\left(\bigcup_{i=1}^k A_i\right)
 \le\sum_{i=1}^k\Pr(A_i).}
 $$
 
@@ -405,7 +411,8 @@ $$
 
 This means each fixed-hypothesis failure probability must have a bound of **at most 0.5%** *under this sufficient method*, to guarantee that the chance of **any** failure is at most 5%. The actual failure probabilities and their union can be smaller. It does **not** mean that the risk-deviation tolerance $\varepsilon$ equals $0.05$.
 
-> [!warning] Individual versus simultaneous quantifiers
+> [!WARNING]
+> **Individual versus simultaneous quantifiers**
 > $\forall h\in\mathcal H,\ \Pr_S(G_h)\ge0.95$ does **not** imply $\Pr_S(\forall h\in\mathcal H:\ G_h)\ge0.95$.
 >
 > The first statement controls each classifier **separately**. The second controls **all classifiers on the same sample**. Their bad events can occur on different possible draws of the *same random dataset* $S$; there is never a need to assign a different dataset to each classifier within one run.
@@ -541,7 +548,8 @@ The left inequality follows because $h^\star$ is the best classifier in $\mathca
 
 **Why exactly $2\varepsilon$?** There are **two** switches between empirical and true risk—one for $\hat h^\star$, one for $h^\star$. Each contributes up to $\varepsilon$. The middle comparison is deterministic and introduces **no new** $\varepsilon$.
 
-> [!example] The algebra error to watch for
+> [!NOTE]
+> **The algebra error to watch for**
 > From $A\le B+c$ and $B\le C+d$, we may infer $A\le C+c+d$, **not** $A\le C+d$. The first $+c$ cannot disappear.
 >
 > Concrete example: $A\le B+4$ and $B\le C+7$ imply $A\le C+11$.
@@ -629,7 +637,8 @@ At the same time, our **finite-family sufficient bound** contains $\ln|\mathcal 
 
 A curved decision boundary, for example, might be poorly approximated by linear classifiers. But curvature **alone** does not rigorously prove a strictly positive bias; we must also consider where $\mathcal D$ places probability mass.
 
-> [!important] The take-home message
+> [!IMPORTANT]
+> **The take-home message**
 > **More samples can control the cost of selecting the classifier from data. Choosing an appropriate family controls the cost of restricting which classifiers are even available.** These are different problems.
 
 ---
@@ -647,7 +656,8 @@ A curved decision boundary, for example, might be poorly approximated by linear 
 
 ## 9. Active recall and pending exercises
 
-> [!warning] Not yet marked consolidated
+> [!WARNING]
+> **Not yet marked consolidated**
 > Reading this file or following a guided derivation is **not** evidence of autonomous exam performance. Attempt these without consulting the preceding sections; use paper for the proofs.
 
 ### Short conceptual checks
@@ -682,7 +692,7 @@ This list is **derived from our tutoring sessions**, not an attribution to the l
 |---|---|
 | Mixing up $\varepsilon$, $q$, and $\delta$ | Before using a symbol, say whether it represents a **risk-distance threshold**, an **individual failure-probability bound**, or a **simultaneous failure-probability target**. |
 | Treating a single example as interchangeable with a dataset | Write $S=((x_1,y_1),\ldots,(x_n,y_n))$ and distinguish $n=1$ as a special case. |
-| Confusing prediction errors with risk-estimation failure | A classifier misclassifies an example when its **loss** is 1; an **estimation failure** occurs when $|\widehat R_S(h)-R_{\mathcal D}(h)|>\varepsilon$. |
+| Confusing prediction errors with risk-estimation failure | A classifier misclassifies an example when its **loss** is 1; an **estimation failure** occurs when $\lvert\widehat R_S(h)-R_{\mathcal D}(h)\rvert>\varepsilon$. |
 | Assuming the same dataset forces the same outcome for different hypotheses | Same **inputs and labels**; potentially different predictions and loss vectors. |
 | Union/intersection reversal | **Union of bad events = at least one fails. Complement = none fail = intersection of good events.** |
 | Losing the factor of $2$ in Hoeffding | An absolute deviation includes **two tails**. Add their probability bounds; the actual tail probabilities need not be equal. |
@@ -693,5 +703,6 @@ This list is **derived from our tutoring sessions**, not an attribution to the l
 | Using an imprecise name for a theorem | $\Pr(A^c)=1-\Pr(A)$ is the **complement rule**, not the law of total probability. |
 | Mixing Bayes risk with inductive bias | Bayes risk is $R_{\mathcal D}^\star$; inductive bias is **best-in-class risk minus Bayes risk**. |
 
-> [!tip] Method for every new proof
+> [!TIP]
+> **Method for every new proof**
 > Before manipulating equations, write **(a) what is given, (b) the target inequality, and (c) the single definition or theorem authorizing the next step**. After each step, check that no additive term or inequality sign has silently changed.
