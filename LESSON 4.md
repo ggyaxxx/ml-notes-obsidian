@@ -150,6 +150,9 @@ $$
 \boxed{\widehat R_S(\hat h_S)=0\quad\text{almost surely}.}
 $$
 
+> [!important] Explicit conclusion — why ERM has zero empirical risk
+> **Under the realizability assumption, we can say with probability 1 (not merely with confidence $1-\delta$) that the empirical risk of an exact ERM classifier is zero.** We know *a priori* that some $h^\star\in\mathcal H$ has zero true risk, so, for an i.i.d. sample $S$ drawn from $\mathcal D$, this same classifier has zero empirical risk almost surely. Because ERM minimizes empirical risk over $\mathcal H$, it must attain that available minimum of zero, even if it selects a different classifier. **This conclusion does not require the sample-size bound of Theorem 5.1**; that bound is needed to control ERM's *true* risk.
+
 **This does not mean that ERM chooses $h^\star$.** It means that a zero empirical-risk candidate is available, so an **exact** empirical-risk minimizer cannot choose a candidate with positive empirical risk.
 
 > [!tip] The key insight that unlocked the proof
