@@ -269,7 +269,7 @@ $$ \widehat R_S(\hat h_S)=0\qquad\text{almost surely}. $$
 
 **Step C — a bad ERM selection would imply a bad but sample-perfect classifier.**
 
-$$ \left\{S:R_{\mathcal D}(\hat h_S)>\varepsilon\right\} \subseteq \bigcup_{h\in\mathcal H_B}\{S:\widehat R_S(h)=0\}, $$
+$ \{S:R_{\mathcal D}(\hat h_S)>\varepsilon\}\subseteq\bigcup_{h\in\mathcal H_B}E_h. $
 
 apart from a probability-zero exception under realizability.
 
