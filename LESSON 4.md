@@ -20,12 +20,13 @@ tags:
 
 # Lecture 4 — Realizability and ERM
 
-> [!abstract] Central question
+> [!NOTE]
+> **Central question**
 > **If the best classifier in a finite hypothesis family has zero true risk, why can ERM still select an imperfect classifier — and how many training examples ensure that ERM's true risk is at most $\varepsilon$ with probability at least $1-\delta$?**
 
 **Scope / study status:** This note records **Theorem 5.1 and its complete proof**, including the conceptual obstacles encountered while studying it. It is **not** a claim that the rest of Lecture 4 (e.g. shattering or VC dimension) has already been studied. Continue this file as the lecture progresses.
 
-**Connections:** [[LESSON 2]] (true/empirical risk and overfitting) · [[LESSON 3]] (concentration, union bound, ERM, finite families).
+**Connections:** [Lesson 2](LESSON%202.md) (true/empirical risk and overfitting) · [Lesson 3](LESSON%203.md) (concentration, union bound, ERM, finite families).
 
 **Source boundary:** The theorem statement below is the one transcribed during our study discussion. The analogies, numerical examples, common mistakes, and step-by-step explanations are **study clarifications**, not additional claims about the lecturer's notes.
 
@@ -42,7 +43,7 @@ $$
 if
 
 $$
-\boxed{n\geq\frac{1}{\varepsilon}\log\left(\frac{|\mathcal H|}{\delta}\right),}
+\boxed{n\geq\frac{1}{\varepsilon}\log\left(\frac{\lvert\mathcal H\rvert}{\delta}\right),}
 $$
 
 then an empirical risk minimizer $\hat h_S$ satisfies
@@ -58,10 +59,11 @@ Here $\log$ is the natural logarithm. The probability is **over the random draw 
 - $\varepsilon$: tolerated **true error rate** (precision).
 - $\delta$: tolerated **probability that the guarantee fails** (failure probability).
 - $1-\delta$: confidence in the guarantee.
-- $|\mathcal H|$: number of candidate classifiers; $\mathcal H$ must be finite for this bound.
+- $\lvert\mathcal H\rvert$: number of candidate classifiers; $\mathcal H$ must be finite for this bound.
 - $n$: number of independent training observations.
 
-> [!important] What the theorem does NOT say
+> [!IMPORTANT]
+> **What the theorem does NOT say**
 > It does not claim that the ERM classifier is identical to the best-in-class classifier; it does not claim $R_{\mathcal D}(\hat h_S)=0$; it does not claim $R_S(h)=R_{\mathcal D}(h)$ for a particular sample.
 
 ---
@@ -117,12 +119,11 @@ This fact alone does **not** give an upper bound on ERM's true risk: it is a **l
 
 ## 3. The crucial assumption: realizability
 
-> [!definition] Realizability
+> [!NOTE]
+> **Realizability**
 > We assume, **before sampling**, that there exists **at least one** classifier $h^\star\in\mathcal H$ satisfying
 >
-> $$
-> \boxed{R_{\mathcal D}(h^\star)=0.}
-> $$
+> $R_{\mathcal D}(h^\star)=0$.
 >
 > The assumption guarantees its **existence**, **not our knowledge of its identity**.
 
@@ -150,12 +151,14 @@ $$
 \boxed{\widehat R_S(\hat h_S)=0\quad\text{almost surely}.}
 $$
 
-> [!important] Explicit conclusion — why ERM has zero empirical risk
+> [!IMPORTANT]
+> **Explicit conclusion — why ERM has zero empirical risk**
 > **Under the realizability assumption, we can say with probability 1 (not merely with confidence $1-\delta$) that the empirical risk of an exact ERM classifier is zero.** We know *a priori* that some $h^\star\in\mathcal H$ has zero true risk, so, for an i.i.d. sample $S$ drawn from $\mathcal D$, this same classifier has zero empirical risk almost surely. Because ERM minimizes empirical risk over $\mathcal H$, it must attain that available minimum of zero, even if it selects a different classifier. **This conclusion does not require the sample-size bound of Theorem 5.1**; that bound is needed to control ERM's *true* risk.
 
 **This does not mean that ERM chooses $h^\star$.** It means that a zero empirical-risk candidate is available, so an **exact** empirical-risk minimizer cannot choose a candidate with positive empirical risk.
 
-> [!tip] The key insight that unlocked the proof
+> [!TIP]
+> **The key insight that unlocked the proof**
 > **We know a perfect classifier exists, but not which one it is.** Its existence guarantees that the smallest training error available to ERM is zero. What remains unknown is the **true risk** of the zero-training-error classifier that ERM actually picks.
 
 ### Concrete example: two distinct perfect-on-sample classifiers
@@ -212,7 +215,7 @@ In particular,
 
 $$
 R_{\mathcal D}(h)=0.2
-\quad\not\implies\quad
+\quad\nRightarrow\quad
 \widehat R_S(h)=0.2.
 $$
 
@@ -227,7 +230,8 @@ This is an **equality of an expected sample average and the true risk**, **not**
 
 **Analogy:** A coin lands heads with probability $0.8$. Twenty independent tosses need not contain exactly sixteen heads, but the probability of twenty heads is $0.8^{20}$.
 
-> [!warning] Boundary of this reasoning
+> [!WARNING]
+> **Boundary of this reasoning**
 > If training examples were drawn from some different distribution $\mathcal Q$, the single-draw error probability on $S$ would be $R_{\mathcal Q}(h)$, **not necessarily** $R_{\mathcal D}(h)$. Independence is also essential for multiplying the probabilities across the $n$ draws.
 
 ---
@@ -271,7 +275,7 @@ Using i.i.d. sampling,
 $$
 \begin{aligned}
 \Pr(E_h)
-&=\Pr(\text{$h$ is correct on all $n$ draws})\\
+&=\Pr(\text{all }n\text{ predictions of }h\text{ are correct})\\
 &=(1-R_{\mathcal D}(h))^n\\
 &\leq(1-\varepsilon)^n\\
 &\leq e^{-\varepsilon n}.
@@ -314,12 +318,12 @@ $$
 \Pr(E)
 &=\Pr\left(\bigcup_{h\in\mathcal H_B}E_h\right)\\
 &\leq\sum_{h\in\mathcal H_B}\Pr(E_h)\\
-&\leq|\mathcal H_B|e^{-\varepsilon n}\\
-&\leq|\mathcal H|e^{-\varepsilon n}.
+&\leq\lvert\mathcal H_B\rverte^{-\varepsilon n}\\
+&\leq\lvert\mathcal H\rverte^{-\varepsilon n}.
 \end{aligned}
 $$
 
-**Why replace $|\mathcal H_B|$ by $|\mathcal H|$?** Simply because $\mathcal H_B\subseteq\mathcal H$, so $|\mathcal H_B|\leq|\mathcal H|$. We may not know how many hypotheses are actually bad, but we know they cannot outnumber the entire finite class.
+**Why replace $\lvert\mathcal H_B\rvert$ by $\lvert\mathcal H\rvert$?** Simply because $\mathcal H_B\subseteq\mathcal H$, so $\lvert\mathcal H_B\rvert\leq\lvert\mathcal H\rvert$. We may not know how many hypotheses are actually bad, but we know they cannot outnumber the entire finite class.
 
 The events $E_h$ share **the same sampled dataset** and can be dependent. The union bound still holds.
 
@@ -359,18 +363,18 @@ This is the **logical bridge** from “the ERM selected a bad hypothesis” to t
 
 $$
 \Pr\big(R_{\mathcal D}(\hat h_S)>\varepsilon\big)
-\leq|\mathcal H|e^{-\varepsilon n}.
+\leq\lvert\mathcal H\rverte^{-\varepsilon n}.
 $$
 
 **Step E — choose $n$ so that the failure probability is at most $\delta$.**
 
 $$
 \begin{aligned}
-|\mathcal H|e^{-\varepsilon n}&\leq\delta\\
-e^{-\varepsilon n}&\leq\frac{\delta}{|\mathcal H|}\\
--\varepsilon n&\leq\log\delta-\log|\mathcal H|\\
-\varepsilon n&\geq\log|\mathcal H|-\log\delta\\
-\boxed{n&\geq\frac1\varepsilon\log\left(\frac{|\mathcal H|}{\delta}\right).}
+\lvert\mathcal H\rverte^{-\varepsilon n}&\leq\delta\\
+e^{-\varepsilon n}&\leq\frac{\delta}{\lvert\mathcal H\rvert}\\
+-\varepsilon n&\leq\log\delta-\log\lvert\mathcal H\rvert\\
+\varepsilon n&\geq\log\lvert\mathcal H\rvert-\log\delta\\
+n&\geq\frac1\varepsilon\log\left(\frac{\lvert\mathcal H\rvert}{\delta}\right).
 \end{aligned}
 $$
 
@@ -386,7 +390,8 @@ $$
 
 The final equivalence uses the **complement rule**.
 
-> [!success] One-sentence proof
+> [!TIP]
+> **One-sentence proof**
 > Under realizability, ERM always fits the training set perfectly; for it to have true risk above $\varepsilon$, **some fixed bad hypothesis must also fit that random training set perfectly**; the union bound shows that this becomes improbable for sufficiently large $n$.
 
 ---
@@ -402,8 +407,8 @@ The final equivalence uses the **complement rule**.
 | “Why use $0.8^{20}$ if true risk $=0.2$ is defined on $D$?” | Each sample observation is itself independently drawn from $D$, hence each is correct with probability $0.8$ for that fixed $h$. |
 | “Does $(1-\varepsilon)^n$ already cover all bad classifiers?” | No. The exponent $n$ refers to **$n$ observations for one fixed bad classifier**. Multiple bad classifiers enter through the union bound. |
 | “Why union rather than complement/intersection?” | We first bound the **dangerous union**: at least one bad classifier looks perfect. Its complement is the **desired** event: none of the bad ones looks perfect. |
-| “Why replace $|\mathcal H_B|$ with $|\mathcal H|$?” | Because $\mathcal H_B\subseteq\mathcal H$ and therefore $|\mathcal H_B|\leq|\mathcal H|$. |
-| “Why is the last term $\leq\delta$?” | The assumed lower bound on $n$ is **chosen precisely to make** $|\mathcal H|e^{-\varepsilon n}\leq\delta$. |
+| “Why replace $\lvert\mathcal H_B\rvert$ with $\lvert\mathcal H\rvert$?” | Because $\mathcal H_B\subseteq\mathcal H$ and therefore $\lvert\mathcal H_B\rvert\leq\lvert\mathcal H\rvert$. |
+| “Why is the last term $\leq\delta$?” | The assumed lower bound on $n$ is **chosen precisely to make** $\lvert\mathcal H\rverte^{-\varepsilon n}\leq\delta$. |
 | “Does probability $1-\delta$ describe the accuracy on each example?” | No. It describes **how likely a random training sample is to produce an ERM whose true error rate is at most $\varepsilon$**. |
 
 ### A useful distinction: guarantee versus observed behavior
@@ -412,13 +417,13 @@ Even with large $n$, a **particular** training sample might allow a bad classifi
 
 ### What changes without realizability?
 
-If $\min_{h\in\mathcal H}R_{\mathcal D}(h)>0$, the inference “there is a zero-risk hypothesis, therefore ERM has zero empirical risk” is unavailable. ERM may have positive empirical risk. This is the **agnostic** setting; it requires a different style of argument (see [[LESSON 3]] for finite-class uniform convergence).
+If $\min_{h\in\mathcal H}R_{\mathcal D}(h)>0$, the inference “there is a zero-risk hypothesis, therefore ERM has zero empirical risk” is unavailable. ERM may have positive empirical risk. This is the **agnostic** setting; it requires a different style of argument (see [Lesson 3](LESSON%203.md) for finite-class uniform convergence).
 
 ---
 
 ## 9. Active recall — close the notes before answering
 
-- [ ] State Theorem 5.1, identifying what each of $\varepsilon$, $\delta$, $n$, and $|\mathcal H|$ means.
+- [ ] State Theorem 5.1, identifying what each of $\varepsilon$, $\delta$, $n$, and $\lvert\mathcal H\rvert$ means.
 - [ ] Define realizability. Is it **existence**, **identification**, or **construction** of $h^\star$?
 - [ ] Why does $R_{\mathcal D}(h^\star)=0$ imply $\widehat R_S(h^\star)=0$ almost surely?
 - [ ] Why must an **exact** ERM have empirical risk zero, even without knowing $h^\star$?
@@ -428,9 +433,9 @@ If $\min_{h\in\mathcal H}R_{\mathcal D}(h)>0$, the inference “there is a zero-
 - [ ] What breaks if the sample is not i.i.d. from $\mathcal D$?
 - [ ] Define $\mathcal H_B$ and $E_h$ precisely. What is random in $E_h$?
 - [ ] What would the intersection of all $E_h$ mean, and why do we need their union instead?
-- [ ] Reproduce the union-bound chain, including the transition $|\mathcal H_B|\leq|\mathcal H|$.
+- [ ] Reproduce the union-bound chain, including the transition $\lvert\mathcal H_B\rvert\leq\lvert\mathcal H\rvert$.
 - [ ] Explain why we cannot simply apply a fixed-$h$ probability bound directly to the sample-dependent ERM classifier.
-- [ ] Solve $|\mathcal H|e^{-\varepsilon n}\leq\delta$ for $n$ without losing the inequality direction.
+- [ ] Solve $\lvert\mathcal H\rverte^{-\varepsilon n}\leq\delta$ for $n$ without losing the inequality direction.
 - [ ] Explain the final conclusion in plain language, distinguishing **true error tolerance** from **confidence over training samples**.
 
 ## 10. Small practice checks
@@ -441,7 +446,7 @@ If $\min_{h\in\mathcal H}R_{\mathcal D}(h)>0$, the inference “there is a zero-
 
 **Check 3.** Write the *complement* of $\bigcup_{h\in\mathcal H_B}E_h$ using De Morgan. Interpret it in words.
 
-**Check 4.** Let $|\mathcal H|=100$, $\varepsilon=0.2$, and $\delta=0.05$. Compute the minimum integer $n$ guaranteed by the theorem. Interpret *both* $0.2$ and $0.05$ without confusing their meanings.
+**Check 4.** Let $\lvert\mathcal H\rvert=100$, $\varepsilon=0.2$, and $\delta=0.05$. Compute the minimum integer $n$ guaranteed by the theorem. Interpret *both* $0.2$ and $0.05$ without confusing their meanings.
 
 **Check 5.** Explain why proving that “at least one bad classifier fits $S$” is **not** the same as proving that ERM definitely chooses one: the event bounded in the proof is a potentially larger **dangerous event**, which is enough for an upper bound.
 
