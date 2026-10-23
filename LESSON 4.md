@@ -241,7 +241,7 @@ On this complement event, because realizability guarantees ERM has zero training
 
 Apply the **union bound** (no independence assumption among the $E_h$ is required):
 
-$$ \begin{aligned} \Pr(E) &=\Pr\left(\bigcup_{h\in\mathcal H_B}E_h\right)\\ &\leq\sum_{h\in\mathcal H_B}\Pr(E_h)\\ &\leq\lvert\mathcal H_B\rverte^{-\varepsilon n}\\ &\leq\lvert\mathcal H\rverte^{-\varepsilon n}. \end{aligned} $$
+$$ \begin{aligned} \Pr(E) &=\Pr\left(\bigcup_{h\in\mathcal H_B}E_h\right)\\ &\leq\sum_{h\in\mathcal H_B}\Pr(E_h)\\ &\leq\lvert\mathcal H_B\rvert e^{-\varepsilon n}\\ &\leq\lvert\mathcal H\rvert e^{-\varepsilon n}. \end{aligned} $$
 
 **Why replace $\lvert\mathcal H_B\rvert$ by $\lvert\mathcal H\rvert$?** Simply because $\mathcal H_B\subseteq\mathcal H$, so $\lvert\mathcal H_B\rvert\leq\lvert\mathcal H\rvert$. We may not know how many hypotheses are actually bad, but we know they cannot outnumber the entire finite class.
 
@@ -273,11 +273,11 @@ This is the **logical bridge** from “the ERM selected a bad hypothesis” to t
 
 **Step D — bound the dangerous union.**
 
-$$ \Pr\big(R_{\mathcal D}(\hat h_S)>\varepsilon\big) \leq\lvert\mathcal H\rverte^{-\varepsilon n}. $$
+$$ \Pr\big(R_{\mathcal D}(\hat h_S)>\varepsilon\big) \leq\lvert\mathcal H\rvert e^{-\varepsilon n}. $$
 
 **Step E — choose $n$ so that the failure probability is at most $\delta$.**
 
-$$ \begin{aligned} \lvert\mathcal H\rverte^{-\varepsilon n}&\leq\delta\\ e^{-\varepsilon n}&\leq\frac{\delta}{\lvert\mathcal H\rvert}\\ -\varepsilon n&\leq\log\delta-\log\lvert\mathcal H\rvert\\ \varepsilon n&\geq\log\lvert\mathcal H\rvert-\log\delta\\ n&\geq\frac1\varepsilon\log\left(\frac{\lvert\mathcal H\rvert}{\delta}\right). \end{aligned} $$
+$$ \begin{aligned} \lvert\mathcal H\rvert e^{-\varepsilon n}&\leq\delta\\ e^{-\varepsilon n}&\leq\frac{\delta}{\lvert\mathcal H\rvert}\\ -\varepsilon n&\leq\log\delta-\log\lvert\mathcal H\rvert\\ \varepsilon n&\geq\log\lvert\mathcal H\rvert-\log\delta\\ n&\geq\frac1\varepsilon\log\left(\frac{\lvert\mathcal H\rvert}{\delta}\right). \end{aligned} $$
 
 The sign reverses when multiplying by $-1$.
 
@@ -305,7 +305,7 @@ The final equivalence uses the **complement rule**.
 | “Does $(1-\varepsilon)^n$ already cover all bad classifiers?” | No. The exponent $n$ refers to **$n$ observations for one fixed bad classifier**. Multiple bad classifiers enter through the union bound. |
 | “Why union rather than complement/intersection?” | We first bound the **dangerous union**: at least one bad classifier looks perfect. Its complement is the **desired** event: none of the bad ones looks perfect. |
 | “Why replace $\lvert\mathcal H_B\rvert$ with $\lvert\mathcal H\rvert$?” | Because $\mathcal H_B\subseteq\mathcal H$ and therefore $\lvert\mathcal H_B\rvert\leq\lvert\mathcal H\rvert$. |
-| “Why is the last term $\leq\delta$?” | The assumed lower bound on $n$ is **chosen precisely to make** $\lvert\mathcal H\rverte^{-\varepsilon n}\leq\delta$. |
+| “Why is the last term $\leq\delta$?” | The assumed lower bound on $n$ is **chosen precisely to make** $\lvert\mathcal H\rvert e^{-\varepsilon n}\leq\delta$. |
 | “Does probability $1-\delta$ describe the accuracy on each example?” | No. It describes **how likely a random training sample is to produce an ERM whose true error rate is at most $\varepsilon$**. |
 
 ### A useful distinction: guarantee versus observed behavior
@@ -332,7 +332,7 @@ If $\min_{h\in\mathcal H}R_{\mathcal D}(h)>0$, the inference “there is a zero-
 - [ ] What would the intersection of all $E_h$ mean, and why do we need their union instead?
 - [ ] Reproduce the union-bound chain, including the transition $\lvert\mathcal H_B\rvert\leq\lvert\mathcal H\rvert$.
 - [ ] Explain why we cannot simply apply a fixed-$h$ probability bound directly to the sample-dependent ERM classifier.
-- [ ] Solve $\lvert\mathcal H\rverte^{-\varepsilon n}\leq\delta$ for $n$ without losing the inequality direction.
+- [ ] Solve $\lvert\mathcal H\rvert e^{-\varepsilon n}\leq\delta$ for $n$ without losing the inequality direction.
 - [ ] Explain the final conclusion in plain language, distinguishing **true error tolerance** from **confidence over training samples**.
 
 ## 10. Small practice checks
