@@ -788,14 +788,11 @@ $$ R_{\mathcal D}^\star=0, \qquad R_S(f_S)=0, \qquad R_{\mathcal D}(f_S)=\delta^
 
 5. **Using $x\neq y$ to express classification error**
    - $x$ is an input and $y$ is a label.
-   - The correct error event is
-$$ f(X)\neq Y. $$
+   - The correct error event is $f(X)\neq Y$.
 
 6. **Confusing Bayes risk with overfitting**
-   - Overfitting concerns
-$$ R_S(f_S) \quad\text{vs}\quad R_{\mathcal D}(f_S). $$
-   - Bayes optimality concerns
-$$ R_{\mathcal D}^\star \quad\text{vs}\quad R_{\mathcal D}(f_S). $$
+   - Overfitting concerns $R_S(f_S)$ versus $R_{\mathcal D}(f_S)$.
+   - Bayes optimality concerns $R_{\mathcal D}^\star$ versus $R_{\mathcal D}(f_S)$.
 
 7. **Saying “the model learned perfectly” when $R_S=0$**
    - Better:
@@ -833,8 +830,7 @@ Without looking at the formulas, be able to explain:
 - [ ] Why can $R_{\mathcal D}^\star>0$?
 - [ ] Why can a Bayes predictor be non-unique?
 - [ ] Why does 0-1 loss lead to the conditional mode?
-- [ ] Why is
-$$ \sum_{y\neq z}P(Y=y\mid X=x) = 1-P(Y=z\mid X=x)? $$
+- [ ] Why does $\sum_{y\neq z}P(Y=y\mid X=x)=1-P(Y=z\mid X=x)$ hold?
 - [ ] Why does $R_S(f_S)=0$ not imply good generalization?
 - [ ] Which comparison diagnoses overfitting?
 - [ ] Which comparison tells us how far we are from the theoretical optimum?
