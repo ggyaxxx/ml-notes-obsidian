@@ -269,7 +269,7 @@ $$ \widehat R_S(\hat h_S)=0\qquad\text{almost surely}. $$
 
 **Step C — a bad ERM selection would imply a bad but sample-perfect classifier.**
 
-$ \{S:R_{\mathcal D}(\hat h_S)>\varepsilon\}\subseteq\bigcup_{h\in\mathcal H_B}E_h. $
+$$ \{S:R_{\mathcal D}(\hat h_S)>\varepsilon\}\subseteq\bigcup_{h\in\mathcal H_B}E_h. $$
 
 apart from a probability-zero exception under realizability.
 
@@ -363,7 +363,7 @@ Theorem 5.1 uses $|\mathcal H|e^{-\varepsilon n}$. The family of all real-valued
 
 We use binary classification with the threshold rule
 
-$ h_\theta(x)=\mathbf1\{x\geq\theta\},\qquad\theta\in[0,1]. $
+$$ h_\theta(x)=\mathbf1\{x\geq\theta\},\qquad\theta\in[0,1]. $$
 
 The assumptions are:
 
@@ -375,7 +375,7 @@ The assumptions are:
 
 Since $h_{\theta^\star}$ is available within the class and perfectly labels sampled examples, realizability and ERM give
 
-$ \boxed{\widehat R_S(h_{\hat\theta})=0\quad\text{almost surely}.} $
+$$ \boxed{\widehat R_S(h_{\hat\theta})=0\quad\text{almost surely}.} $$
 
 This prerequisite remains in force throughout the argument. **Without it, we cannot infer that the ERM threshold's disagreement region contains no training points.**
 
@@ -383,19 +383,19 @@ This prerequisite remains in force throughout the argument. **Without it, we can
 
 For any fixed candidate threshold $\theta$, realizability and 0–1 loss give
 
-$ R_{\mathcal D}(h_\theta)=\Pr(h_\theta(X)\neq h_{\theta^\star}(X)). $
+$$ R_{\mathcal D}(h_\theta)=\Pr(h_\theta(X)\neq h_{\theta^\star}(X)). $$
 
 The two predictions differ **exactly between the two thresholds**, meaning on the interval from $\min(\theta,\theta^\star)$ to $\max(\theta,\theta^\star)$ (with an endpoint convention that does not affect probabilities under the continuous uniform distribution).
 
 Uniformity now lets us identify **probability mass with interval length**:
 
-$ \boxed{R_{\mathcal D}(h_\theta)=\max(\theta,\theta^\star)-\min(\theta,\theta^\star)=|\theta-\theta^\star|.} $
+$$ \boxed{R_{\mathcal D}(h_\theta)=\max(\theta,\theta^\star)-\min(\theta,\theta^\star)=|\theta-\theta^\star|.} $$
 
 The absolute value appears because it measures the **length of the disagreement interval**, not merely because risk must be nonnegative. If $X$ were not uniform, true risk would instead be the *probability mass* of the interval, generally not its length.
 
 **Meaning of $\varepsilon$:** It is an **allowed true-risk tolerance**. In this particular uniform-threshold model, the risk requirement $R_{\mathcal D}(h_{\hat\theta})\leq\varepsilon$ is equivalent to the geometrical condition
 
-$ \theta^\star-\varepsilon\leq\hat\theta\leq\theta^\star+\varepsilon. $
+$$ \theta^\star-\varepsilon\leq\hat\theta\leq\theta^\star+\varepsilon. $$
 
 **Do not replace $>$ by $=$.** The bad case $\hat\theta>\theta^\star+\varepsilon$ ranges over *all* thresholds more than $\varepsilon$ too high; it does **not** assume $\hat\theta=\theta^\star+\varepsilon$.
 
@@ -407,7 +407,7 @@ For instance, $x_i=0.55$ lies *outside* $[0.4,0.5)$ but still yields $h_{0.4}(0.
 
 To study **every possible** threshold above $0.5$, instead of a different error interval for each threshold, choose the **fixed** subinterval $I_+=[0.4,0.5)$ of length $\varepsilon$. It is contained in $[0.4,\hat\theta)$ whenever $\hat\theta>0.5$. Therefore,
 
-$ \boxed{\hat\theta>\theta^\star+\varepsilon\ \Longrightarrow\ S\cap[\theta^\star,\theta^\star+\varepsilon)=\varnothing.} $
+$$ \boxed{\hat\theta>\theta^\star+\varepsilon\ \Longrightarrow\ S\cap[\theta^\star,\theta^\star+\varepsilon)=\varnothing.} $$
 
 Here $S\cap I=\varnothing$ is shorthand for **no feature value $X_i$ in $S$ belongs to $I$**; formally $\forall i,\ X_i\notin I$.
 
@@ -415,11 +415,11 @@ This is an implication, **not** an equivalence. The training sample might avoid 
 
 Define $A_+=\{\hat\theta>\theta^\star+\varepsilon\}$ and $B_+=\{\forall i,\ X_i\notin I_+\}$. From $A_+\subseteq B_+$, **monotonicity of probability** gives
 
-$ \Pr_S(A_+)\leq\Pr_S(B_+). $
+$$ \Pr_S(A_+)\leq\Pr_S(B_+). $$
 
 For one draw, $\Pr(X_i\notin I_+)=1-\varepsilon$. **For all $n$ independent draws**, the avoidance probability is $(1-\varepsilon)^n$, rather than $1-\varepsilon$:
 
-$ \boxed{\Pr_S(\hat\theta>\theta^\star+\varepsilon)\leq(1-\varepsilon)^n\leq e^{-\varepsilon n}.} $
+$$ \boxed{\Pr_S(\hat\theta>\theta^\star+\varepsilon)\leq(1-\varepsilon)^n\leq e^{-\varepsilon n}.} $$
 
 The second inequality uses $1-t\leq e^{-t}$ for $t\geq0$. We have an **upper bound**, not necessarily the exact probability that ERM chooses a high threshold: avoiding $I_+$ is *necessary but not sufficient* for that outcome.
 
@@ -431,7 +431,7 @@ For $\theta^\star=0.4$ and $\varepsilon=0.1$, the key interval is $[0.3,0.4)$, r
 
 As before, empirical risk zero implies no sample observation can fall there. Set $A_-=\{\hat\theta<\theta^\star-\varepsilon\}$ and $B_-=\{\forall i,\ X_i\notin I_-\}$:
 
-$ A_-\subseteq B_-\quad\Longrightarrow\quad\Pr_S(A_-)\leq\Pr_S(B_-)=(1-\varepsilon)^n\leq e^{-\varepsilon n}. $
+$$ A_-\subseteq B_-\quad\Longrightarrow\quad\Pr_S(A_-)\leq\Pr_S(B_-)=(1-\varepsilon)^n\leq e^{-\varepsilon n}. $$
 
 **Boundary caveat:** If the interval $I_+$ or $I_-$ would extend outside $[0,1]$, the corresponding bad-threshold event is impossible, so its probability is zero. In the nontrivial cases the fixed interval lies inside $[0,1]$ and has length $\varepsilon$. This avoids silently treating an out-of-range interval as having probability $\varepsilon$.
 
@@ -439,19 +439,19 @@ $ A_-\subseteq B_-\quad\Longrightarrow\quad\Pr_S(A_-)\leq\Pr_S(B_-)=(1-\varepsil
 
 The goal is to bound the failure event:
 
-$ F=\{R_{\mathcal D}(h_{\hat\theta})>\varepsilon\}=\{|\hat\theta-\theta^\star|>\varepsilon\}. $
+$$ F=\{R_{\mathcal D}(h_{\hat\theta})>\varepsilon\}=\{|\hat\theta-\theta^\star|>\varepsilon\}. $$
 
 For a *strict* absolute-value inequality,
 
-$ |a|>\varepsilon\quad\Longleftrightarrow\quad(a<-\varepsilon)\ \textbf{OR}\ (a>\varepsilon). $
+$$ |a|>\varepsilon\quad\Longleftrightarrow\quad(a<-\varepsilon)\ \text{OR}\ (a>\varepsilon). $$
 
 Therefore the failure event is **too low OR too high**:
 
-$ \boxed{F=A_-\cup A_+.} $
+$$ \boxed{F=A_-\cup A_+.} $$
 
 A threshold cannot be simultaneously too high and too low. The two events are disjoint, but using the **union bound** remains valid:
 
-$ \begin{aligned}\Pr_S(F)&=\Pr_S(A_-\cup A_+)\\&\leq\Pr_S(A_-)+\Pr_S(A_+)\\&\leq2e^{-\varepsilon n}.\end{aligned} $
+$$ \begin{aligned}\Pr_S(F)&=\Pr_S(A_-\cup A_+)\\&\leq\Pr_S(A_-)+\Pr_S(A_+)\\&\leq2e^{-\varepsilon n}.\end{aligned} $$
 
 **Contrast:** $|a|\leq\varepsilon$ means $a\geq-\varepsilon$ **AND** $a\leq\varepsilon$; remaining **inside** an interval requires both conditions, whereas being **outside** requires only one.
 
@@ -461,15 +461,15 @@ Crucially, the coefficient $2$ counts the **two types of failure events**, *not*
 
 To make $\Pr_S(F)\leq\delta$, it is **sufficient** to require
 
-$ 2e^{-\varepsilon n}\leq\delta. $
+$$ 2e^{-\varepsilon n}\leq\delta. $$
 
 Taking natural logarithms preserves the inequality because $\ln$ is increasing. Then dividing by the negative value $-\varepsilon$ **reverses its direction**:
 
-$ \begin{aligned}e^{-\varepsilon n}&\leq\delta/2\\-\varepsilon n&\leq\ln(\delta/2)\\n&\geq-\frac1\varepsilon\ln(\delta/2)=\frac1\varepsilon\ln(2/\delta).\end{aligned} $
+$$ \begin{aligned}e^{-\varepsilon n}&\leq\delta/2\\-\varepsilon n&\leq\ln(\delta/2)\\n&\geq-\frac1\varepsilon\ln(\delta/2)=\frac1\varepsilon\ln(2/\delta).\end{aligned} $$
 
 Thus Theorem 5.2 guarantees:
 
-$ \boxed{n\geq\frac{1}{\varepsilon}\ln\left(\frac2\delta\right)\quad\Longrightarrow\quad \Pr_{S\sim\mathcal D^n}\big(R_{\mathcal D}(h_{\hat\theta})\leq\varepsilon\big)\geq1-\delta.} $
+$$ \boxed{n\geq\frac{1}{\varepsilon}\ln\left(\frac2\delta\right)\quad\Longrightarrow\quad \Pr_{S\sim\mathcal D^n}\big(R_{\mathcal D}(h_{\hat\theta})\leq\varepsilon\big)\geq1-\delta.} $$
 
 For an actual dataset, round the required $n$ **up to the nearest integer**. The guarantee is a probability **over random training samples**: it does not say every particular sample leads to risk at most $\varepsilon$.
 
