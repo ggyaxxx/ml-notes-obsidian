@@ -1304,7 +1304,7 @@ $$
 
 # Connections
 
-- [[LESSON 1]]
+- [Lesson 1](LESSON%201.md)
 - Conditional probability
 - Law of total probability
 - Law of total expectation
