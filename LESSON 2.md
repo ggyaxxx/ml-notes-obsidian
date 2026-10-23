@@ -528,7 +528,7 @@ $$ \mathcal X=[-1,1]^2 $$
 
 and assume
 
-$$ X\sim\operatorname{Unif}([-1,1]^2). $$
+$$ X\sim\mathrm{Unif}([-1,1]^2). $$
 
 Define the central square
 
@@ -656,7 +656,7 @@ $$ (2\delta)^2=4\delta^2. $$
 
 Because $X$ is uniform,
 
-$$ P(X\in Q_\delta) = \frac{\operatorname{Area}(Q_\delta)} {\operatorname{Area}([-1,1]^2)}. $$
+$$ P(X\in Q_\delta) = \frac{\mathrm{Area}(Q_\delta)} {\mathrm{Area}([-1,1]^2)}. $$
 
 Therefore
 
