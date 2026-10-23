@@ -36,21 +36,15 @@ tags:
 
 Let $\mathcal H$ be a **fixed, finite** family of classifiers, and assume **realizability**. For precision $\varepsilon\in(0,1)$, failure probability $\delta\in(0,1)$ and an i.i.d. training sample
 
-$$
-S=((x_1,y_1),\ldots,(x_n,y_n))\sim\mathcal D^n,
-$$
+$$ S=((x_1,y_1),\ldots,(x_n,y_n))\sim\mathcal D^n, $$
 
 if
 
-$$
-\boxed{n\geq\frac{1}{\varepsilon}\log\left(\frac{\lvert\mathcal H\rvert}{\delta}\right),}
-$$
+$$ \boxed{n\geq\frac{1}{\varepsilon}\log\left(\frac{\lvert\mathcal H\rvert}{\delta}\right),} $$
 
 then an empirical risk minimizer $\hat h_S$ satisfies
 
-$$
-\boxed{\Pr_{S\sim\mathcal D^n}\left(R_{\mathcal D}(\hat h_S)\leq\varepsilon\right)\geq1-\delta.}
-$$
+$$ \boxed{\Pr_{S\sim\mathcal D^n}\left(R_{\mathcal D}(\hat h_S)\leq\varepsilon\right)\geq1-\delta.} $$
 
 Here $\log$ is the natural logarithm. The probability is **over the random draw of the entire training set**. The chosen $\hat h_S$ can change as $S$ changes.
 
@@ -72,26 +66,17 @@ Here $\log$ is the natural logarithm. The probability is **over the random draw 
 
 We consider classification with **0–1 loss**:
 
-$$
-\ell(h(x),y)=\mathbf 1\{h(x)\neq y\}.
-$$
+$$ \ell(h(x),y)=\mathbf 1\{h(x)\neq y\}. $$
 
 For a **fixed** classifier $h$:
 
 **True risk** (error probability for one new draw from the underlying distribution):
 
-$$
-R_{\mathcal D}(h)
-=\mathbb E_{(X,Y)\sim\mathcal D}[\ell(h(X),Y)]
-=\Pr_{(X,Y)\sim\mathcal D}(h(X)\neq Y).
-$$
+$$ R_{\mathcal D}(h) =\mathbb E_{(X,Y)\sim\mathcal D}[\ell(h(X),Y)] =\Pr_{(X,Y)\sim\mathcal D}(h(X)\neq Y). $$
 
 **Empirical risk** (observed fraction of errors in a particular sample):
 
-$$
-\widehat R_S(h)
-=\frac1n\sum_{i=1}^n\mathbf 1\{h(x_i)\neq y_i\}.
-$$
+$$ \widehat R_S(h) =\frac1n\sum_{i=1}^n\mathbf 1\{h(x_i)\neq y_i\}. $$
 
 We sometimes write $R_S(h)$ instead of $\widehat R_S(h)$; they mean the **same empirical quantity** in our discussions.
 
@@ -99,19 +84,13 @@ We sometimes write $R_S(h)$ instead of $\widehat R_S(h)$; they mean the **same e
 
 ### Best in class versus ERM
 
-$$
-h^\star\in\arg\min_{h\in\mathcal H}R_{\mathcal D}(h),
-\qquad
-\hat h_S\in\arg\min_{h\in\mathcal H}\widehat R_S(h).
-$$
+$$ h^\star\in\arg\min_{h\in\mathcal H}R_{\mathcal D}(h), \qquad \hat h_S\in\arg\min_{h\in\mathcal H}\widehat R_S(h). $$
 
 They minimize **different functions**, so they may select **different classifiers**.
 
 Because $h^\star$ minimizes true risk **within $\mathcal H$**, we always have
 
-$$
-R_{\mathcal D}(\hat h_S)\geq R_{\mathcal D}(h^\star).
-$$
+$$ R_{\mathcal D}(\hat h_S)\geq R_{\mathcal D}(h^\star). $$
 
 This fact alone does **not** give an upper bound on ERM's true risk: it is a **lower** bound.
 
@@ -133,23 +112,15 @@ A zero true risk means that $h^\star$ is correct for a random $(X,Y)\sim\mathcal
 
 Since the training observations are drawn from that same $\mathcal D$, with probability 1,
 
-$$
-\widehat R_S(h^\star)=0.
-$$
+$$ \widehat R_S(h^\star)=0. $$
 
 Now use **only the definition of ERM**:
 
-$$
-\widehat R_S(\hat h_S)
-=\min_{h\in\mathcal H}\widehat R_S(h)
-\leq\widehat R_S(h^\star)=0.
-$$
+$$ \widehat R_S(\hat h_S) =\min_{h\in\mathcal H}\widehat R_S(h) \leq\widehat R_S(h^\star)=0. $$
 
 Empirical risk is nonnegative, hence
 
-$$
-\boxed{\widehat R_S(\hat h_S)=0\quad\text{almost surely}.}
-$$
+$$ \boxed{\widehat R_S(\hat h_S)=0\quad\text{almost surely}.} $$
 
 > [!IMPORTANT]
 > **Explicit conclusion — why ERM has zero empirical risk**
@@ -172,9 +143,7 @@ $$
 
 For this **possible** sample, ERM can choose $h^\star$ **or** $h_1$ (a tie). It cannot choose $h_2$ or $h_3$ as an **exact ERM**, because their empirical risk is higher than the minimum zero.
 
-$$
-\boxed{\widehat R_S(\hat h_S)=0\ \nRightarrow\ R_{\mathcal D}(\hat h_S)=0.}
-$$
+$$ \boxed{\widehat R_S(\hat h_S)=0\ \nRightarrow\ R_{\mathcal D}(\hat h_S)=0.} $$
 
 Under realizability, the difficulty is **not** whether ERM achieves zero *training* error; the difficulty is whether **a bad classifier can also achieve zero training error and be selected**.
 
@@ -186,26 +155,15 @@ This was one of the main conceptual sticking points.
 
 Suppose a **fixed** classifier $h$ has true risk
 
-$$
-R_{\mathcal D}(h)=0.2.
-$$
+$$ R_{\mathcal D}(h)=0.2. $$
 
 By definition, for **one newly sampled example**,
 
-$$
-\Pr(h(X)\neq Y)=0.2,
-\qquad
-\Pr(h(X)=Y)=0.8.
-$$
+$$ \Pr(h(X)\neq Y)=0.2, \qquad \Pr(h(X)=Y)=0.8. $$
 
 For $n=20$ independently sampled examples, the probability that **all twenty** are classified correctly is
 
-$$
-\Pr_{S\sim\mathcal D^{20}}\left(\widehat R_S(h)=0\right)
-=0.8^{20}
-\approx 0.01153
-=1.15\%.
-$$
+$$ \Pr_{S\sim\mathcal D^{20}}\left(\widehat R_S(h)=0\right) =0.8^{20} \approx 0.01153 =1.15\%. $$
 
 **Why is using $0.2$ legitimate?** Because every observation in $S$ is drawn from **the same distribution** $\mathcal D$ used to define true risk. The factor $0.8$ is the chance of a **correct prediction on one random draw**, not a claim that $80\%$ of **this particular** sample must be correct.
 
@@ -213,18 +171,11 @@ A sample of 20 might contain 0, 2, 4, or 8 mistakes. Its empirical risk could be
 
 In particular,
 
-$$
-R_{\mathcal D}(h)=0.2
-\quad\nRightarrow\quad
-\widehat R_S(h)=0.2.
-$$
+$$ R_{\mathcal D}(h)=0.2 \quad\nRightarrow\quad \widehat R_S(h)=0.2. $$
 
 The correct statement for a **fixed** $h$ is
 
-$$
-\boxed{\mathbb E_{S\sim\mathcal D^n}[\widehat R_S(h)]
-=R_{\mathcal D}(h).}
-$$
+$$ \boxed{\mathbb E_{S\sim\mathcal D^n}[\widehat R_S(h)] =R_{\mathcal D}(h).} $$
 
 This is an **equality of an expected sample average and the true risk**, **not** an equality for each realized training set. Moreover, one cannot blindly apply the fixed-$h$ argument to the sample-dependent $\hat h_S$.
 
@@ -240,19 +191,13 @@ This is an **equality of an expected sample average and the true risk**, **not**
 
 Fix the accuracy tolerance $\varepsilon$. Define the set of **bad hypotheses**:
 
-$$
-\boxed{\mathcal H_B
-=\{h\in\mathcal H:R_{\mathcal D}(h)>\varepsilon\}.}
-$$
+$$ \boxed{\mathcal H_B =\{h\in\mathcal H:R_{\mathcal D}(h)>\varepsilon\}.} $$
 
 These are hypotheses that would **violate the theorem's desired conclusion** if ERM selected them.
 
 For each **fixed** $h\in\mathcal H_B$, define an event in the space of possible training sets:
 
-$$
-\boxed{E_h
-=\{S\sim\mathcal D^n:\widehat R_S(h)=0\}.}
-$$
+$$ \boxed{E_h =\{S\sim\mathcal D^n:\widehat R_S(h)=0\}.} $$
 
 Read this as:
 
@@ -262,25 +207,13 @@ The event is superficially “positive” (perfect training accuracy), but **dan
 
 Since $h\in\mathcal H_B$,
 
-$$
-R_{\mathcal D}(h)>\varepsilon
-\quad\Longrightarrow\quad
-1-R_{\mathcal D}(h)<1-\varepsilon.
-$$
+$$ R_{\mathcal D}(h)>\varepsilon \quad\Longrightarrow\quad 1-R_{\mathcal D}(h)<1-\varepsilon. $$
 
 **$1-\varepsilon$ is not the empirical risk.** It is an **upper bound on the probability that one observation is classified correctly** by this bad hypothesis.
 
 Using i.i.d. sampling,
 
-$$
-\begin{aligned}
-\Pr(E_h)
-&=\Pr(\text{all }n\text{ predictions of }h\text{ are correct})\\
-&=(1-R_{\mathcal D}(h))^n\\
-&\leq(1-\varepsilon)^n\\
-&\leq e^{-\varepsilon n}.
-\end{aligned}
-$$
+$$ \begin{aligned} \Pr(E_h) &=\Pr(\text{all }n\text{ predictions of }h\text{ are correct})\\ &=(1-R_{\mathcal D}(h))^n\\ &\leq(1-\varepsilon)^n\\ &\leq e^{-\varepsilon n}. \end{aligned} $$
 
 The last step uses $1-t\leq e^{-t}$ for $t\geq0$.
 
@@ -294,9 +227,7 @@ The **failure** we care about is that **at least one bad classifier** looks perf
 
 Thus define
 
-$$
-E=\bigcup_{h\in\mathcal H_B}E_h.
-$$
+$$ E=\bigcup_{h\in\mathcal H_B}E_h. $$
 
 **Union:** $E_{h_1}\cup E_{h_2}\cup\cdots$ means **at least one** bad classifier gets zero training error.
 
@@ -304,24 +235,13 @@ $$
 
 **Complement:** $E^c$ means **none** of the bad classifiers has zero training error:
 
-$$
-E^c
-=\bigcap_{h\in\mathcal H_B} E_h^c.
-$$
+$$ E^c =\bigcap_{h\in\mathcal H_B} E_h^c. $$
 
 On this complement event, because realizability guarantees ERM has zero training error, **ERM cannot select any classifier in $\mathcal H_B$**.
 
 Apply the **union bound** (no independence assumption among the $E_h$ is required):
 
-$$
-\begin{aligned}
-\Pr(E)
-&=\Pr\left(\bigcup_{h\in\mathcal H_B}E_h\right)\\
-&\leq\sum_{h\in\mathcal H_B}\Pr(E_h)\\
-&\leq\lvert\mathcal H_B\rverte^{-\varepsilon n}\\
-&\leq\lvert\mathcal H\rverte^{-\varepsilon n}.
-\end{aligned}
-$$
+$$ \begin{aligned} \Pr(E) &=\Pr\left(\bigcup_{h\in\mathcal H_B}E_h\right)\\ &\leq\sum_{h\in\mathcal H_B}\Pr(E_h)\\ &\leq\lvert\mathcal H_B\rverte^{-\varepsilon n}\\ &\leq\lvert\mathcal H\rverte^{-\varepsilon n}. \end{aligned} $$
 
 **Why replace $\lvert\mathcal H_B\rvert$ by $\lvert\mathcal H\rvert$?** Simply because $\mathcal H_B\subseteq\mathcal H$, so $\lvert\mathcal H_B\rvert\leq\lvert\mathcal H\rvert$. We may not know how many hypotheses are actually bad, but we know they cannot outnumber the entire finite class.
 
@@ -335,25 +255,17 @@ The events $E_h$ share **the same sampled dataset** and can be dependent. The un
 
 **Goal:**
 
-$$
-\Pr\big(R_{\mathcal D}(\hat h_S)>\varepsilon\big)\leq\delta.
-$$
+$$ \Pr\big(R_{\mathcal D}(\hat h_S)>\varepsilon\big)\leq\delta. $$
 
 **Step A — realizability gives a perfect candidate.** There exists $h^\star\in\mathcal H$ with $R_{\mathcal D}(h^\star)=0$, hence $\widehat R_S(h^\star)=0$ almost surely.
 
 **Step B — exact ERM also has zero sample risk.**
 
-$$
-\widehat R_S(\hat h_S)=0\qquad\text{almost surely}.
-$$
+$$ \widehat R_S(\hat h_S)=0\qquad\text{almost surely}. $$
 
 **Step C — a bad ERM selection would imply a bad but sample-perfect classifier.**
 
-$$
-\left\{S:R_{\mathcal D}(\hat h_S)>\varepsilon\right\}
-\subseteq
-\bigcup_{h\in\mathcal H_B}\{S:\widehat R_S(h)=0\},
-$$
+$$ \left\{S:R_{\mathcal D}(\hat h_S)>\varepsilon\right\} \subseteq \bigcup_{h\in\mathcal H_B}\{S:\widehat R_S(h)=0\}, $$
 
 apart from a probability-zero exception under realizability.
 
@@ -361,32 +273,17 @@ This is the **logical bridge** from “the ERM selected a bad hypothesis” to t
 
 **Step D — bound the dangerous union.**
 
-$$
-\Pr\big(R_{\mathcal D}(\hat h_S)>\varepsilon\big)
-\leq\lvert\mathcal H\rverte^{-\varepsilon n}.
-$$
+$$ \Pr\big(R_{\mathcal D}(\hat h_S)>\varepsilon\big) \leq\lvert\mathcal H\rverte^{-\varepsilon n}. $$
 
 **Step E — choose $n$ so that the failure probability is at most $\delta$.**
 
-$$
-\begin{aligned}
-\lvert\mathcal H\rverte^{-\varepsilon n}&\leq\delta\\
-e^{-\varepsilon n}&\leq\frac{\delta}{\lvert\mathcal H\rvert}\\
--\varepsilon n&\leq\log\delta-\log\lvert\mathcal H\rvert\\
-\varepsilon n&\geq\log\lvert\mathcal H\rvert-\log\delta\\
-n&\geq\frac1\varepsilon\log\left(\frac{\lvert\mathcal H\rvert}{\delta}\right).
-\end{aligned}
-$$
+$$ \begin{aligned} \lvert\mathcal H\rverte^{-\varepsilon n}&\leq\delta\\ e^{-\varepsilon n}&\leq\frac{\delta}{\lvert\mathcal H\rvert}\\ -\varepsilon n&\leq\log\delta-\log\lvert\mathcal H\rvert\\ \varepsilon n&\geq\log\lvert\mathcal H\rvert-\log\delta\\ n&\geq\frac1\varepsilon\log\left(\frac{\lvert\mathcal H\rvert}{\delta}\right). \end{aligned} $$
 
 The sign reverses when multiplying by $-1$.
 
 Consequently,
 
-$$
-\Pr\big(R_{\mathcal D}(\hat h_S)>\varepsilon\big)\leq\delta
-\quad\Longleftrightarrow\quad
-\boxed{\Pr\big(R_{\mathcal D}(\hat h_S)\leq\varepsilon\big)\geq1-\delta.}
-$$
+$$ \Pr\big(R_{\mathcal D}(\hat h_S)>\varepsilon\big)\leq\delta \quad\Longleftrightarrow\quad \boxed{\Pr\big(R_{\mathcal D}(\hat h_S)\leq\varepsilon\big)\geq1-\delta.} $$
 
 The final equivalence uses the **complement rule**.
 
