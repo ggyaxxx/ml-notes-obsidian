@@ -202,12 +202,10 @@ Each example follows the same distribution $\mathcal D$.
 
 Different examples do not probabilistically influence one another.
 
-> [!important]
+> [!IMPORTANT]
 > Independence here concerns **different examples**:
 >
-> $$
-> (X_1,Y_1), (X_2,Y_2),\ldots
-> $$
+> $(X_1,Y_1), (X_2,Y_2),\ldots$
 >
 > It does **not** mean that $X_i$ and $Y_i$ inside the same example are independent.
 >
@@ -217,7 +215,8 @@ Different examples do not probabilistically influence one another.
 
 ## 5. Spaces, random variables, and realizations
 
-> [!note] Mathematical clarification
+> [!NOTE]
+> **Mathematical clarification**
 > This section makes explicit a distinction that is useful for understanding the course notation.
 
 These are different objects.
@@ -400,7 +399,7 @@ for every $x$, then observing $X=x$ provides no additional information about $Y$
 
 In that case, $X$ and $Y$ are independent and the features are not useful for predicting the label.
 
-> [!important]
+> [!IMPORTANT]
 > A **joint distribution does not imply dependence**.
 >
 > A joint distribution describes the probabilistic relationship between $X$ and $Y$, whether they are dependent or independent.
@@ -457,7 +456,7 @@ This is where Decision Theory enters.
 
 ### Probability vs Decision Theory
 
-> [!important]
+> [!IMPORTANT]
 > **Probability describes uncertainty. Decision Theory turns uncertainty into a decision.**
 
 Probability gives quantities such as
@@ -723,7 +722,7 @@ So the risk is the probability of misclassification under the underlying distrib
 
 ## 17. Expected risk is not empirical risk
 
-> [!important]
+> [!IMPORTANT]
 > Do not confuse the expected risk with the average loss on the observed sample.
 
 Expected risk:
