@@ -167,7 +167,7 @@ $$
 For this **possible** sample, ERM can choose $h^\star$ **or** $h_1$ (a tie). It cannot choose $h_2$ or $h_3$ as an **exact ERM**, because their empirical risk is higher than the minimum zero.
 
 $$
-\boxed{\widehat R_S(\hat h_S)=0\ \centernot\implies\ R_{\mathcal D}(\hat h_S)=0.}
+\boxed{\widehat R_S(\hat h_S)=0\ \nRightarrow\ R_{\mathcal D}(\hat h_S)=0.}
 $$
 
 Under realizability, the difficulty is **not** whether ERM achieves zero *training* error; the difficulty is whether **a bad classifier can also achieve zero training error and be selected**.
