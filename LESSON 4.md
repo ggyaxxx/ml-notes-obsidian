@@ -165,6 +165,8 @@ For $n=20$ independently sampled examples, the probability that **all twenty** a
 
 $$ \Pr_{S\sim\mathcal D^{20}}\left(\widehat R_S(h)=0\right) =0.8^{20} \approx 0.01153 =1.15\%. $$
 
+**Connection to previous lessons:** [Lesson 2](LESSON%202.md) distinguishes **single-draw true risk** from the **observed error fraction in a sample**; [Lesson 3](LESSON%203.md) uses their relationship to establish the Hoeffding–Chernoff concentration bound. Theorem 5.1 uses the same single-draw risk in a different calculation: the probability that **all $n$ i.i.d. observations** are classified correctly.
+
 **Why is using $0.2$ legitimate?** Because every observation in $S$ is drawn from **the same distribution** $\mathcal D$ used to define true risk. The factor $0.8$ is the chance of a **correct prediction on one random draw**, not a claim that $80\%$ of **this particular** sample must be correct.
 
 A sample of 20 might contain 0, 2, 4, or 8 mistakes. Its empirical risk could be $0$, $0.1$, $0.2$, or $0.4$. The true risk remains $0.2$ for that fixed classifier.
