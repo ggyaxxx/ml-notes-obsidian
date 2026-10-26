@@ -8,7 +8,8 @@ date: 2026-10-23
 course: "Machine Learning — Sapienza"
 academic_year: "2026/2027"
 type: lecture-note
-status: "In progress — Theorems 5.1 and 5.2 studied with guidance; VC dimension pending"
+status: "Lecture 4 theory covered with guidance through VC theorem; independent proofs and exercises pending"
+updated: 2026-10-26
 tags:
   - machine-learning
   - statistical-learning
@@ -18,6 +19,9 @@ tags:
   - union-bound
   - sample-complexity
   - threshold-classifiers
+  - shattering
+  - vc-dimension
+  - convexity
 ---
 
 # Lecture 4 — Realizability and ERM
@@ -26,7 +30,9 @@ tags:
 > **Central question**
 > **Under realizability, how can ERM generalize despite zero training error — first for a finite family (Theorem 5.1), then for the infinite family of threshold classifiers (Theorem 5.2)?**
 
-**Scope / study status:** This note records **Theorems 5.1 and 5.2 with their complete guided proofs**, including the conceptual obstacles encountered while studying it. It is **not** a claim that the rest of Lecture 4 (e.g. shattering or VC dimension) has already been studied. Continue this file as the lecture progresses.
+**Scope / study status (original checkpoint, 23 Oct):** This note records **Theorems 5.1 and 5.2 with their complete guided proofs**, including the conceptual obstacles encountered while studying it. At that checkpoint, the remainder (shattering and VC dimension) had **not yet** been covered.
+
+**Update, 26 Oct:** The latter part of Lecture 4 has now been **explained with guidance**, including the threshold/interval/union proofs, convex classes, and Theorem 6.3. This is **not** evidence of independent exam readiness. See the dated continuation below and the linked concept note [[Shattering and VC Dimension]].
 
 **Connections:** [Lesson 2](LESSON%202.md) (true/empirical risk and overfitting) · [Lesson 3](LESSON%203.md) (concentration, union bound, ERM, finite families).
 
@@ -501,7 +507,7 @@ For an actual dataset, round the required $n$ **up to the nearest integer**. The
 
 ---
 
-## Where we stopped
+## Historical study checkpoint — 23 October 2026
 
 **Covered with guidance:** Theorem 5.1 (finite hypothesis families) and Theorem 5.2 (threshold classifiers): realizability, zero empirical risk under exact ERM, the error-region geometry, fixed $\varepsilon$ intervals, necessary versus sufficient event conditions, monotonicity of probability, i.i.d. avoidance probabilities, union bound, and sample-size algebra.
 
@@ -509,3 +515,120 @@ For an actual dataset, round the required $n$ **up to the nearest integer**. The
 
 **Next step:** Write the Theorem 5.2 proof from memory, then solve the current-year exercise 1.3. Re-test Theorem 5.1 and proceed to shattering / VC dimension from the current Lecture 4 material. Do **not** mark future topics as mastered before independent testing.
 
+
+
+---
+
+## 12. Lecture 4 continued — Shattering and VC dimension (26 October 2026)
+
+**Source status: 2026/27 confirmed.** Handwritten [Lecture 4, 6 October 2026](https://drive.google.com/file/d/1OfAfH81rnBwukGjiNHf_unNg7FQ3o9pc/view) treats thresholds, intervals, unions of $k$ intervals, convex sets and the general VC theorem. [Week 1, §6](https://drive.google.com/file/d/1sw45w97b56JPTQJEdyOz2qjMkfsVWIFS/view) gives Definitions 6.1–6.2 and Theorem 6.3. [Exercise Sheet 1, Exercise 1.4](https://drive.google.com/file/d/1DpZ45CXHWnegIKxVYsLDldAZ724l6fFV/view) provides current-year problems, including proof of lower and upper VC bounds. The detailed conceptual proofs and pitfalls are preserved in **[[Shattering and VC Dimension]]**.
+
+### 12.1 How to read the definition correctly
+
+For a **fixed set of input points** $T=\{x_1,\ldots,x_m\}$, shattering means:
+
+$$ \boxed{\forall(y_1,\ldots,y_m)\in\{0,1\}^m,\ \exists h\in\mathcal H:\ \forall i,\ h(x_i)=y_i.} $$
+
+One may choose **a different** hypothesis for **each labeling**; the **points stay fixed**. In our first attempt on $\{0.4\}$, choosing a different threshold for labels 0 and 1 resolved an initial confusion about whether a single classifier must output both values on the same point.
+
+**The two bounds to prove an exact finite VC dimension $d$:**
+
+- **Lower bound:** find **at least one** set of size $d$ shattered, so $\operatorname{VCdim}(\mathcal H)\ge d$.
+- **Upper bound:** prove **every** set of size $d+1$ has **some impossible labeling**, so $\operatorname{VCdim}(\mathcal H)\le d$.
+
+If a set is shattered, every subset is shattered (extend any labeling of the subset to the larger set). Therefore showing **no $(d+1)$-point set** is shattered automatically excludes all larger sizes.
+
+> [!IMPORTANT]
+> A recurrent obstacle was **existence versus universality**. VC dimension $d$ does **not** imply that *every* $d$-point set is shattered. A single arrangement that fails cannot establish an upper bound. By contrast, one explicitly constructed shattered set suffices for a lower bound.
+
+### 12.2 Three one-dimensional results
+
+| Class (labels 0/1) | Lower-bound construction | Upper-bound obstruction | VC dimension |
+|---|---|---|---:|
+| Thresholds $h_\theta(x)=\mathbf1\{x\ge\theta\}$ | One point gets both possible labels using **different** thresholds | For $x_1<x_2$, $(1,0)$ would require $\theta\le x_1$ and $\theta>x_2$ | 1 |
+| Closed intervals $h_{a,b}(x)=\mathbf1\{a\le x\le b\}$ | All 4 labelings of $x_1<x_2$ are achievable | On $x_1<x_2<x_3$, $(1,0,1)$ contradicts interval connectedness | 2 |
+| Union of $k$ closed intervals | Every labeling of $2k$ ordered points has **at most $k$ positive runs** | The alternating pattern on $2k+1$ points has **$k+1$ positive runs** | $2k$ |
+
+**Proof structure for unions:** A positive run (block) is a maximal consecutive group of 1s in the ordered label vector, e.g. $(0,1,1,0,1,0)$ has two blocks: $\{x_2,x_3\}$ and $\{x_5\}$. One interval covers each block without including any sample point labeled 0. Every labeling of $2k$ points needs at most $k$ such intervals. The pattern $(1,0,1,\ldots,0,1)$ on $2k+1$ points needs $k+1$. Together:
+
+$$ \boxed{\operatorname{VCdim}(\mathcal H_k)=2k.} $$
+
+**Personalized repair:** “There are at most $k$ positive runs” is an *upper bound on the run count*, which establishes a **lower bound on VC dimension** by ensuring **all** labelings of $2k$ points are constructible. It is not itself the upper VC bound.
+
+**Technical convention:** Theorem 5.2 uses $\mathcal X=[0,1]$, $\theta\in[0,1]$. The Exercise Sheet 1.4(a) instead takes $\theta\in\mathbb R$. Both threshold classes have VC dimension 1; not every endpoint singleton is shattered in the restricted $[0,1]$ model. Also, for **closed** intervals the endpoint is included: choosing $[0.3,0.7]$ gives $(1,1)$ on those two points, not $(1,0)$.
+
+### 12.3 Convex sets in $\mathbb R^2$: infinite VC dimension
+
+First define the **classification rule**, then the geometric constraint:
+
+$$ h_C(x)=\mathbf1\{x\in C\},\qquad \mathcal H_{\rm conv}=\{h_C:C\subseteq\mathbb R^2\text{ convex}\}. $$
+
+- $x=(x_1,x_2)$ is an input feature vector.
+- $C$ is a selected **positive region** of the plane.
+- $h_C$ is a function: it outputs 1 inside $C$, 0 outside.
+- $\mathcal H_{\rm conv}$ is the family of all **such functions** for all convex regions $C$. It is **not just a bare definition of geometric convexity**.
+
+A set is convex if $u,v\in C$ implies $(1-t)u+tv\in C$ for **all** $t\in[0,1]$. Here $u,v$ are **arbitrary planar vectors**, with no required horizontal order. Taking $t=0$ selects one endpoint of the connecting segment, but does **not** by itself define a singleton region. Separately, $C=\{x_2\}$ **is** a valid convex set and gives label 1 only to that particular point among three distinct tested inputs.
+
+**Unbounded shattering:** Arrange an arbitrary number $m$ of distinct points on a circle. For each labeling choose as $C$ the convex hull of the points labeled 1 (use the empty convex set for the all-zero labeling). No other selected point on the circle lies in that convex hull. Therefore there is **a shattered set of every cardinality**, so
+
+$$ \boxed{\operatorname{VCdim}(\mathcal H_{\rm conv})=\infty.} $$
+
+**Key conceptual correction from dialogue:** Three triangle vertices labeled 1 and an interior point labeled 0 form an **impossible** labeling for that particular four-point set. This does **not** contradict infinite VC dimension: we only need **some four-point arrangement** shattered, e.g. four points on a circle. Convexity can impose restrictions on particular arrangements while the overall family has unbounded shattering capacity.
+
+---
+
+## 13. Theorem 6.3 — Generalization via finite VC dimension
+
+**2026/27 confirmed by Week 1 §6, Theorem 6.3 and broadly by handwritten Lecture 4.** Its complete proof is **explicitly omitted** from the handout. Do not mark that proof as an exam requirement without further evidence.
+
+**Problem:** The finite-family uniform-convergence theorem depends on $|\mathcal H|$ and is uninformative when $|\mathcal H|=\infty$. Yet thresholds, intervals and fixed-$k$ unions are infinite families with **finite VC dimension**.
+
+**New ingredient:** Replace the need to count all individual hypotheses with a structural combinatorial control: $d=\operatorname{VCdim}(\mathcal H)<\infty$.
+
+With a sufficiently large i.i.d. sample $S$, fixed class $\mathcal H$, and precision/failure tolerances $\varepsilon,\delta\in(0,1)$, we obtain with probability at least $1-\delta$:
+
+$$ \boxed{\forall h\in\mathcal H,\quad |R_{\mathcal D}(h)-\widehat R_S(h)|\le\varepsilon.} $$
+
+The sample complexity involves a universal constant $C$, a $1/\varepsilon^2$ factor, dependence on VC dimension $d$, and a $\log(1/\delta)$ confidence term (see exact statement in **Week 1, Theorem 6.3**). No realizability or special uniform-$X$ assumption is required.
+
+Let $\hat h^\star$ be an ERM and $h^\star$ best-in-class for the true risk. Uniform convergence gives the following three comparisons:
+
+$$ \boxed{R_{\mathcal D}(\hat h^\star)\le\widehat R_S(\hat h^\star)+\varepsilon\le\widehat R_S(h^\star)+\varepsilon\le R_{\mathcal D}(h^\star)+2\varepsilon.} $$
+
+The first and last are **uniform convergence**; the middle is **ERM optimality on the sample**. Hence $R_{\mathcal D}(\hat h^\star)\le R_{\mathcal D}(h^\star)+2\varepsilon$ with the stated high probability.
+
+**Finite-class link (Week 1, Example 6.7):** Shattering $d$ points requires $2^d$ distinct labelings and thus $|\mathcal H|\ge2^d$, so
+
+$$ \boxed{\operatorname{VCdim}(\mathcal H)\le\log_2|\mathcal H|.} $$
+
+The **special realizable uniform-threshold** Theorem 5.2 uses $O(1/\varepsilon)$ samples for its particular risk guarantee; Theorem 6.3 covers broader settings and gives a uniform $O(1/\varepsilon^2)$-type guarantee with complexity factors. These bounds are not contradictory because their assumptions and conclusions differ.
+
+---
+
+## 14. Risk decomposition and relation to overfitting
+
+**Source boundary:** [Week 1 §7](https://drive.google.com/file/d/1sw45w97b56JPTQJEdyOz2qjMkfsVWIFS/view) develops the following equation, and [[LESSON 3]] §7 already contains a detailed derivation. Do **not** infer from that alone that the complete §7 treatment appears in the handwritten Lecture 4.
+
+$$ R_{\mathcal D}(\hat h^\star)=\underbrace{R_{\mathcal D}^\star}_{\text{Bayes error}}+\underbrace{[R_{\mathcal D}(h^\star)-R_{\mathcal D}^\star]}_{\text{inductive bias}}+\underbrace{[R_{\mathcal D}(\hat h^\star)-R_{\mathcal D}(h^\star)]}_{\text{error within }\mathcal H}. $$
+
+This is an **exact identity**, obtained by adding and subtracting terms. The last term is the one controlled, with high probability, by ERM generalization bounds. Choosing a more expressive family may reduce inductive bias but can increase the samples needed to control selection/generalization; these are **worst-case theoretical guarantees**, not claims about every realized training run.
+
+---
+
+## 15. Personalized recall — later, without restarting the course
+
+These questions come from **our learning dialogue**, not claims about the lecturer's exam.
+
+- [ ] Write the shattering quantifiers exactly and explain why one $h$ is **not** required to implement multiple labelings simultaneously.
+- [ ] State the difference between “there exists a shattered set of size $d$” and “all sets of size $d$ are shattered”. Why does a failed particular arrangement not establish an upper VC bound?
+- [ ] Prove the VC dimensions 1 (thresholds) and 2 (intervals), using **arbitrary** points for the upper bounds.
+- [ ] On $2k$ ordered points, prove *for every labeling* there are at most $k$ positive blocks; on $2k+1$ exhibit the alternating impossibility. Explain why this is **not** a universal recipe for other hypothesis families.
+- [ ] Distinguish a convex **region** $C$, its classifier $h_C$, the **family** $\mathcal H_{\rm conv}$, and the role of $u,v,t$ in the definition of convexity.
+- [ ] Resolve the triangle-interior counterexample versus infinite VC dimension with precise quantifiers.
+- [ ] State the assumptions and conclusion of Theorem 6.3; derive the ERM $2\varepsilon$ result using its three comparisons, and compare it with the assumptions of Theorem 5.2.
+- [ ] **Current-year sources:** Exercise 1.4(a), (b), (c), (f), (h). Proofs of 1.4(d), (e) and the other advanced cases are still pending; the sheet marks some with a dagger.
+
+**Status (26 Oct):** We have **explained** the remaining Lecture 4 topics and worked through several constructions together. The student demonstrated a correct understanding of the existential quantifier and of the $2k$ pattern, but **has not yet reconstructed all proofs alone on blank paper**. This distinction is preserved to avoid mistaking assisted comprehension for exam-ready mastery.
+
+**Next:** Start **Lecture 5** from its handwritten 2026/27 notes when available. Revisit this checklist in focused exercises rather than postponing the current lectures.
