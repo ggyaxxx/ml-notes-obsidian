@@ -162,6 +162,40 @@ The lecture presents the results and citations, **not a hardness reduction to pr
 
 **Meaning of the terms (tutor explanation):** A decision problem belongs to **P** if some deterministic algorithm solves it in polynomial time. A decision problem belongs to **NP** if a proposed yes-certificate can be verified in polynomial time. A problem is **NP-hard** if every problem in NP can be polynomial-time reduced **to that problem**. NP-hard does not automatically mean NP-complete, nor does it prove there cannot be a polynomial algorithm unless P $\ne$ NP. Approximation hardness means that specified types/qualities of approximation are also computationally difficult; it does **not** mean every possible approximate algorithm is impossible.
 
+### 2.2.1 What NP-hardness does—and does not—tell us [Tutor clarification; discussed on 2026-11-03]
+
+The precise statement is about **polynomial-time reductions**: for the appropriate decision formulation of agnostic linear 0–1 ERM (for example, “is there a linear classifier making at most $k$ mistakes?”), every decision problem in NP can be reduced to it in polynomial time. Symbolically, if $H$ denotes this decision problem,
+
+$
+\forall A\in\mathrm{NP},\quad A\leq_p H.
+$
+
+Consequently, **if** exact linear 0–1 ERM had a polynomial-time algorithm for all inputs and variable dimension, then $P=NP$. This is a *conditional implication*, **not** a proof that no polynomial-time algorithm exists.
+
+Keep three claims separate:
+
+1. **Theorem (NP-hardness):** a polynomial algorithm for this problem would yield polynomial algorithms for all problems in NP, via reductions.
+2. **Current algorithmic knowledge:** exact algorithms exist, but no general polynomial-time exact algorithm is known.
+3. **Not established by NP-hardness:** that *every* exact algorithm must take exponential time, or that the problem has a proven exponential lower bound. Even assuming $P\ne NP$ would rule out polynomial time, not automatically imply exponential time.
+
+**Upper versus lower bounds:** an exponential-time exact algorithm supplies an *upper bound for that algorithm*, not an exponential lower bound for the problem.
+
+**Approximating ERM:** the handwritten lecture cites separate hardness-of-approximation results. Exact NP-hardness **alone does not imply** that every approximation is NP-hard. An approximation-hardness claim must specify what quality of approximation is required (e.g. additive or multiplicative error, or a particular promise gap) and needs its own reduction/argument. Thus “approximation can also be hard” does not mean “every approximate classifier is hard to compute.”
+
+**Conceptual reduction example (not the professor's proof):** suppose a polynomial-time transformation maps a 3-SAT formula $F$ to a labeled dataset $S_F$ and threshold $k_F$, with
+
+$
+F\text{ is satisfiable}\quad\Longleftrightarrow\quad
+\min_{h\in\mathcal H_{\rm lin}}\sum_i\mathbf 1\{h(x_i)\ne y_i\}\leq k_F.
+$
+
+Then an exact ERM solver would also decide 3-SAT: transform $F$, solve ERM, and compare the minimum with $k_F$. The displayed equivalence illustrates **what a reduction must prove**; it does **not** construct such a dataset or itself establish NP-hardness.
+
+**Machine-learning consequence:** finite VC dimension addresses *sample complexity*, not the runtime of exact empirical 0–1 minimization. Convex surrogate losses (e.g. hinge loss) permit efficient optimization of a **different objective**; they do not automatically recover exact 0–1 ERM. Compare this general agnostic problem with the Perceptron's separate assumption of a strictly separable sample and positive margin.
+
+> [!NOTE] Study checkpoint
+> The reduction direction, the conditional link to $P=NP$, and the distinction between NP-hardness, known algorithms, and exponential-time lower bounds were discussed and clarified. This section is **tutor elaboration**, not an additional theorem proved in the handwritten lecture; independent recall remains to be checked.
+
 ### 2.3 Statistical vs computational difficulty [Tutor explanation connecting p. 2 and p. 3]
 
 A finite VC dimension provides *statistical* learnability/generalization guarantees for ERM; it does **not** provide an efficient procedure to *compute* the ERM solution.
