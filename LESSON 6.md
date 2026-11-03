@@ -103,7 +103,7 @@ In particular, there must be both positive and negative nonzero coefficients. La
 
 $$
 \sum_i\alpha_i s_i
-=\Big\langle w,\sum_i\alpha_i x_i\Big\rangle+b\sum_i\alpha_i=0,
+=\left\langle w,\sum_i\alpha_i x_i\right\rangle+b\sum_i\alpha_i=0,
 $$
 
 a contradiction. Hence no $d+2$-point set is shattered.
@@ -116,7 +116,7 @@ For a strictly separable dataset $S=\{(x_i,y_i)\}_{i=1}^{n}$, the quantity used 
 
 $$
 \boxed{
-B=\min_{w}\Big\{\|w\|_2:\ y_i\langle w,x_i\rangle\ge1\quad\forall i\Big\}.
+B=\min_{w}\left\{\|w\|_2:\ y_i\langle w,x_i\rangle\ge1\quad\forall i\right\}.
 }
 $$
 
@@ -566,7 +566,7 @@ In addition,
 
 $$
 \ell_{\mathrm{hinge}}(w;(x_i,y_i))
-=\max\big\{0,\,1-y_i\langle w,x_i\rangle\big\}
+=\max\{0,\,1-y_i\langle w,x_i\rangle\}
 $$
 
 is a **convex** function of $w$: the maximum of two affine functions is convex. With $\lambda>0$, the regularized objective has a convex quadratic part and is computationally tractable.
