@@ -26,7 +26,7 @@ tags: [machine-learning, affine-classifiers, vc-dimension, margin, svm, hard-svm
 For an input $x\in\mathbb R^d$, a **homogeneous linear classifier** is
 
 $$
-h_w(x)=\operatorname{sign}(\langle w,x\rangle),\qquad w\in\mathbb R^d.
+h_w(x)=\mathrm{sign}(\langle w,x\rangle),\qquad w\in\mathbb R^d.
 $$
 
 For a nonzero $w$, its decision boundary is $H_w=\{x:\langle w,x\rangle=0\}$. Since $\langle w,0\rangle=0$, **it necessarily passes through the origin**.
@@ -34,12 +34,12 @@ For a nonzero $w$, its decision boundary is $H_w=\{x:\langle w,x\rangle=0\}$. Si
 An **affine classifier** includes a bias $b\in\mathbb R$:
 
 $$
-\boxed{h_{w,b}(x)=\operatorname{sign}(\langle w,x\rangle+b).}
+\boxed{h_{w,b}(x)=\mathrm{sign}(\langle w,x\rangle+b).}
 $$
 
 Its boundary is $\{x:\langle w,x\rangle+b=0\}$. The bias lets us translate the hyperplane without changing its normal direction $w$. For instance, in $\mathbb R^2$, $w=(1,0)$ and $b=-2$ produce the vertical boundary $x_1=2$, whereas $b=0$ gives $x_1=0$.
 
-**Convention used in the course:** $\operatorname{sign}(0)=+1$. Always be careful with strict versus non-strict inequalities at the boundary.
+**Convention used in the course:** $\mathrm{sign}(0)=+1$. Always be careful with strict versus non-strict inequalities at the boundary.
 
 ### 1.2 Feature augmentation: why an affine classifier becomes linear in one extra dimension [Source: pp. 1–2; algebra explained]
 
@@ -77,7 +77,7 @@ $$
 The handwritten lecture states
 
 $$
-\boxed{\operatorname{VCdim}(\mathcal H_{\mathrm{affine}})=d+1.}
+\boxed{\mathrm{VCdim}(\mathcal H_{\mathrm{affine}})=d+1.}
 $$
 
 Compare this with homogeneous linear classifiers in $\mathbb R^d$, whose VC dimension is $d$ (see [[LESSON 5]]). **The extra bias adds one degree of shattering capacity.**
@@ -199,7 +199,7 @@ $$
 Consequently, the **ordinary Euclidean distance** from $x$ to the hyperplane is
 
 $$
-\boxed{\operatorname{dist}(x,H_w)=\frac{|\langle w,x\rangle|}{\|w\|_2}.}
+\boxed{\mathrm{dist}(x,H_w)=\frac{|\langle w,x\rangle|}{\|w\|_2}.}
 $$
 
 The absolute value makes ordinary distance nonnegative. Remove it to retain orientation relative to $w$. In the special case $\|w\|_2=1$, the signed distance simplifies to $\langle w,x\rangle$.
@@ -220,12 +220,12 @@ For any $u\in H_w$, Cauchy–Schwarz gives $|\langle w,x\rangle|=|\langle w,x-u\
 
 ### 3.2 Scaling ambiguity [Discussed with tutor; p. 4 geometry]
 
-The classifier $h_w(x)=\operatorname{sign}(\langle w,x\rangle)$ has **scaling ambiguity**. For $c>0$,
+The classifier $h_w(x)=\mathrm{sign}(\langle w,x\rangle)$ has **scaling ambiguity**. For $c>0$,
 
 $$
-\operatorname{sign}(\langle cw,x\rangle)
-=\operatorname{sign}(c\langle w,x\rangle)
-=\operatorname{sign}(\langle w,x\rangle).
+\mathrm{sign}(\langle cw,x\rangle)
+=\mathrm{sign}(c\langle w,x\rangle)
+=\mathrm{sign}(\langle w,x\rangle).
 $$
 
 Thus $cw$ represents the **same classifier and the same decision boundary**, but the functional signed score is multiplied by $c$:
@@ -260,7 +260,7 @@ $$
 
 **The label $y_i$ multiplies the signed distance, NOT the absolute distance.** Example: if $y_i=-1$, $\langle w,x_i\rangle=-2$ and $\|w\|_2=1$, the correctly labeled margin is $(-1)(-2)=+2$. Multiplying $-1$ by the *absolute* distance $2$ would falsely give a negative value.
 
-Away from the boundary, $m_i>0$ means the point lies on the correct side, while $m_i<0$ means it lies on the wrong side; $m_i=0$ means on the boundary, where predicted label depends on $\operatorname{sign}(0)$.
+Away from the boundary, $m_i>0$ means the point lies on the correct side, while $m_i<0$ means it lies on the wrong side; $m_i=0$ means on the boundary, where predicted label depends on $\mathrm{sign}(0)$.
 
 ### 3.4 Geometric margin of the entire sample [Source: p. 5; discussed with tutor]
 
@@ -560,7 +560,7 @@ $$
 \le(1-y\langle w,x\rangle)_+.
 $$
 
-The first inequality accounts for the course's $\operatorname{sign}(0)=+1$ convention. The second follows because any nonpositive score incurs hinge loss at least $1$.
+The first inequality accounts for the course's $\mathrm{sign}(0)=+1$ convention. The second follows because any nonpositive score incurs hinge loss at least $1$.
 
 In addition,
 
