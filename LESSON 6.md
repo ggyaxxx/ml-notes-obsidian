@@ -6,14 +6,14 @@ date: 2026-10-13
 course: "Machine Learning — Sapienza"
 academic_year: "2026/2027"
 type: lecture-note
-status: "Full lecture reference (pp. 1–11); student guided study completed through geometric margin on p. 5 only"
+status: "Full lecture reference (pp. 1–11); guided study through Hard-SVM formulation and support-vector introduction, independent recall pending"
 tags: [machine-learning, affine-classifiers, vc-dimension, margin, svm, hard-svm, soft-svm, hinge-loss, optimization]
 ---
 
 # Lecture 6 — Affine Classifiers, Margins, and Support Vector Machines
 
 > [!IMPORTANT] Source vs learning progress
-> This document covers **all 11 pages** of the professor's handwritten Lecture 6. It also supplies **tutor explanations and proofs**, especially for the early topics that were not explained in our study dialogue. **Reference coverage is NOT evidence of mastery.** As of 3 November 2026, the student has worked with the tutor through the **geometric margin of a classifier (p. 5)**, and has only *introduced* the optimal margin. **Hard-SVM, support-vector optimality, soft-SVM, and generalization results are not yet independently studied or verified.** Page 3 (agnostic ERM hardness) has been recovered in English notes but not tested independently.
+> This document covers **all 11 pages** of the professor's handwritten Lecture 6. It also supplies **tutor explanations and proofs**, especially for the early topics that were not explained in our study dialogue. **Reference coverage is NOT evidence of mastery.** As of 3 November 2026, the student has discussed **geometric and optimal margins (p. 5), scaling ambiguity, the derivation of the Hard-SVM objective and its hard constraints (pp. 5–6)**, and received an introductory explanation of **support vectors (p. 7)**. The norm/margin equivalence required several explanations and is **understood with guidance, not independently verified**. **Support-vector optimality conditions, soft-SVM, and generalization results have not yet been independently studied or verified.** Page 3 (agnostic ERM hardness) has been recovered in English notes but not tested independently.
 
 **Authoritative source and order:** [Lezione 6 — 13/10/2026, handwritten pages 1–11](https://drive.google.com/file/d/1t0ElkUB94qu45AypUvmvv0gBrHFgpvtH/view).  
 **Secondary formal reference:** *Week 3 — Linear Classifiers II / Support Vector Machines*, by Federico Fusco, especially §§1–3. The later textbook excerpt on handwritten p. 11 is from *Understanding Machine Learning*, Chapter 15. When notation differs, the **handwritten lecture is identified first** and alternative normalizations are labeled explicitly.  
@@ -341,7 +341,7 @@ $$
 This is a **maximin** optimization: choose the separator that improves the weakest geometric margin. When $S$ is strictly linearly separable, $\gamma^\star>0$.
 
 > [!IMPORTANT] Exact study frontier
-> The student has **just been introduced** to $\gamma^\star$; the maximization and its relationship with the Hard-SVM objective have **not yet been worked through together**. Resume here before using the derivation below.
+> The maximin meaning and its connection to Hard-SVM were worked through with guidance on 2026-11-03. The student requested a compact derivation for handwritten notes. **Next: test reconstruction without notes**, then continue with the formal optimality proof and support vectors.
 
 ## 4. Hard-SVM in the strictly separable case — handwritten pp. 5–6
 
@@ -361,51 +361,110 @@ $$
 
 The label constraints ensure a **strict separator** and normalize the *functional* scores. The quadratic objective is convex; the constraints are linear in $w$. Strict separability makes the problem feasible by positive rescaling.
 
-### 4.2 Why minimizing $\|w\|_2$ maximizes geometric margin [Source: theorem and proof on p. 6; detailed explanation from Week 3]
+### 4.2 Why minimizing the norm maximizes the geometric margin [Source: handwritten p. 6; guided derivation discussed 2026-11-03]
 
-Suppose $w$ is feasible. Then for every $i$, $y_i\langle w,x_i\rangle\ge1$, so
+**Starting geometric objective** (strictly separable homogeneous case):
 
 $$
-\gamma(w)=\min_i\frac{y_i\langle w,x_i\rangle}{\|w\|_2}
+\gamma(w)=\min_i\frac{y_i\langle w,x_i\rangle}{\|w\|_2},
+\qquad
+\gamma^\star=\max_{w\ne0}\gamma(w).
+$$
+
+**Why the scale is ambiguous:** for any $c>0$,
+
+$$
+H_{cw}=H_w,\qquad
+y_i\langle cw,x_i\rangle=c\,y_i\langle w,x_i\rangle,
+\qquad
+\gamma(cw)=\gamma(w).
+$$
+
+Thus shrinking $\|w\|_2$ *without constraints* can leave the boundary and geometric margin completely unchanged. The norm is not, by itself, a measure of separation quality.
+
+**Choose a functional-score normalization.** Since the finite dataset is strictly separable, let
+
+$$
+m(w)=\min_i y_i\langle w,x_i\rangle>0,
+\qquad
+\widetilde w=\frac{w}{m(w)}.
+$$
+
+Then
+
+$$
+\min_i y_i\langle\widetilde w,x_i\rangle
+=\frac{\min_i y_i\langle w,x_i\rangle}{m(w)}=1.
+$$
+
+Hence every point satisfies $y_i\langle\widetilde w,x_i\rangle\ge1$, with equality for at least one. **The threshold $1$ is conventional**, not a geometric distance: any fixed positive threshold could be chosen; it would change the scale of $w$, not the optimal hyperplane.
+
+**Compact derivation for handwritten notes** (on the normalized representatives):
+
+$$
+\begin{aligned}
+\gamma(w)
+&=\min_i\frac{y_i\langle w,x_i\rangle}{\|w\|_2}\\
+&=\frac{\min_i y_i\langle w,x_i\rangle}{\|w\|_2}\\
+&=\frac1{\|w\|_2},\\[5pt]
+\max_w\gamma(w)
+&\Longleftrightarrow
+\max_w\frac1{\|w\|_2}
+\Longleftrightarrow
+\min_w\|w\|_2
+\Longleftrightarrow
+\min_w\frac12\|w\|_2^2.
+\end{aligned}
+$$
+
+Here $\frac12\|w\|_2^2$ has the same minimizer as $\|w\|_2$, since $t\mapsto t^2/2$ is strictly increasing for $t\ge0$; the $1/2$ simplifies derivatives: $\nabla_w(\frac12\|w\|_2^2)=w$.
+
+The professor's **optimization problem uses inequalities**, not an explicit equality:
+
+$$
+\boxed{
+\begin{aligned}
+\min_{w\in\mathbb R^d}\quad&\frac12\|w\|_2^2\\
+\text{subject to}\quad&y_i\langle w,x_i\rangle\ge1,\quad i=1,\ldots,n.
+\end{aligned}}
+$$
+
+For an arbitrary **feasible** $w$, we know only
+
+$$
+\gamma(w)=\frac{\min_i y_i\langle w,x_i\rangle}{\|w\|_2}
 \ge\frac1{\|w\|_2}.
 $$
 
-Now choose a **unit** optimal-margin normal vector $\widetilde w$ such that
+**Why equality holds at the optimum:** suppose $w^\star$ minimizes the objective but its minimum signed score is $m>1$. Then $w^\star/m$ still satisfies all constraints, yet has strictly smaller norm. Contradiction. Therefore
 
 $$
-\|\widetilde w\|_2=1,\qquad
-\min_i y_i\langle\widetilde w,x_i\rangle=\gamma^\star>0.
+\boxed{\min_i y_i\langle w^\star,x_i\rangle=1,
+\qquad \gamma(w^\star)=\frac1{\|w^\star\|_2}.}
 $$
 
-Rescale it:
-
-$$
-\overline w=\frac{\widetilde w}{\gamma^\star}.
-$$
-
-Because $\min_i y_i\langle\overline w,x_i\rangle=1$, $\overline w$ is Hard-SVM feasible. Its norm is
-
-$$
-\|\overline w\|_2=\frac1{\gamma^\star}.
-$$
-
-Let $w^\star$ be a minimum-norm feasible vector. Then $\|w^\star\|_2\le\|\overline w\|_2$, and therefore
+**Formal link to the global maximum margin** (proof on p. 6): take a unit vector $u$ attaining $\gamma^\star>0$, so $\min_i y_i\langle u,x_i\rangle=\gamma^\star$, and set $\bar w=u/\gamma^\star$. This is feasible and $\|\bar w\|_2=1/\gamma^\star$. By optimality of $w^\star$,
 
 $$
 \gamma^\star
 \ge\gamma(w^\star)
 \ge\frac1{\|w^\star\|_2}
-\ge\frac1{\|\overline w\|_2}
+\ge\frac1{\|\bar w\|_2}
 =\gamma^\star.
 $$
 
-All inequalities must be equalities. Thus
+Every inequality is equality, proving
 
 $$
 \boxed{\gamma(w^\star)=\gamma^\star=\frac1{\|w^\star\|_2}.}
 $$
 
-**Interpretation:** under the fixed functional-score normalization, smaller parameter norm means a larger *geometric* margin. The factor $1/2$ in the objective simplifies derivatives and does not change the optimizer.
+**Meaning of "Hard":** all training points must satisfy every margin constraint. If the sample is not strictly linearly separable, the Hard-SVM constraints are infeasible. In contrast, **Soft-SVM** (later in the lecture) allows penalized constraint violations.
+
+**Perceptron vs Hard-SVM:** the Perceptron seeks *a* strict separator; Hard-SVM selects the **maximum-geometric-margin** separator among them. The numerical value $1$ was also used in the Perceptron proof, but there it supplied a uniform progress bound rather than defining a margin-optimization objective.
+
+> [!WARNING] Study-specific stumbling block
+> The student repeatedly asked why reducing $\|w\|$ should enlarge a *physical* distance. The missing condition was the **fixed functional-score scale**. Without it, $w$ and $cw$ can represent the identical hyperplane while having arbitrarily different norms. Do not claim $\gamma(w)=1/\|w\|$ for every feasible $w$; before optimal scaling it is only $\gamma(w)\ge1/\|w\|$. The distinction was explained with the vertical line $x_1=0$ represented by $(1,0)$ and $(0.001,0)$. Guided understanding reported; independent recall pending.
 
 ### 4.3 Connecting $B$ to the Perceptron [Source: end of p. 6]
 
@@ -425,7 +484,7 @@ $$
 
 ## 5. Support vectors and optimality conditions — handwritten p. 7
 
-### 5.1 Why only some examples determine the boundary [Source: p. 7]
+### 5.1 Why only some examples determine the boundary [Source: p. 7; intuitive introduction discussed 2026-11-03]
 
 In Hard-SVM, define the set of **active margin constraints**:
 
@@ -435,7 +494,7 @@ $$
 
 These examples lie on the margin boundary at geometric distance $1/\|w^\star\|_2$ from $H_{w^\star}$. They are the geometric **support vectors** in the handwritten discussion. Points with $y_i\langle w^\star,x_i\rangle>1$ lie farther away and have inactive constraints.
 
-At least one constraint is tight: otherwise one could scale $w^\star$ down slightly, keep every constraint feasible, and reduce its norm, contradicting optimality.
+At least one constraint is tight: otherwise one could scale $w^\star$ down slightly, keep every constraint feasible, and reduce its norm, contradicting optimality. This geometric meaning was *introduced* in the dialogue, but the stationarity/KKT reasoning below has **not yet been independently worked through**.
 
 ### 5.2 Stationarity derivation [Source: Fritz John lemma pasted on p. 7; clarified with formal Week 3 treatment]
 
