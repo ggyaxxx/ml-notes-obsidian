@@ -55,20 +55,20 @@ The inputs are fixed; **the classifier is allowed to change when the labeling ch
 
 **VC dimension** is the size of the largest shattered finite set:
 
-$$ \boxed{\operatorname{VCdim}(\mathcal H)=\sup\{\,|T|:T\subseteq\mathcal X\text{ finite and shattered by }\mathcal H\,\}.} $$
+$$ \boxed{\mathrm{VCdim}(\mathcal H)=\sup\{\,|T|:T\subseteq\mathcal X\text{ finite and shattered by }\mathcal H\,\}.} $$
 
-If shattered sets exist of arbitrarily large finite size, we define $\operatorname{VCdim}(\mathcal H)=\infty$.
+If shattered sets exist of arbitrarily large finite size, we define $\mathrm{VCdim}(\mathcal H)=\infty$.
 
 ### Existence versus universality
 
-If $\operatorname{VCdim}(\mathcal H)=d$, we know **there exists at least one** shattered set of $d$ points; we do **not** know that every set of $d$ points is shattered.
+If $\mathrm{VCdim}(\mathcal H)=d$, we know **there exists at least one** shattered set of $d$ points; we do **not** know that every set of $d$ points is shattered.
 
 To establish an exact finite value, use two logically different claims:
 
 | Goal | What must be shown? | Proof strategy |
 |---|---|---|
-| **Lower bound** $\operatorname{VCdim}(\mathcal H)\ge d$ | $\exists T$ with $|T|=d$ that **is** shattered | Construct points and a classifier for **every labeling** |
-| **Upper bound** $\operatorname{VCdim}(\mathcal H)\le d$ | **No** set of $d+1$ points is shattered | Take an **arbitrary** $(d+1)$-point set and exhibit an impossible labeling |
+| **Lower bound** $\mathrm{VCdim}(\mathcal H)\ge d$ | $\exists T$ with $|T|=d$ that **is** shattered | Construct points and a classifier for **every labeling** |
+| **Upper bound** $\mathrm{VCdim}(\mathcal H)\le d$ | **No** set of $d+1$ points is shattered | Take an **arbitrary** $(d+1)$-point set and exhibit an impossible labeling |
 
 Finding **one non-shattered set** does not prove an upper bound.
 
@@ -103,7 +103,7 @@ $$ h_\theta(x_1)=1\Rightarrow \theta\le x_1,\qquad h_\theta(x_2)=0\Rightarrow\th
 
 Then $\theta\le x_1<x_2<\theta$, a contradiction. Hence no pair is shattered and
 
-$$ \boxed{\operatorname{VCdim}(\mathcal H_{\rm thr})=1.} $$
+$$ \boxed{\mathrm{VCdim}(\mathcal H_{\rm thr})=1.} $$
 
 **Course convention:** In Theorem 5.2, thresholds are restricted to $\theta\in[0,1]$ and $\mathcal X=[0,1]$. For example $\{0.4\}$ is still shattered; the VC dimension remains 1. But the boundary singleton $\{1\}$ cannot receive label 0 in that restricted model, so **not every singleton** is shattered. Exercise 1.4(a) instead takes $\theta\in\mathbb R$ and the entire real line.
 
@@ -132,7 +132,7 @@ which forces $x_2\in[a,b]$ and thus labels $x_2$ as 1.
 
 Hence
 
-$$ \boxed{\operatorname{VCdim}(\mathcal H_{\rm int})=2.} $$
+$$ \boxed{\mathrm{VCdim}(\mathcal H_{\rm int})=2.} $$
 
 > [!TIP]
 > **Endpoint pitfall from our work.** For **closed** intervals, the endpoints are included. $[0.3,0.7]$ labels *both* $0.3$ and $0.7$ as 1, not $(1,0)$. Use non-strict inequalities when writing necessary conditions; strict inequalities are often convenient *sufficient constructions*.
@@ -173,7 +173,7 @@ Among $2k$ binary labels, there can be **at most $k$ positive blocks**: separati
 
 Therefore **every labeling** has at most $k$ blocks, and our $k$ intervals cover them without including sample points that should be 0. Thus the fixed set is shattered:
 
-$$ \boxed{\operatorname{VCdim}(\mathcal H_k)\ge 2k.} $$
+$$ \boxed{\mathrm{VCdim}(\mathcal H_k)\ge 2k.} $$
 
 ### Upper bound: at most $2k$
 
@@ -183,11 +183,11 @@ $$ (1,0,1,0,\ldots,0,1). $$
 
 There are $k+1$ separate positive blocks. No single interval can cover two such blocks without also containing an intervening zero-labeled point. The labeling therefore needs at least $k+1$ intervals, but only $k$ are allowed. Every $(2k+1)$-point set has an impossible labeling:
 
-$$ \boxed{\operatorname{VCdim}(\mathcal H_k)\le 2k.} $$
+$$ \boxed{\mathrm{VCdim}(\mathcal H_k)\le 2k.} $$
 
 Combine the bounds:
 
-$$ \boxed{\operatorname{VCdim}(\mathcal H_k)=2k.} $$
+$$ \boxed{\mathrm{VCdim}(\mathcal H_k)=2k.} $$
 
 **Useful related fact, not the definition of VC dimension:** On $n$ ordered points the maximum possible number of positive blocks is $\lceil n/2\rceil$, so that many intervals suffice for **any labeling of those points**. An individual labeling can need much fewer intervals. The term “maximum number of blocks” must not be confused with the **upper bound on VC dimension**.
 
@@ -222,15 +222,15 @@ Other eligible regions include line segments, filled triangles, disks and any co
 
 ### Why the VC dimension is infinite
 
-For **every positive integer** $m$, fix $m$ distinct points on a circle. For **any labeling** of those fixed points, select the positive-labeled subset $P$ and use its **convex hull** $\operatorname{conv}(P)$ as $C$ (choose $C=\varnothing$, which is convex, when $P=\varnothing$).
+For **every positive integer** $m$, fix $m$ distinct points on a circle. For **any labeling** of those fixed points, select the positive-labeled subset $P$ and use its **convex hull** $\mathrm{conv}(P)$ as $C$ (choose $C=\varnothing$, which is convex, when $P=\varnothing$).
 
 This convex region contains all selected positive points **and no other sampled points on the circle**. Geometrically, distinct points on a circle are extreme: a point on the circle cannot be expressed as a convex combination of other distinct points of that same circle.
 
-**Optional precise justification.** For points on a unit circle, let $q$ be a negative-labeled point and $p_i\ne q$ positive-labeled points. Their dot products satisfy $q\cdot p_i<1$. Thus every convex combination $z=\sum_i\lambda_i p_i$ with $\lambda_i\ge0$, $\sum_i\lambda_i=1$ has $q\cdot z<1$, while $q\cdot q=1$. Therefore $q\notin\operatorname{conv}(P)$.
+**Optional precise justification.** For points on a unit circle, let $q$ be a negative-labeled point and $p_i\ne q$ positive-labeled points. Their dot products satisfy $q\cdot p_i<1$. Thus every convex combination $z=\sum_i\lambda_i p_i$ with $\lambda_i\ge0$, $\sum_i\lambda_i=1$ has $q\cdot z<1$, while $q\cdot q=1$. Therefore $q\notin\mathrm{conv}(P)$.
 
 Hence the family shatters a set of $m$ points for every $m$:
 
-$$ \boxed{\forall m\ge1,\ \exists T\subseteq\mathbb R^2:\ |T|=m,\ T\text{ shattered};\qquad\operatorname{VCdim}(\mathcal H_{\rm conv})=\infty.} $$
+$$ \boxed{\forall m\ge1,\ \exists T\subseteq\mathbb R^2:\ |T|=m,\ T\text{ shattered};\qquad\mathrm{VCdim}(\mathcal H_{\rm conv})=\infty.} $$
 
 ### An impossible labeling is not a contradiction
 
@@ -249,7 +249,7 @@ So that **particular four-point set is not shattered**. This does **not** contra
 
 If $\mathcal H$ shatters $d$ points, it must realize the $2^d$ different labelings on those points. A single hypothesis has only one labeling on the fixed set, so the family needs at least $2^d$ distinct hypotheses:
 
-$$ 2^d\le|\mathcal H|\quad\Longrightarrow\quad\boxed{\operatorname{VCdim}(\mathcal H)\le\log_2|\mathcal H|}. $$
+$$ 2^d\le|\mathcal H|\quad\Longrightarrow\quad\boxed{\mathrm{VCdim}(\mathcal H)\le\log_2|\mathcal H|}. $$
 
 This is an **upper bound**, not an equality for every finite class.
 
@@ -316,7 +316,7 @@ This is an **exact algebraic decomposition**. Uniform convergence can separately
 - [ ] Exercise Sheet 1, **1.4(b)**: VC dimension of intervals — all four 2-point labelings, and the generic 3-point obstruction.
 - [ ] Exercise Sheet 1, **1.4(c)**: VC dimension of unions of $k$ intervals — prove the $2k$ lower bound and the $2k+1$ upper bound for general $k$ (not merely by extrapolating a few examples).
 - [ ] Exercise Sheet 1, **1.4(f)**: infinite VC dimension of all convex subsets of $\mathbb R^2$; use points on a circle.
-- [ ] Exercise Sheet 1, **1.4(h)**: prove $\operatorname{VCdim}(\mathcal H)\le\log_2|\mathcal H|$ for finite $\mathcal H$.
+- [ ] Exercise Sheet 1, **1.4(h)**: prove $\mathrm{VCdim}(\mathcal H)\le\log_2|\mathcal H|$ for finite $\mathcal H$.
 - [ ] Reproduce the three comparisons behind the ERM $2\varepsilon$ guarantee and identify what justifies each one.
 
 **Extra examples confirmed in Week 1 §6, not yet fully proved here:** axis-aligned rectangles in $\mathbb R^2$ have VC dimension 4 (Exercise 1.4(d) extends to $2d$ in $\mathbb R^d$); triangles in $\mathbb R^2$ have VC dimension 7. Do not claim an independent proof of these examples from merely reading their stated results.
