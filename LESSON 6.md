@@ -103,7 +103,7 @@ In particular, there must be both positive and negative nonzero coefficients. La
 
 $$
 \sum_i\alpha_i s_i
-=\left\langle w,\sum_i\alpha_i x_i\right\rangle+b\sum_i\alpha_i=0,
+=\langle w,\sum_i\alpha_i x_i\rangle+b\sum_i\alpha_i=0,
 $$
 
 a contradiction. Hence no $d+2$-point set is shattered.
@@ -116,7 +116,7 @@ For a strictly separable dataset $S=\{(x_i,y_i)\}_{i=1}^{n}$, the quantity used 
 
 $$
 \boxed{
-B=\min_{w}\left\{\|w\|_2:\ y_i\langle w,x_i\rangle\ge1\quad\forall i\right\}.
+B=\min_{w}\{\|w\|_2:\ y_i\langle w,x_i\rangle\ge1\quad\forall i\}.
 }
 $$
 
@@ -384,7 +384,7 @@ $$
 In the Perceptron update bound $T\le R^2B^2$ with $R=\max_i\|x_i\|_2$, this gives
 
 $$
-T\le \left(\frac{R}{\gamma^\star}\right)^2.
+T\le (\frac{R}{\gamma^\star})^2.
 $$
 
 **Do not confuse the algorithms:** the Perceptron finds a strict separator when one exists; Hard-SVM specifically chooses the **maximum-margin** separator.
@@ -427,7 +427,7 @@ $$
 together with complementary slackness
 
 $$
-\alpha_i\left(1-y_i\langle w^\star,x_i\rangle\right)=0.
+\alpha_i(1-y_i\langle w^\star,x_i\rangle)=0.
 $$
 
 Therefore $\alpha_i=0$ whenever the constraint is inactive, and
@@ -523,10 +523,10 @@ Substituting these optimal slacks into the professor's objective gives the uncon
 $$
 \boxed{
 \min_{w\in\mathbb R^d}
-\left[
+[
 \frac{\lambda}{2}\|w\|_2^2+
 \sum_{i=1}^{n}(1-y_i\langle w,x_i\rangle)_+
-\right].
+].
 }
 $$
 
@@ -600,7 +600,7 @@ Let $\|X\|_2\le\rho$ almost surely, $S\sim D^m$, and $A(S)$ be the Soft-SVM outp
 
 $$
 \boxed{
-\mathbb E_S\!\left[L_D^{\mathrm{hinge}}(A(S))\right]
+\mathbb E_S\![L_D^{\mathrm{hinge}}(A(S))]
 \le
 L_D^{\mathrm{hinge}}(u)
 +\lambda\|u\|_2^2
@@ -611,7 +611,7 @@ $$
 Since hinge loss upper-bounds 0–1 classification loss,
 
 $$
-\mathbb E_S\!\left[L_D^{0\text{–}1}(A(S))\right]
+\mathbb E_S\![L_D^{0\text{–}1}(A(S))]
 \le
 L_D^{\mathrm{hinge}}(u)
 +\lambda\|u\|_2^2
