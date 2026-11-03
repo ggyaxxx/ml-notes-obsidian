@@ -147,7 +147,7 @@ An interval is **connected**: it cannot label two surrounding points 1 while lea
 
 Let
 
-$$ \mathcal H_k=\left\{h:\ h(x)=\mathbf1\left\{x\in\bigcup_{j=1}^{k}[a_j,b_j]\right\},\quad a_j\le b_j\right\}. $$
+$$ \mathcal H_k=\{h:\ h(x)=\mathbf1\{x\in\bigcup_{j=1}^{k}[a_j,b_j]\},\quad a_j\le b_j\}. $$
 
 A **block (run) of 1s** is a maximal consecutive sequence of positive labels when the points are arranged in increasing order.
 
