@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 575" role="img" aria-label="Soft-SVM: projection of a margin violating point onto positive margin, with normal w and distance xi divided by norm w">
+  <rect width="1120" height="575" fill="#ffffff"/>
+  <style>
+    text {font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; fill:#172334}
+    .title{font-size:24px;font-weight:700}
+    .subtitle{font-size:15px;fill:#526175}
+    .axis{stroke:#68768a;stroke-width:1.7}
+    .margin{stroke:#2663c9;stroke-width:2.7}
+    .boundary{stroke:#475569;stroke-width:2;stroke-dasharray:8 7}
+    .neg{stroke:#c36b6b;stroke-width:2;stroke-dasharray:8 7}
+    .point{font-size:19px;font-weight:600}
+    .formula{font-size:20px;font-weight:550}
+    .small{font-size:16px}
+  </style>
+  <defs>
+    <marker id="blackArrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0 L8 4.5 L0 9 z" fill="#172334"/></marker>
+    <marker id="orangeArrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L7 4 L0 8 z" fill="#e97824"/></marker>
+  </defs>
+  <text class="title" x="45" y="45">Soft-SVM: from slack to geometric distance</text>
+  <text class="subtitle" x="45" y="70">Positive training example (yᵢ = +1), strictly inside the positive margin</text>
+  <!-- Drawing area -->
+  <path d="M80 470 V85" class="axis" marker-end="url(#blackArrow)"/>
+  <path d="M58 270 H660" class="axis" marker-end="url(#blackArrow)"/>
+  <text x="52" y="94" class="small">x₂</text>
+  <text x="657" y="290" class="small">x₁</text>
+  <!-- parallel hyperplanes -->
+  <path d="M90 125 H650" class="margin"/>
+  <path d="M90 270 H650" class="boundary"/>
+  <path d="M90 415 H650" class="neg"/>
+  <text x="104" y="109" class="small" fill="#2663c9">Positive margin: ⟨w, x⟩ = 1</text>
+  <text x="104" y="254" class="small">Decision boundary: ⟨w, x⟩ = 0</text>
+  <text x="104" y="399" class="small">Negative margin: ⟨w, x⟩ = −1</text>
+  <!-- Normal w: vertical and parallel to the displacement -->
+  <path d="M156 270 V185" stroke="#172334" stroke-width="3" marker-end="url(#blackArrow)"/>
+  <text x="170" y="221" class="point">w</text>
+  <text x="170" y="241" class="small">normal to the lines</text>
+  <!-- Sample and orthogonal projection -->
+  <circle cx="386" cy="205" r="8" fill="#2367dd"/>
+  <text x="400" y="211" class="point" fill="#2367dd">xᵢ</text>
+  <circle cx="386" cy="125" r="7" fill="#e97824"/>
+  <text x="401" y="132" class="point" fill="#e97824">z</text>
+  <path d="M386 201 V136" stroke="#e97824" stroke-width="4.5" marker-end="url(#orangeArrow)"/>
+  <path d="M386 125 h15 v15 h-15" stroke="#e97824" fill="none" stroke-width="1.9"/>
+  <text x="411" y="171" class="point" fill="#bd5017">dᵢ = ‖z − xᵢ‖</text>
+  <text x="411" y="190" class="small" fill="#bd5017">perpendicular distance</text>
+  <!-- Diagram note -->
+  <rect x="102" y="475" width="547" height="60" rx="9" fill="#f1f5fa" stroke="#dae3f1"/>
+  <text x="120" y="500" class="small">z is ON the positive-margin line; xᵢ is NOT.</text>
+  <text x="120" y="522" class="small">The displacement z − xᵢ is parallel to w.</text>
+  <!-- derivation panel -->
+  <rect x="707" y="95" width="380" height="431" rx="14" fill="#f8fafc" stroke="#d7dfe9" stroke-width="1.5"/>
+  <text x="730" y="131" font-size="22" font-weight="700">Why divide by ‖w‖?</text>
+  <text x="730" y="174" class="small">1. The displacement is along w:</text>
+  <text x="750" y="202" class="formula">v = z − xᵢ</text>
+  <text x="750" y="229" class="formula">v ∥ w</text>
+  <text x="730" y="270" class="small">2. Dot-product identity (angle = 0):</text>
+  <text x="750" y="299" class="formula">⟨w, v⟩ = ‖w‖ ‖v‖</text>
+  <text x="730" y="340" class="small">3. Use ⟨w, z⟩ = 1:</text>
+  <text x="750" y="368" class="formula">1 − ⟨w, xᵢ⟩ = ‖w‖ dᵢ</text>
+  <text x="730" y="408" class="small">4. The left side is the slack ξᵢ:</text>
+  <text x="750" y="438" class="formula">ξᵢ = ‖w‖ dᵢ</text>
+  <rect x="740" y="460" width="310" height="48" rx="8" fill="#fff0e4" stroke="#e97824" stroke-width="1.7"/>
+  <text x="766" y="492" class="formula" fill="#9b4518">dᵢ = ξᵢ / ‖w‖</text>
+  <text x="45" y="555" class="subtitle">The slack is a signed-score difference; dividing by the normal's length converts it to distance.</text>
+</svg>
