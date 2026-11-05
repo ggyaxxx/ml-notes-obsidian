@@ -6,14 +6,14 @@ date: 2026-10-13
 course: "Machine Learning — Sapienza"
 academic_year: "2026/2027"
 type: lecture-note
-status: "Full lecture reference (pp. 1–11); guided study through Hard-SVM formulation and support-vector introduction, independent recall pending"
+status: "Full lecture reference (pp. 1–11); guided study through p. 10, independent recall and p. 11 pending"
 tags: [machine-learning, affine-classifiers, vc-dimension, margin, svm, hard-svm, soft-svm, hinge-loss, optimization]
 ---
 
 # Lecture 6 — Affine Classifiers, Margins, and Support Vector Machines
 
 > [!IMPORTANT] Source vs learning progress
-> This document covers **all 11 pages** of the professor's handwritten Lecture 6. It also supplies **tutor explanations and proofs**, especially for the early topics that were not explained in our study dialogue. **Reference coverage is NOT evidence of mastery.** As of 3 November 2026, the student has discussed **geometric and optimal margins (p. 5), scaling ambiguity, the derivation of the Hard-SVM objective and its hard constraints (pp. 5–6)**, and received an introductory explanation of **support vectors (p. 7)**. The norm/margin equivalence required several explanations and is **understood with guidance, not independently verified**. **Support-vector optimality conditions, soft-SVM, and generalization results have not yet been independently studied or verified.** Page 3 (agnostic ERM hardness) has been recovered in English notes but not tested independently.
+> As of 5 November 2026, guided study has reached the **end of handwritten p. 10**: Hard-SVM scaling and margin, Fritz John / support vectors, $(\gamma,\rho)$-separability, Soft-SVM, optimal slack, hinge loss, regularization, and the geometric meaning of $\xi_i/\|w\|$. The last distance derivation was clarified step by step and understood in dialogue; **independent recall is still pending**. Page 11 (Soft-SVM generalization) is available as reference but has not yet been worked through interactively. Earlier topics also remain subject to independent verification.
 
 **Authoritative source and order:** [Lezione 6 — 13/10/2026, handwritten pages 1–11](https://drive.google.com/file/d/1t0ElkUB94qu45AypUvmvv0gBrHFgpvtH/view).  
 **Secondary formal reference:** *Week 3 — Linear Classifiers II / Support Vector Machines*, by Federico Fusco, especially §§1–3. The later textbook excerpt on handwritten p. 11 is from *Understanding Machine Learning*, Chapter 15. When notation differs, the **handwritten lecture is identified first** and alternative normalizations are labeled explicitly.  
@@ -685,6 +685,62 @@ $$
 
 At the optimum, $\alpha_i=0$ for scores $r_i>1$, while $r_i<1$ implies $\alpha_i=1/n$. Points at $r_i=1$ may have a multiplier anywhere in $[0,1/n]$. **Do not transplant these numerical bounds unchanged into the handwritten unnormalized-sum convention.**
 
+### 8.1 Why the slack divided by the norm is a geometric distance [Guided clarification, 5 Nov 2026]
+
+The professor's Soft-SVM constraint uses the **signed functional score** $r_i=y_i\langle w,x_i\rangle$ and the optimal slack
+
+$
+\xi_i=(1-r_i)_+=\max\{0,1-y_i\langle w,x_i\rangle\}.
+$
+
+The slack is a **difference in scores**, not automatically a Euclidean distance. For a margin-violating positive example ($y_i=+1$, $\langle w,x_i\rangle<1$), the relevant positive-margin hyperplane is the **set of points** $z$ satisfying $\langle w,z\rangle=1$. It is **not** an assertion that $\langle w,x_i\rangle=1$.
+
+Let $z$ be the orthogonal projection of $x_i$ onto that margin hyperplane, and let $v=z-x_i$. Since $w$ is normal to the hyperplane, $v$ is parallel and concordant to $w$. From the definition of the dot product,
+
+$
+\langle w,v\rangle=\|w\|\|v\|\cos(0)=\|w\|\|v\|.
+$
+
+Substitute $v=z-x_i$, use linearity, and use the defining property of **$z$**:
+
+$
+\begin{aligned}
+\langle w,z-x_i\rangle
+&=\|w\|\|z-x_i\|,\\
+\langle w,z\rangle-\langle w,x_i\rangle
+&=\|w\|\|z-x_i\|,\\
+1-\langle w,x_i\rangle
+&=\|w\|\|z-x_i\|,\\
+\xi_i&=\|w\|d_i.
+\end{aligned}
+$
+
+Thus, for $w\ne0$ and a margin-violating example,
+
+$
+\boxed{d_i=\|z-x_i\|=\frac{\xi_i}{\|w\|}.}
+$
+
+**Why divide by $\|w\|$?** A dot-product difference measured along the normal equals the physical displacement along that normal **multiplied by the length of the normal vector**. Dividing removes this scaling. This is a consequence of the dot-product identity, not a separate SVM rule.
+
+For a negative example ($y_i=-1$), project instead onto $\langle w,z\rangle=-1$; the displacement is opposite to $w$, and the same nonnegative distance formula follows. For $\xi_i=0$, the point already satisfies the margin: $\xi_i/\|w\|=0$ is the **required correction distance**, not necessarily its actual distance from the margin hyperplane.
+
+**Geometric checklist:** $x_i$ is the observed point; $z$ is a *different point on the appropriate margin hyperplane*; $z-x_i$ is perpendicular to that hyperplane, not parallel to it. Do not confuse distance to the **margin boundary** with distance to the **decision boundary** $\langle w,x\rangle=0$.
+
+**Notation warning:** Some affine SVM diagrams include a bias $b$, with signed score $y_i(\langle w,x_i\rangle+b)$. The professor's Soft-SVM algebra here omits $b$. The geometric argument works in either setting, but the conventions should not be mixed without saying so.
+
+### 8.2 Regularization versus hinge loss [Guided clarification]
+
+The objective
+
+$
+\frac{\lambda}{2}\|w\|^2+\sum_i(1-y_i\langle w,x_i\rangle)_+
+$
+
+trades off two competing goals. The norm penalty discourages large $\|w\|$; for normalized functional margin, a smaller norm corresponds to a wider nominal geometric margin. Hinge loss penalizes points whose signed scores are below $1$, including correctly classified points inside the margin. Scaling $w$ upward may reduce hinge loss for correctly classified points but increases the quadratic norm penalty; for misclassified points, scaling can instead increase hinge loss. Larger $\lambda$ weights regularization more heavily; smaller $\lambda$ emphasizes fitting the margin constraints. In Soft-SVM, $1/\|w\|$ is **not** guaranteed to be the distance to the nearest training example.
+
+**Support-vector nuance:** Unlike Hard-SVM, a Soft-SVM support vector (in the dual sense, a point with positive multiplier) may lie on the margin, inside it, or on the wrong side of the decision boundary. Points strictly beyond the margin have zero multiplier. An on-margin point can have a zero multiplier in a degenerate case; being geometrically on the margin does not by itself guarantee a positive dual coefficient.
+
 ## 9. Soft-SVM generalization — handwritten p. 11
 
 The professor attaches a textbook excerpt: *Understanding Machine Learning*, **Corollary 15.7**, stated **without proof**. The following formulas track the **book's own convention**, not the exact scale of $\lambda$ in the handwritten Soft-SVM objective on p. 8.
@@ -760,21 +816,19 @@ $$
 \end{gathered}
 $$
 
-| Handwritten pages | What the professor covers | Actual learning status as of 2026-11-03 |
-|---|---|---|
-| 1–2 | Affine classifiers, augmentation, VC dimension, $B$ | Introduced/reviewed; autonomous checks pending |
-| 3 | Agnostic ERM NP-hardness and approximation hardness | Missing notes recovered; recall not yet checked |
-| 4 | Hyperplane distance, sign, scaling ambiguity | Explained and conceptually understood with tutor |
-| 5 (first part) | Geometric margin $\gamma(w)$ | Explained; signed example correctly solved |
-| 5 (second part) | Optimal margin $\gamma^\star$, Hard-SVM statement | Introduced only |
-| 6–7 | Max-margin proof and support vectors | Reference notes included, **not yet studied together** |
-| 8–11 | Generalization, Soft-SVM, hinge loss, observations | Reference notes included, **not yet studied together** |
+| Handwritten pages | Guided study status as of 2026-11-05 |
+|---|---|
+| 1–3 | Discussed earlier; independent recall pending, including NP-hardness |
+| 4–6 | Geometric margin, scaling, Hard-SVM constraints and max-margin equivalence discussed; independent verification pending |
+| 7 | Fritz John stationarity, active constraints and support vectors discussed; formal recall pending |
+| 8 | Margin/radius assumptions and Hard-SVM generalization statement discussed; proof not part of handwritten excerpt |
+| 8–10 | Soft-SVM, slack, hinge loss, convex surrogate, $\lambda$, and support vectors discussed; detailed geometric slack derivation added above |
+| 11 | Reference material present; not yet covered interactively |
 
 ### Resume here in the next guided session
 
-**Stop point: handwritten p. 5**, immediately after defining $\gamma(w)$. First explain **why the optimal margin is a max over $w$ of a min over points**, using one geometric example if needed. Then introduce the bottom-of-p. 5 Hard-SVM optimization; derive the equivalence carefully using the p. 6 proof. Only afterward proceed to multipliers/support vectors and soft-margin.
+**Stop point: end of handwritten p. 10.** Next: handwritten p. 11 (Soft-SVM generalization), then targeted exercises and independent recall. Do not restart at p. 5. Prioritize a short unaided reconstruction of why $\xi_i/\|w\|$ is a distance, distinguishing the margin point $z$ from the observed point $x_i$; then test hinge loss and regularization with exercises.
 
-**Targeted later recall:** (a) recreate the affine-feature-map identity and $d+1$ VC dimension argument, (b) explain $B$ and its later relation to $\gamma^\star$, (c) explain why finite VC dimension says nothing by itself about the runtime of 0–1 ERM, (d) distinguish unsigned distance, signed projection, functional score, and labeled geometric margin.
 
 > [!TIP] Notation and study workflow
 > Notes are in **English**, with Obsidian-friendly Markdown and $LaTeX$. For interactive tutoring, always give mathematical notes as **normal chat messages with rendered LaTeX**, never a WritingBlock. Keep the student in control of the pace, and never mark a theorem as independently mastered merely because it is present in the notes.
