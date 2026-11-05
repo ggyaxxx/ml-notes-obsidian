@@ -698,7 +698,8 @@ The slack is a **difference in scores**, not automatically a Euclidean distance.
 ![Soft-SVM: a positive point x_i is projected orthogonally onto the positive-margin hyperplane at z; the displacement is parallel to w, and its length is the slack divided by the norm of w](assets/soft-svm-slack-distance.svg)
 
 *Figure (guided clarification): the blue point is the observed example; the orange point is its orthogonal projection onto the **positive margin**, not onto the central decision boundary. The orange segment is perpendicular to the margin and parallel to the normal vector $w$. The diagram uses the handwritten lecture's no-bias notation.*
- For a margin-violating positive example ($y_i=+1$, $\langle w,x_i\rangle<1$), the relevant positive-margin hyperplane is the **set of points** $z$ satisfying $\langle w,z\rangle=1$. It is **not** an assertion that $\langle w,x_i\rangle=1$.
+
+For a margin-violating positive example ($y_i=+1$, $\langle w,x_i\rangle<1$), the relevant positive-margin hyperplane is the **set of points** $z$ satisfying $\langle w,z\rangle=1$. It is **not** an assertion that $\langle w,x_i\rangle=1$.
 
 Let $z$ be the orthogonal projection of $x_i$ onto that margin hyperplane, and let $v=z-x_i$. Since $w$ is normal to the hyperplane, $v$ is parallel and concordant to $w$. From the definition of the dot product,
 
